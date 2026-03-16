@@ -10,7 +10,7 @@ static func gdserde_fields() -> Array[gdserde.Field]:
 		gdserde.Field.native(&"next", TYPE_PACKED_STRING_ARRAY).optional(),
 		gdserde.Field.new(
 			&"choices",
-			gdserde.Spec.array(gdserde.Spec.object(DialogueChoice.new)),
+			gdserde.Spec.array(gdserde.Spec.object(DialogueChoice)),
 		).optional(),
 	]
 
@@ -45,7 +45,7 @@ class DialogueChoice:
 		return [
 			gdserde.Field.native(&"text", TYPE_STRING),
 			gdserde.Field.native(&"next", TYPE_STRING),
-			gdserde.Field.new(&"callback", gdserde.Spec.object(DialogueCallback.new)).optional(),
+			gdserde.Field.new(&"callback", gdserde.Spec.object(DialogueCallback)).optional(),
 		]
 
 

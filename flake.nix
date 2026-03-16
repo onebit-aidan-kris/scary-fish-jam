@@ -86,7 +86,8 @@
         '';
 
         test-headless = pkgs.writeShellScriptBin "test-headless" ''
-          ./scripts/test-headless --binary "${scary-fish-jam-debug}/bin/scary-fish-jam-bin" -- "$@"
+          ./scripts/test-headless --binary "${scary-fish-jam-debug}/bin/scary-fish-jam" -- "$@"
+          ./scripts/test-headless --binary "${pkgs.scary-fish-jam}/bin/scary-fish-jam" -- "$@"
         '';
       in
       {

@@ -104,7 +104,7 @@ mkWrapperScript() {
 set -eu
 
 SCRIPT_DIR="\$(dirname "\$(readlink -f -- "\$0")")"
-steam-run "\$SCRIPT_DIR/$PNAME-bin"
+steam-run "\$SCRIPT_DIR/$PNAME-bin" "\$@"
 EOS
 }
 
