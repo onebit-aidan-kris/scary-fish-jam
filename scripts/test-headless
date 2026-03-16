@@ -1,0 +1,121 @@
+#!/usr/bin/env bash
+set -uo pipefail
+shopt -s failglob
+
+# shopt -s nullglob  # Allow failed globs, but expand to empty string
+# shopt -s dotglob   # Include .dotfiles in globs
+## shellcheck disable=SC2086 # allow word splitting
+# SCRIPT_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
+# cd "$SCRIPT_DIR"
+
+usage() {
+    # NOTE: Don't forget to update OPTIONS/LONGOPTS below!
+    cat <<EOF
+Usage: $(basename "$0") [options] -- [godot-args]
+
+Arguments:
+    godot-args          Pass args to Godot binary
+
+Options:
+    -b, --binary        Binary to test (default: build new debug)
+    -t, --timeout       Seconds to run before stopping (default: 1)
+    -h, --help          Display this help message
+    -v, --verbose       Enable debug messages
+EOF
+}
+
+# NOTE: Use ':' suffix to specify opt has an arg
+OPTIONS="b:t:hv"
+LONGOPTS="binary:,timeout:,help,verbose"
+
+# NOTE: getopt comes from 'util-linux' package
+# Check if getopt is available, fallback to simple parsing if not
+if command -v getopt &>/dev/null; then
+    PARSED=$(getopt -o "$OPTIONS" -l "$LONGOPTS" -n "$0" -- "$@") || {
+        usage >&2
+        exit 2
+    }
+    eval set -- "$PARSED"
+fi
+
+die() {
+    echo "$*" >&2
+    echo
+    usage >&2
+    exit 2
+}
+
+log() {
+    local c="$1"
+    shift
+    [[ $c ]] && echo -ne "\033[${c}m" >&2
+    echo -e "$@" >&2
+    [[ $c ]] && echo -ne '\033[0m' >&2
+    return 0
+}
+debug() {
+    [[ $verbose ]] && log "" "$@"
+    return 0
+}
+warn() { log "0;33" "$@"; }
+error() { log "0;31" "$@"; }
+
+verbose=
+timeout=1
+binary=
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+    -h | --help)
+        usage
+        exit 0
+        ;;
+    -b | --binary)
+        [[ $# -lt 2 ]] && die "Option $1 requires an argument"
+        binary="$2"
+        shift
+        ;;
+    -t | --timeout)
+        [[ $# -lt 2 ]] && die "Option $1 requires an argument"
+        timeout="$2"
+        shift
+        ;;
+    -v | --verbose) verbose=1 ;;
+    --)
+        shift
+        break
+        ;;
+    -*)
+        die "Unknown option: $1"
+        ;;
+    *)
+        # Non-option argument, stop parsing
+        break
+        ;;
+    esac
+    shift
+done
+
+if [[ -z $binary ]]; then
+    if ! bld --debug; then
+        error "Failed: Build error"
+        exit 3
+    fi
+
+    binary="./build/godot-start-Linux/godot-start"
+fi
+
+[[ $verbose ]] && set -x
+
+# original stdout -> /dev/null, stderr -> new stdout
+output=$(timeout "$timeout" "$binary" --headless "$@" 2>&1 >/dev/null)
+
+set +x
+
+echo ""
+echo "$output"
+echo ""
+
+if echo "$output" | grep -q "^SCRIPT ERROR:"; then
+    error "Failed: Script error"
+    exit 1
+fi

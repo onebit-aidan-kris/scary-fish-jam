@@ -1,0 +1,9 @@
+#!/usr/bin/env sh
+set -eu
+
+SCRIPT_DIR="$(dirname "$(readlink -f -- "$0")")"
+REPO_ROOT="$(git -C "$SCRIPT_DIR/.." rev-parse --show-toplevel)"
+HOOKS_DIR="$(git -C "$REPO_ROOT" rev-parse --git-path hooks)"
+
+mkdir -p "$HOOKS_DIR"
+cp "$SCRIPT_DIR/pre-commit" "$HOOKS_DIR"

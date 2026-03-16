@@ -1,0 +1,6 @@
+[gd_resource type="Theme" format=3 uid="uid://badm4dbubdqto"]
+
+[resource]
+Button/font_sizes/font_size = 26
+CheckBox/constants/check_v_offset = 1
+CheckBox/constants/h_separation = 8

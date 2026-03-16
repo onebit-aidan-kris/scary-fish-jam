@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://c8echxlir850j"]
+
+[ext_resource type="Script" uid="uid://b4ax21a56xp4n" path="res://scenes/levels/blank/blank_level.gd" id="1_ai87s"]
+[ext_resource type="Script" uid="uid://bu2q2x32c2nug" path="res://scripts/components/level_config.gd" id="2_23lry"]
+
+[node name="BlankLevel" type="Node2D" unique_id=557359395]
+script = ExtResource("1_ai87s")
+
+[node name="LevelConfig" type="Node" parent="." unique_id=783266909]
+script = ExtResource("2_23lry")
+skip_main_menu = true
+metadata/_custom_type_script = "uid://bu2q2x32c2nug"

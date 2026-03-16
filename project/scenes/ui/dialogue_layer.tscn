@@ -1,0 +1,76 @@
+[gd_scene format=3 uid="uid://c8a747x2yeyhy"]
+
+[ext_resource type="Script" uid="uid://dn2l4yx023nb5" path="res://scenes/ui/dialogue_layer.gd" id="1_oxkej"]
+[ext_resource type="Theme" uid="uid://cngg4jpk5nf1r" path="res://scenes/ui/dialogue_theme.tres" id="2_iqqkm"]
+
+[node name="DialogueLayer" type="CanvasLayer" unique_id=491315155]
+script = ExtResource("1_oxkej")
+metadata/_custom_type_script = "uid://dn2l4yx023nb5"
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=1269453828]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -140.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("2_iqqkm")
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer" unique_id=1696056392]
+layout_mode = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 16
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer" unique_id=717975150]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/HBoxContainer" unique_id=559540]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SpeakerContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer" unique_id=863388614]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="SpeakerLabel" type="Label" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/SpeakerContainer" unique_id=1516879581]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Speaker"
+
+[node name="HSeparator" type="HSeparator" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer/SpeakerContainer" unique_id=1083323204]
+layout_mode = 2
+
+[node name="DialogueLabel" type="RichTextLabel" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer" unique_id=125524225]
+unique_name_in_owner = true
+layout_mode = 2
+bbcode_enabled = true
+text = "This is some dialogue.
+It is very interesting."
+fit_content = true
+scroll_active = false
+
+[node name="Choices" type="VBoxContainer" parent="PanelContainer/MarginContainer/HBoxContainer" unique_id=2093766448]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="ButtonTemplate" type="Button" parent="PanelContainer/MarginContainer/HBoxContainer/Choices" unique_id=785358299]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Choice"
+alignment = 0
+
+[node name="AdvanceHint" type="Button" parent="PanelContainer/MarginContainer" unique_id=1894806769]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme_override_colors/font_color = Color(0.6, 0.6, 0.6, 1)
+theme_override_font_sizes/font_size = 14
+text = "press space to continue"

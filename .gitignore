@@ -1,0 +1,13 @@
+# Build
+result
+build/
+
+# Dev Env
+.direnv/
+.env
+.envrc
+
+# Game Data
+replay*.dat
+*.sav
+

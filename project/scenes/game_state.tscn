@@ -1,0 +1,114 @@
+[gd_scene format=3 uid="uid://6uyp4hbab8gp"]
+
+[ext_resource type="Script" uid="uid://ygjvluupbdtm" path="res://scenes/game_state.gd" id="1_aj67o"]
+[ext_resource type="Script" uid="uid://cu714ln7qv2gu" path="res://scripts/systems/save_state.gd" id="2_3oy0g"]
+[ext_resource type="Script" uid="uid://n2spkoxc2iv5" path="res://scripts/systems/pause_menu_system.gd" id="2_dq14d"]
+[ext_resource type="Script" uid="uid://mahcrqfjlyyq" path="res://scripts/systems/replay.gd" id="3_rerck"]
+[ext_resource type="Script" uid="uid://bgvdp2xkv0yr3" path="res://scripts/systems/replay_system.gd" id="4_7ti0s"]
+[ext_resource type="Script" uid="uid://skj8dxeivfvs" path="res://scripts/systems/player_input.gd" id="4_qn400"]
+[ext_resource type="PackedScene" uid="uid://dkhqxc2w4rda4" path="res://scenes/ui/menu.tscn" id="5_vsnwl"]
+[ext_resource type="Script" uid="uid://btc74n06ykolu" path="res://scripts/systems/system_dialog.gd" id="6_rxqo8"]
+[ext_resource type="Shader" uid="uid://cucunjhgkuj2r" path="res://shaders/palette-post.gdshader" id="7_q5byu"]
+[ext_resource type="Shader" uid="uid://ctckeik4qa432" path="res://shaders/dither-post.gdshader" id="8_vsyf1"]
+[ext_resource type="Script" uid="uid://rv011aypji1s" path="res://scenes/stretch_filter.gd" id="9_hinck"]
+[ext_resource type="Shader" uid="uid://b6r0sgv5nhjac" path="res://shaders/stretch-post.gdshader" id="9_ou381"]
+[ext_resource type="PackedScene" uid="uid://c8a747x2yeyhy" path="res://scenes/ui/dialogue_layer.tscn" id="11_b43q5"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3oy0g"]
+shader = ExtResource("8_vsyf1")
+shader_parameter/pixel_size = 2
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hinck"]
+shader = ExtResource("9_ou381")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_q5byu"]
+shader = ExtResource("7_q5byu")
+
+[node name="GameState" type="Node" unique_id=974512371]
+script = ExtResource("1_aj67o")
+metadata/_custom_type_script = "uid://ygjvluupbdtm"
+
+[node name="SaveState" type="Node" parent="." unique_id=305363120]
+unique_name_in_owner = true
+script = ExtResource("2_3oy0g")
+metadata/_custom_type_script = "uid://cu714ln7qv2gu"
+
+[node name="PauseMenuSystem" type="Node" parent="." unique_id=1235145499 node_paths=PackedStringArray("menu", "replay_system", "save_state", "system_dialog", "dither_filter", "palette_filter")]
+unique_name_in_owner = true
+script = ExtResource("2_dq14d")
+capture_mouse = false
+menu = NodePath("../Menu")
+replay_system = NodePath("../ReplaySystem")
+save_state = NodePath("../SaveState")
+system_dialog = NodePath("../SystemDialog")
+dither_filter = NodePath("../DitherFilter")
+palette_filter = NodePath("../PaletteFilter")
+metadata/_custom_type_script = "uid://n2spkoxc2iv5"
+
+[node name="ReplaySystem" type="Node" parent="." unique_id=916268345 node_paths=PackedStringArray("pause_menu_system", "player_input", "save_state", "system_dialog")]
+unique_name_in_owner = true
+script = ExtResource("4_7ti0s")
+pause_menu_system = NodePath("../PauseMenuSystem")
+player_input = NodePath("../PlayerInput")
+save_state = NodePath("../SaveState")
+system_dialog = NodePath("../SystemDialog")
+metadata/_custom_type_script = "uid://bgvdp2xkv0yr3"
+
+[node name="Replay" type="Node" parent="ReplaySystem" unique_id=808360111]
+script = ExtResource("3_rerck")
+metadata/_custom_type_script = "uid://mahcrqfjlyyq"
+
+[node name="PlayerInput" type="Node" parent="." unique_id=820497993 node_paths=PackedStringArray("replay_system", "pause_menu_system")]
+unique_name_in_owner = true
+script = ExtResource("4_qn400")
+replay_system = NodePath("../ReplaySystem")
+pause_menu_system = NodePath("../PauseMenuSystem")
+metadata/_custom_type_script = "uid://skj8dxeivfvs"
+
+[node name="SystemDialog" type="Node" parent="." unique_id=887202933]
+unique_name_in_owner = true
+script = ExtResource("6_rxqo8")
+metadata/_custom_type_script = "uid://btc74n06ykolu"
+
+[node name="DitherFilter" type="CanvasLayer" parent="." unique_id=1427585307]
+visible = false
+
+[node name="DitherFilter" type="ColorRect" parent="DitherFilter" unique_id=1046001627]
+material = SubResource("ShaderMaterial_3oy0g")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="StretchFilter" type="CanvasLayer" parent="." unique_id=1734074323]
+unique_name_in_owner = true
+script = ExtResource("9_hinck")
+
+[node name="StretchFilter" type="ColorRect" parent="StretchFilter" unique_id=1814341450]
+material = SubResource("ShaderMaterial_hinck")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="DialogueLayer" parent="." unique_id=537659736 instance=ExtResource("11_b43q5")]
+unique_name_in_owner = true
+
+[node name="Menu" parent="." unique_id=1709348178 instance=ExtResource("5_vsnwl")]
+unique_name_in_owner = true
+
+[node name="PaletteFilter" type="CanvasLayer" parent="." unique_id=1251717995]
+visible = false
+
+[node name="PaletteFilter" type="ColorRect" parent="PaletteFilter" unique_id=618054725]
+material = SubResource("ShaderMaterial_q5byu")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2

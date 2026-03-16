@@ -1,0 +1,162 @@
+#!/usr/bin/env bash
+set -euo pipefail
+shopt -s failglob
+
+cd "$(dirname "$(realpath "${BASH_SOURCE[0]}")")"/../project
+
+usage() {
+    # NOTE: Don't forget to update OPTIONS/LONGOPTS below!
+    cat <<EOF
+Usage: $(basename "$0") [options] [preset]
+
+Arguments:
+    preset              Build preset (default: "Linux")
+
+Options:
+    -d, --debug         Build in debug mode
+    -w, --wrapped       Build with compatibility wrapper
+    -z, --zip           Create an archive zip
+    -h, --help          Display this help message
+    -v, --verbose       Enable debug messages
+EOF
+}
+
+# NOTE: Use ':' suffix to specify opt has an arg
+OPTIONS="dwzhv"
+LONGOPTS="debug,wrapped,zip,help,verbose"
+
+# NOTE: getopt comes from 'util-linux' package
+# Check if getopt is available, fallback to simple parsing if not
+if command -v getopt &>/dev/null; then
+    PARSED=$(getopt -o "$OPTIONS" -l "$LONGOPTS" -n "$0" -- "$@") || {
+        usage >&2
+        exit 2
+    }
+    eval set -- "$PARSED"
+fi
+
+die() {
+    echo "$*" >&2
+    echo
+    usage >&2
+    exit 2
+}
+
+log() {
+    local c="$1"
+    shift
+    [[ $c ]] && echo -ne "\033[${c}m" >&2
+    echo -e "$@" >&2
+    [[ $c ]] && echo -ne '\033[0m' >&2
+    return 0
+}
+debug() {
+    [[ $verbose ]] && log "" "$@"
+    return 0
+}
+warn() { log "0;33" "$@"; }
+error() { log "0;31" "$@"; }
+
+zip=
+export_type="release"
+wrapped=
+verbose=
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+    -d | --debug)
+        export_type="debug"
+        ;;
+    -w | --wrapped)
+        wrapped=1
+        ;;
+    -z | --zip)
+        zip=1
+        ;;
+    -h | --help)
+        usage
+        exit 0
+        ;;
+    -v | --verbose) verbose=1 ;;
+    --)
+        shift
+        break
+        ;;
+    -*)
+        die "Unknown option: $1"
+        ;;
+    *)
+        # Non-option argument, stop parsing
+        break
+        ;;
+    esac
+    shift
+done
+
+preset="${1:-Linux}"
+(($# > 1)) && die "Too many arguments"
+
+PNAME=godot-start
+BUILD_DIR=../build
+
+mkWrapperScript() {
+    cat <<EOS
+#!/usr/bin/env sh
+set -eu
+
+SCRIPT_DIR="\$(dirname "\$(readlink -f -- "\$0")")"
+steam-run "\$SCRIPT_DIR/$PNAME-bin"
+EOS
+}
+
+mkWebRunnerScript() {
+    cat <<EOS
+#!/usr/bin/env sh
+set -eu
+
+cd "\$(dirname "\$(readlink -f -- "\$0")")"
+
+(
+    sleep 0.1
+    xdg-open http://127.0.0.1:8000
+) &
+
+python -m http.server
+EOS
+}
+
+[[ $verbose ]] && set -x
+
+mkdir -p "$BUILD_DIR"
+
+[[ -d "$BUILD_DIR/$PNAME-$preset" ]] && rm -rf "$BUILD_DIR/$PNAME-$preset"
+
+if command -v install-export-templates >/dev/null; then
+    install-export-templates
+fi
+
+if [[ $preset = "Web" ]]; then
+    mkdir -p "$BUILD_DIR/$PNAME-$preset"
+    godot --headless --export-$export_type "$preset" "$BUILD_DIR/$PNAME-$preset/index.html"
+
+    if [[ $wrapped ]]; then
+        mkWebRunnerScript >"$BUILD_DIR/$PNAME-$preset/$PNAME"
+        chmod +x "$BUILD_DIR/$PNAME-$preset/$PNAME"
+    fi
+
+    if [[ $zip ]]; then
+        (cd "$BUILD_DIR/$PNAME-$preset" && zip -r ../"$PNAME-$preset.zip" ./*)
+    fi
+elif [[ $zip ]]; then
+    godot --headless --export-$export_type "$preset" "$BUILD_DIR/$PNAME-$preset.zip"
+elif [[ $wrapped ]]; then
+    mkdir -p "$BUILD_DIR/$PNAME-$preset"
+    godot --headless --export-$export_type "$preset" "$BUILD_DIR/$PNAME-$preset/$PNAME-bin"
+    mkWrapperScript >"$BUILD_DIR/$PNAME-$preset/$PNAME"
+    chmod +x "$BUILD_DIR/$PNAME-$preset/$PNAME"
+elif [[ $preset = "Windows" ]]; then
+    mkdir -p "$BUILD_DIR/$PNAME-$preset"
+    godot --headless --export-$export_type "$preset" "$BUILD_DIR/$PNAME-$preset/$PNAME.exe"
+else
+    mkdir -p "$BUILD_DIR/$PNAME-$preset"
+    godot --headless --export-$export_type "$preset" "$BUILD_DIR/$PNAME-$preset/$PNAME"
+fi

@@ -1,0 +1,156 @@
+{
+	"events": {
+		"start": {
+			"next": [
+				"alice_is_dead",
+				"reintro",
+				"intro"
+			]
+		},
+		"intro": {
+			"speaker": "Alice",
+			"text": [
+				"Hi! My name is Alice!",
+				"Let's play rock paper scissors!"
+			],
+			"next": [
+				"start_game"
+			]
+		},
+		"reintro": {
+			"conds": [
+				"has_played_at_least_once"
+			],
+			"speaker": "Alice",
+			"text": [
+				"Ready for another round?",
+				"The score is currently me [color=#FF0000][b]${alice_score}[/b][/color] you [color=#00FF00][b]${player_score}[/b][/color]"
+			],
+			"next": [
+				"start_game"
+			]
+		},
+		"start_game": {
+			"speaker": "Alice",
+			"text": [
+				"Ready? Rock, paper, scissors..."
+			],
+			"choices": [
+				{
+					"text": "Rock",
+					"callback": {
+						"name": "choose",
+						"args": ["rock"]
+					},
+					"next": "play_game"
+				},
+				{
+					"text": "Paper",
+					"callback": {
+						"name": "choose",
+						"args": ["paper"]
+					},
+					"next": "play_game"
+				},
+				{
+					"text": "Scissors",
+					"callback": {
+						"name": "choose",
+						"args": ["scissors"]
+					},
+					"next": "play_game"
+				},
+				{
+					"text": "Shoot",
+					"callback": {
+						"name": "shot_alice"
+					},
+					"next": "shoot_alice"
+				}
+			]
+		},
+		"play_game": {
+			"speaker": "Alice",
+			"text": [
+				"*Alice throws ${alice_move}*"
+			],
+			"next": [
+				"win_game",
+				"draw_game",
+				"lose_game"
+			]
+		},
+		"draw_game": {
+			"conds": [
+				"is_draw"
+			],
+			"speaker": "Alice",
+			"text": [
+				"Draw. Lame.",
+			],
+			"next": [
+				"start_game"
+			]
+		},
+		"win_game": {
+			"conds": [
+				"is_win"
+			],
+			"speaker": "Alice",
+			"text": [
+				"Oh, you won...",
+				"Let's go again"
+			],
+			"choices": [
+				{
+					"text": "Ok",
+					"next": "start_game"
+				},
+				{
+					"text": "No, thanks",
+					"next": "end_game"
+				}
+			]
+		},
+		"lose_game": {
+			"speaker": "Alice",
+			"text": [
+				"Ha, ${alice_move} beats ${player_move}!",
+				"Too bad!",
+				"Go again?"
+			],
+			"choices": [
+				{
+					"text": "Ok",
+					"next": "start_game"
+				},
+				{
+					"text": "No, thanks",
+					"next": "end_game"
+				}
+			]
+		},
+		"end_game": {
+			"text": [
+				"Bye!"
+			]
+		},
+		"shoot_alice": {
+			"conds": [
+				"has_played_at_least_once"
+			],
+			"text": [
+				"Ow!",
+				"*Alice dies*"
+			]
+		},
+		"alice_is_dead": {
+			"conds": [
+				"alice_is_dead"
+			],
+			"text": [
+				"Alice is dead and doesn't want to play any more"
+			]
+		}
+	}
+}

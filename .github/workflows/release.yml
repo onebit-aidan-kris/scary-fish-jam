@@ -1,0 +1,25 @@
+name: Release
+
+on:
+  release:
+    types:
+    - published
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    environment: butler
+
+    steps:
+    - uses: actions/checkout@v5
+    - uses: cachix/install-nix-action@v31
+      with:
+        github_access_token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Publish to Itch.io
+      env:
+        BUTLER_TARGET: ${{ vars.BUTLER_TARGET }}
+        BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
+      run: nix run '.?submodules=1#publish'
+
+

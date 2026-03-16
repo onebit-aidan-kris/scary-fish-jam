@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://bev71dv4qsfw"]
+
+[ext_resource type="Script" uid="uid://cws8nhjc45fo7" path="res://scripts/dialogue/dialogue_entry.gd" id="1_4hhbv"]
+[ext_resource type="Script" uid="uid://bu2q2x32c2nug" path="res://scripts/components/level_config.gd" id="1_ckrno"]
+[ext_resource type="Script" uid="uid://y32ae5nwxvop" path="res://scenes/levels/dialoguedemo/dialoguedemo_state.gd" id="2_wgiis"]
+
+[node name="DialogueDemoLevel" type="Node" unique_id=1656688394]
+
+[node name="LevelConfig" type="Node" parent="." unique_id=69534514]
+script = ExtResource("1_ckrno")
+skip_main_menu = true
+metadata/_custom_type_script = "uid://bu2q2x32c2nug"
+
+[node name="State" type="Node" parent="." unique_id=1121244055]
+script = ExtResource("2_wgiis")
+
+[node name="DialogueEntry" type="Node" parent="State" unique_id=996939929]
+script = ExtResource("1_4hhbv")
+json_path = "res://assets/dialogue/dialogue_demo.json"
+metadata/_custom_type_script = "uid://cws8nhjc45fo7"
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1378642426]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -59.0
+offset_top = -15.5
+offset_right = 59.0
+offset_bottom = 15.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="StartDialogueButton" type="Button" parent="MarginContainer" unique_id=1800091955]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Start Dialogue"

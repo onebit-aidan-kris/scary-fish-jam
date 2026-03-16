@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://dsdawu4g855f6"]
+
+[ext_resource type="Script" uid="uid://dfati240tvaw1" path="res://scenes/levels/mouselook/entities/free_cam.gd" id="1_57ymc"]
+
+[node name="FreeCam" type="Camera3D" unique_id=1292953806]
+script = ExtResource("1_57ymc")

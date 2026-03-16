@@ -1,0 +1,67 @@
+[gd_scene format=3 uid="uid://lmp14m6v5wf4"]
+
+[ext_resource type="MeshLibrary" uid="uid://q2vjmi8n4ipj" path="res://assets/meshlibrary/test.meshlib" id="1_7367b"]
+[ext_resource type="Script" uid="uid://bu2q2x32c2nug" path="res://scripts/components/level_config.gd" id="1_bwg66"]
+[ext_resource type="Script" uid="uid://dgpbhxs8ofy5g" path="res://scripts/components/remove_on_game_start.gd" id="2_bwg66"]
+[ext_resource type="PackedScene" uid="uid://bwcxyj2dueo8r" path="res://scenes/levels/obliquetile/oblique_player.tscn" id="2_ycx6c"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_6f4l4"]
+
+[sub_resource type="Sky" id="Sky_0xm2m"]
+sky_material = SubResource("ProceduralSkyMaterial_6f4l4")
+
+[sub_resource type="Environment" id="Environment_vmmfd"]
+background_mode = 2
+sky = SubResource("Sky_0xm2m")
+ambient_light_source = 2
+ambient_light_color = Color(0.796243, 0.796243, 0.796243, 1)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_vmmfd"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_ppqqn"]
+
+[node name="ObliqueTileLevel" type="Node3D" unique_id=919855827]
+
+[node name="LevelConfig" type="Node" parent="." unique_id=1818743714]
+script = ExtResource("1_bwg66")
+stretch_filter = true
+metadata/_custom_type_script = "uid://bu2q2x32c2nug"
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1232387666]
+environment = SubResource("Environment_vmmfd")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=234860174]
+transform = Transform3D(0.9182944, 0.3015499, -0.25652108, -3.72529e-08, 0.6479471, 0.7616854, 0.39589825, -0.6994514, 0.59500617, 0, 8.608476, 0)
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1744938723]
+transform = Transform3D(1, 0, 0, 0, 0.70710677, 0.70710677, 0, -0.70710677, 0.70710677, 1, 10, 10)
+projection = 1
+current = true
+size = 4.0
+far = 400.0
+
+[node name="GridMap" type="GridMap" parent="." unique_id=690059227]
+mesh_library = ExtResource("1_7367b")
+cell_size = Vector3(1, 1, 1)
+cell_center_x = false
+cell_center_y = false
+cell_center_z = false
+data = {
+"cells": PackedInt32Array(0, 0, 1, 1, 0, 1, 1, 1, 2, 2, 0, 1, 0, 1, 1, 65535, 1, 0, 65535, 0, 2, 65535, 65535, 1, 65535, 2, 0, 0, 2, 1, 1, 2, 0, 2, 2, 0, 2, 1, 0, 0, 65535, 1, 1, 65535, 1, 2, 65535, 1, 65534, 65535, 1, 65534, 0, 1, 2, 3, 1, 1, 3, 1, 0, 3, 1, 65535, 3, 0, 65534, 2, 0, 65534, 1, 0, 65534, 3, 0)
+}
+
+[node name="RigidBody3D" type="RigidBody3D" parent="." unique_id=916085575]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.12143341, 1.7552598, 0.051014245)
+
+[node name="RemoveOnGameStart" type="Node" parent="RigidBody3D" unique_id=1932684640]
+script = ExtResource("2_bwg66")
+metadata/_custom_type_script = "uid://dgpbhxs8ofy5g"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D" unique_id=44185165]
+shape = SubResource("SphereShape3D_vmmfd")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="RigidBody3D" unique_id=439081567]
+mesh = SubResource("SphereMesh_ppqqn")
+
+[node name="ObliquePlayer" parent="." unique_id=1920999902 instance=ExtResource("2_ycx6c")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.3909116, 1.1888564, 0)

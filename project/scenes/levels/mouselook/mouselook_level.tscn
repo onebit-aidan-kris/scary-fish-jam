@@ -1,0 +1,76 @@
+[gd_scene format=3 uid="uid://c8lpblcihq5ff"]
+
+[ext_resource type="Script" uid="uid://bu2q2x32c2nug" path="res://scripts/components/level_config.gd" id="1_am13w"]
+[ext_resource type="Script" uid="uid://chi5smarodjo2" path="res://scripts/components/persist_group.gd" id="1_nxlid"]
+[ext_resource type="Script" uid="uid://dfati240tvaw1" path="res://scenes/levels/mouselook/entities/free_cam.gd" id="2_am13w"]
+[ext_resource type="Texture2D" uid="uid://co7fg4r4c84ai" path="res://icon.svg" id="3_lo5wi"]
+[ext_resource type="Script" uid="uid://c1yjf0s7vvoqn" path="res://scripts/components/debug_rotate.gd" id="4_kbud1"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_0xm2m"]
+
+[sub_resource type="Sky" id="Sky_0xm2m"]
+sky_material = SubResource("ProceduralSkyMaterial_0xm2m")
+
+[sub_resource type="Environment" id="Environment_h2yge"]
+background_mode = 2
+sky = SubResource("Sky_0xm2m")
+ambient_light_source = 2
+ambient_light_color = Color(0.796243, 0.796243, 0.796243, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lwsif"]
+albedo_texture = ExtResource("3_lo5wi")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_p6tgm"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4icbv"]
+albedo_color = Color(0, 0, 0, 1)
+
+[node name="MouselookLevel" type="Node3D" unique_id=1431554155]
+
+[node name="LevelConfig" type="Node" parent="." unique_id=437031246]
+script = ExtResource("1_am13w")
+mouse_capture = true
+metadata/_custom_type_script = "uid://bu2q2x32c2nug"
+
+[node name="PersistGroup" type="Node" parent="." unique_id=821707653]
+script = ExtResource("1_nxlid")
+unique_state_key = "level_start"
+metadata/_custom_type_script = "uid://chi5smarodjo2"
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1679933684]
+environment = SubResource("Environment_h2yge")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=973384842]
+transform = Transform3D(0.9182944, 0.3015499, -0.25652108, -3.72529e-08, 0.6479471, 0.7616854, 0.39589825, -0.6994514, 0.59500617, 0, 8.608476, 0)
+
+[node name="FreeCam" type="Camera3D" parent="." unique_id=1955267743 groups=["persist"]]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 3, 1, 0)
+current = true
+script = ExtResource("2_am13w")
+take_control_on_ready = true
+metadata/_custom_type_script = "uid://dfati240tvaw1"
+
+[node name="Debug" type="Node3D" parent="." unique_id=132809176]
+
+[node name="TextureBox" type="CSGBox3D" parent="Debug" unique_id=101892094 groups=["persist"]]
+material = SubResource("StandardMaterial3D_lwsif")
+
+[node name="DebugRotate" type="Node" parent="Debug/TextureBox" unique_id=1610348362]
+script = ExtResource("4_kbud1")
+metadata/_custom_type_script = "uid://c1yjf0s7vvoqn"
+
+[node name="WhiteBox" type="CSGBox3D" parent="Debug" unique_id=2028639985 groups=["persist"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
+material = SubResource("StandardMaterial3D_p6tgm")
+
+[node name="DebugRotate" type="Node" parent="Debug/WhiteBox" unique_id=36109505]
+script = ExtResource("4_kbud1")
+metadata/_custom_type_script = "uid://c1yjf0s7vvoqn"
+
+[node name="BlackBox" type="CSGBox3D" parent="Debug" unique_id=1543448971 groups=["persist"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
+material = SubResource("StandardMaterial3D_4icbv")
+
+[node name="DebugRotate" type="Node" parent="Debug/BlackBox" unique_id=1452879731]
+script = ExtResource("4_kbud1")
+metadata/_custom_type_script = "uid://c1yjf0s7vvoqn"

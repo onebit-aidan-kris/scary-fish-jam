@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://bwcxyj2dueo8r"]
+
+[ext_resource type="SpriteFrames" uid="uid://8sbpwgy03j5q" path="res://assets/spritesheets/littleguy_frames.tres" id="1_htjmx"]
+[ext_resource type="Script" uid="uid://b6mo6yr28xmfn" path="res://scripts/components/fancy_sprite_3d.gd" id="2_27wc5"]
+
+[node name="ObliquePlayer" type="Node3D" unique_id=1920999902]
+
+[node name="FancySprite3D" type="AnimatedSprite3D" parent="." unique_id=258600184]
+flip_h = true
+pixel_size = 0.08
+billboard = 2
+double_sided = false
+texture_filter = 0
+sprite_frames = ExtResource("1_htjmx")
+animation = &"walk-e"
+script = ExtResource("2_27wc5")
+flip_animations = PackedStringArray("walk-n", "walk-s", "walk-e", "walk-e")
+flip_frames = PackedInt32Array(1, 1, 0, 1)
+metadata/_custom_type_script = "uid://b6mo6yr28xmfn"

@@ -1,0 +1,33 @@
+name: Workflow
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v5
+    - uses: cachix/install-nix-action@v31
+      with:
+        github_access_token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Check nix
+      run: nix flake show '.?submodules=1'
+
+    - name: Check lint
+      run: nix run '.?submodules=1#format' -- lint -v
+
+    - name: Check format
+      run: nix run '.?submodules=1#format' -- --check -v
+
+    - name: Build
+      run: nix build '.?submodules=1#debug'
+
+    - name: Test
+      # Reuses cached debug build from previous step
+      run: nix run '.?submodules=1#test-headless'

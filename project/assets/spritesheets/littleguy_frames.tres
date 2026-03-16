@@ -1,0 +1,66 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://8sbpwgy03j5q"]
+
+[ext_resource type="Texture2D" uid="uid://dh6ysfsjeakrw" path="res://assets/spritesheets/littleguy.png" id="1_tpw4g"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tpw4g"]
+atlas = ExtResource("1_tpw4g")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_72loo"]
+atlas = ExtResource("1_tpw4g")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oxd4i"]
+atlas = ExtResource("1_tpw4g")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wcxdq"]
+atlas = ExtResource("1_tpw4g")
+region = Rect2(0, 0, 16, 16)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tpw4g")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_72loo")
+}],
+"loop": true,
+"name": &"walk-e",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oxd4i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oxd4i")
+}],
+"loop": true,
+"name": &"walk-n",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wcxdq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wcxdq")
+}],
+"loop": true,
+"name": &"walk-s",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tpw4g")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_72loo")
+}],
+"loop": true,
+"name": &"walk-w",
+"speed": 5.0
+}]

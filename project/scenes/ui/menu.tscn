@@ -1,0 +1,98 @@
+[gd_scene format=3 uid="uid://dkhqxc2w4rda4"]
+
+[ext_resource type="Script" uid="uid://bn5av54g3r5s4" path="res://scenes/ui/menu.gd" id="1_6tw0m"]
+[ext_resource type="Theme" uid="uid://badm4dbubdqto" path="res://scenes/ui/menu_theme.tres" id="2_wedc3"]
+[ext_resource type="Script" uid="uid://ujr3w0i2aica" path="res://scripts/components/debug_only.gd" id="3_c2n5p"]
+[ext_resource type="LabelSettings" uid="uid://donjsdao6jlfe" path="res://scenes/ui/title_label_settings.tres" id="3_cx0sj"]
+[ext_resource type="Script" uid="uid://c27847cdx02wd" path="res://scenes/ui/version_label.gd" id="4_w6y0u"]
+
+[node name="Menu" type="CanvasLayer" unique_id=1839284131]
+process_mode = 3
+script = ExtResource("1_6tw0m")
+metadata/_custom_type_script = "uid://bn5av54g3r5s4"
+
+[node name="Background" type="ColorRect" parent="." unique_id=1841590050]
+unique_name_in_owner = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.5254902)
+
+[node name="Menu" type="MarginContainer" parent="." unique_id=975576880]
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -22.0
+offset_right = 94.0
+offset_bottom = 22.0
+grow_vertical = 2
+theme = ExtResource("2_wedc3")
+theme_override_constants/margin_left = 100
+
+[node name="ItemsContainer" type="VBoxContainer" parent="Menu" unique_id=2018021397]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Title" type="Label" parent="Menu/ItemsContainer" unique_id=345306180]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Title"
+label_settings = ExtResource("3_cx0sj")
+
+[node name="LabelTemplate" type="Label" parent="Menu/ItemsContainer" unique_id=254989406]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5132329, 0.5132329, 0.5132329, 1)
+theme_override_font_sizes/font_size = 22
+text = "Label"
+
+[node name="ButtonTemplate" type="Button" parent="Menu/ItemsContainer" unique_id=827853778]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Button"
+flat = true
+alignment = 0
+
+[node name="CheckBoxTemplate" type="CheckBox" parent="Menu/ItemsContainer" unique_id=2047230419]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Checkbox"
+
+[node name="VersionInfo" type="MarginContainer" parent="." unique_id=1130723514]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -107.0
+offset_top = -50.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VersionInfo" unique_id=1587750369]
+layout_mode = 2
+size_flags_horizontal = 8
+alignment = 2
+
+[node name="VersionLabel" type="Label" parent="VersionInfo/VBoxContainer" unique_id=682408981]
+layout_mode = 2
+size_flags_horizontal = 8
+text = "v0.0.0"
+script = ExtResource("4_w6y0u")
+
+[node name="DebugBuild" type="Label" parent="VersionInfo/VBoxContainer" unique_id=1744330483]
+layout_mode = 2
+size_flags_horizontal = 8
+text = "DEBUG BUILD"
+
+[node name="DebugOnly" type="Node" parent="VersionInfo/VBoxContainer/DebugBuild" unique_id=1083453890]
+script = ExtResource("3_c2n5p")
+metadata/_custom_type_script = "uid://ujr3w0i2aica"

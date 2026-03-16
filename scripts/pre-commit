@@ -1,0 +1,33 @@
+#!/usr/bin/env sh
+set -eu
+
+echo "=== pre-commit hook start ==="
+
+format_staged_file() {
+    file="$1"
+
+    if ! ./scripts/format --file "$file"; then
+        ./scripts/format --file "$file"
+    fi
+
+    git add -- "$file"
+}
+
+while IFS= read -r file; do
+    [ -n "$file" ] || continue
+    [ -f "$file" ] || continue
+
+    case "$file" in
+    *.gd)
+        format_staged_file "$file"
+        ./scripts/format --file "$file" lint
+        ;;
+    *.nix)
+        format_staged_file "$file"
+        ;;
+    esac
+done <<EOF
+$(git diff --cached --name-only --diff-filter=ACMR)
+EOF
+
+echo "=== pre-commit hook end ==="

@@ -1,0 +1,164 @@
+#!/usr/bin/env bash
+set -euo pipefail
+shopt -s failglob
+shopt -s globstar
+
+usage() {
+    # NOTE: Don't forget to update OPTIONS/LONGOPTS below!
+    cat <<EOF
+Usage: $(basename "$0") [options] [command]
+
+Commands:
+    format              Run formatter (default)
+    lint                Run linter
+
+Options:
+    -c, --check         Check formatting without editing
+    -f, --file FILE     Only run on a single file
+    -h, --help          Display this help message
+    -v, --verbose       Enable debug messages
+EOF
+}
+
+# NOTE: Use ':' suffix to specify opt has an arg
+OPTIONS="cf:hv"
+LONGOPTS="check,file:,help,verbose"
+
+# NOTE: getopt comes from 'util-linux' package
+# Check if getopt is available, fallback to simple parsing if not
+if command -v getopt &>/dev/null; then
+    PARSED=$(getopt -o "$OPTIONS" -l "$LONGOPTS" -n "$0" -- "$@") || {
+        usage >&2
+        exit 2
+    }
+    eval set -- "$PARSED"
+fi
+
+die() {
+    echo "$*" >&2
+    echo
+    usage >&2
+    exit 2
+}
+
+log() {
+    local c="$1"
+    shift
+    [[ $c ]] && echo -ne "\033[${c}m" >&2
+    echo -e "$@" >&2
+    [[ $c ]] && echo -ne '\033[0m' >&2
+    return 0
+}
+debug() {
+    [[ $verbose ]] && log "" "$@"
+    return 0
+}
+warn() { log "0;33" "$@"; }
+error() { log "0;31" "$@"; }
+
+args_nix=
+args_gd=
+file=
+verbose=
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+    -c | --check)
+        args_nix=--check
+        args_gd=--check
+        ;;
+    -h | --help)
+        usage
+        exit 0
+        ;;
+    -f | --file)
+        [[ ${2:-} ]] || die "--file requires an argument"
+        file="$2"
+        shift
+        ;;
+    -v | --verbose) verbose=1 ;;
+    --)
+        shift
+        break
+        ;;
+    -*)
+        die "Unknown option: $1"
+        ;;
+    *)
+        # Non-option argument, stop parsing
+        break
+        ;;
+    esac
+    shift
+done
+
+(($# > 1)) && die "Too many arguments"
+
+iscmd() {
+    command -v "$1" >/dev/null
+}
+
+anyfiles() {
+    find . -type f -name "*.$1" -print -quit | grep -q .
+}
+
+case "${1:-format}" in
+lint)
+    if [[ -n $file ]]; then
+        [[ -f $file ]] || die "File not found: $file"
+        [[ $file == *.gd ]] || die "--file for lint must be a .gd file"
+
+        (
+            [[ -n $verbose ]] && set -x
+            gdscript-formatter lint \
+                --disable constant-name,private-access,class-name \
+                "$file"
+        )
+    else
+        (
+            [[ -n $verbose ]] && set -x
+            gdscript-formatter lint \
+                --disable constant-name,private-access,class-name \
+                ./**/*.gd
+        )
+    fi
+    ;;
+format)
+    if [[ -n $file ]]; then
+        [[ -f $file ]] || die "File not found: $file"
+
+        if [[ $file == *.gd ]]; then
+            (
+                [[ -n $verbose ]] && set -x
+                gdscript-formatter $args_gd "$file"
+            )
+        elif [[ $file == *.nix ]]; then
+            iscmd nix || die "nix is required to format .nix files"
+            (
+                [[ -n $verbose ]] && set -x
+                nix fmt "$file" -- $args_nix
+            )
+        else
+            die "--file must be a .gd or .nix file"
+        fi
+    else
+        if anyfiles "gd"; then
+            (
+                [[ -n $verbose ]] && set -x
+                gdscript-formatter $args_gd ./**/*.gd
+            )
+        fi
+
+        if iscmd nix && anyfiles "nix"; then
+            (
+                [[ -n $verbose ]] && set -x
+                nix fmt ./**/*.nix -- $args_nix
+            )
+        fi
+    fi
+    ;;
+*)
+    error "Unknown command '$1'"
+    usage
+    exit 3
+    ;;
+esac

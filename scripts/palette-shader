@@ -1,0 +1,136 @@
+#!/usr/bin/env bash
+set -euo pipefail
+shopt -s failglob
+
+# SCRIPT_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
+# cd "$SCRIPT_DIR"
+
+usage() {
+    # NOTE: Don't forget to update OPTIONS/LONGOPTS below!
+    cat <<EOF
+Usage: $(basename "$0") [options] foo [bar]
+
+Arguments:
+    file                File containing line-separated hex codes
+
+Options:
+    -h, --help          Display this help message
+    -v, --verbose       Enable debug messages
+EOF
+}
+
+# NOTE: Use ':' suffix to specify opt has an arg
+OPTIONS="hv"
+LONGOPTS="help,verbose"
+
+# NOTE: getopt comes from 'util-linux' package
+# Check if getopt is available, fallback to simple parsing if not
+if command -v getopt &>/dev/null; then
+    PARSED=$(getopt -o "$OPTIONS" -l "$LONGOPTS" -n "$0" -- "$@") || {
+        usage >&2
+        exit 2
+    }
+    eval set -- "$PARSED"
+fi
+
+die() {
+    echo "$*" >&2
+    echo
+    usage >&2
+    exit 2
+}
+
+log() {
+    local c="$1"
+    shift
+    [[ $c ]] && echo -ne "\033[${c}m" >&2
+    echo -e "$@" >&2
+    [[ $c ]] && echo -ne '\033[0m' >&2
+    return 0
+}
+debug() {
+    [[ $verbose ]] && log "" "$@"
+    return 0
+}
+warn() { log "0;33" "$@"; }
+error() { log "0;31" "$@"; }
+
+verbose=
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+    -h | --help)
+        usage
+        exit 0
+        ;;
+    -v | --verbose) verbose=1 ;;
+    --)
+        shift
+        break
+        ;;
+    -*)
+        die "Unknown option: $1"
+        ;;
+    *)
+        # Non-option argument, stop parsing
+        break
+        ;;
+    esac
+    shift
+done
+
+(($# < 1)) && die "Expected argument 'file'"
+(($# > 1)) && die "Too many arguments"
+
+[[ $verbose ]] && set -x
+
+cat <<EOF
+shader_type canvas_item;
+
+uniform sampler2D screen_texture : hint_screen_texture, repeat_disable, filter_nearest;
+
+#define PALETTE_X(X) \\
+EOF
+
+trim() {
+    printf "%s" "$1"
+}
+
+tr -d '\r' <"$1" | while IFS="" read -r p; do
+    printf '	X(0x%s) \\\n' "$p"
+done
+
+cat <<EOF
+
+
+#define X_COUNT(x) + 1
+
+#define X_VEC(hex) vec3( \\
+		float((hex) >> 16) / 255.0, \\
+		float(((hex) >> 8) & 0xff) / 255.0, \\
+		float((hex) & 0xff) / 255.0 \\
+	),
+
+const vec3 palette[] = {
+	PALETTE_X(X_VEC)
+	vec3(0,0,0)
+};
+const int palette_size = PALETTE_X(X_COUNT);
+
+vec3 get_closest_palette(vec3 color) {
+	vec3 closest_color = color;
+	float closest_dist = 9999.0;
+	for (int i = 0; i < palette_size; ++i) {
+		float d = distance(color, palette[i]);
+		if (d < closest_dist) {
+			closest_dist = d;
+			closest_color = palette[i];
+		}
+	}
+	return closest_color;
+}
+
+void fragment() {
+	COLOR = textureLod(screen_texture, SCREEN_UV, 0.0);
+	COLOR.rgb = get_closest_palette(COLOR.rgb);
+}
+EOF
