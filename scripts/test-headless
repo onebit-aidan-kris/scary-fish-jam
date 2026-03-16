@@ -119,3 +119,7 @@ if echo "$output" | grep -q "^SCRIPT ERROR:"; then
     error "Failed: Script error"
     exit 1
 fi
+if echo "$output" | grep -q "^ERROR:"; then
+    error "Failed: Error"
+    exit 1
+fi

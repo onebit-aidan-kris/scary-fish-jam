@@ -6,7 +6,7 @@ static func gdserde_fields() -> Array[gdserde.Field]:
 	return [
 		gdserde.Field.new(
 			&"events",
-			gdserde.Spec.dict(TYPE_STRING, gdserde.Spec.object(DialogueEvent.new)),
+			gdserde.Spec.dict(TYPE_STRING, gdserde.Spec.object(DialogueEvent)),
 		),
 	]
 
