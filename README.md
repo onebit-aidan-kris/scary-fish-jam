@@ -1,4 +1,4 @@
-# godot-start
+# scary-fish-jam
 
 My rather opinionated Godot project template.
 
@@ -67,7 +67,7 @@ To enable butler uploads in CI:
 2. Create a "butler" [environment](https://docs.github.com/en/actions/how-tos/write-workflows/choose-what-workflows-do/use-secrets)
    and add your API key and TARGET. e.g.
   - secret: BUTLER_API_KEY=...
-  - env var: BUTLER_TARGET=<itch-account>/godot-start
+  - env var: BUTLER_TARGET=<itch-account>/scary-fish-jam
 
 ## TODO
 

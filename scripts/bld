@@ -95,7 +95,7 @@ done
 preset="${1:-Linux}"
 (($# > 1)) && die "Too many arguments"
 
-PNAME=godot-start
+PNAME=scary-fish-jam
 BUILD_DIR=../build
 
 mkWrapperScript() {

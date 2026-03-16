@@ -28,7 +28,7 @@
           overlays = [ localOverlay ];
         };
 
-        godot-start-debug = pkgs.godot-start.override { debug = true; };
+        scary-fish-jam-debug = pkgs.scary-fish-jam.override { debug = true; };
 
         devPkgs = import nixpkgs {
           inherit system;
@@ -53,7 +53,7 @@
 
         mkArchive =
           preset:
-          pkgs.godot-start.override {
+          pkgs.scary-fish-jam.override {
             inherit preset;
             archive = true;
           };
@@ -86,18 +86,18 @@
         '';
 
         test-headless = pkgs.writeShellScriptBin "test-headless" ''
-          ./scripts/test-headless --binary "${godot-start-debug}/bin/godot-start-bin" -- "$@"
+          ./scripts/test-headless --binary "${scary-fish-jam-debug}/bin/scary-fish-jam-bin" -- "$@"
         '';
       in
       {
         packages = {
-          inherit (pkgs) godot-start;
-          default = pkgs.godot-start;
+          inherit (pkgs) scary-fish-jam;
+          default = pkgs.scary-fish-jam;
 
-          debug = godot-start-debug;
+          debug = scary-fish-jam-debug;
 
-          web = pkgs.godot-start.override { preset = "Web"; };
-          windows = pkgs.godot-start.override { preset = "Windows"; };
+          web = pkgs.scary-fish-jam.override { preset = "Web"; };
+          windows = pkgs.scary-fish-jam.override { preset = "Windows"; };
 
           linux-archive = mkArchive "Linux";
           macos-archive = mkArchive "macOS";

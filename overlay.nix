@@ -10,7 +10,7 @@ let
     .${prev.stdenv.hostPlatform.system};
 in
 {
-  godot-start = prev.callPackage ./. {
+  scary-fish-jam = prev.callPackage ./. {
     inherit preset;
   };
 }

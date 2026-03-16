@@ -26,7 +26,7 @@ let
   ];
 in
 stdenvNoCC.mkDerivation {
-  name = "godot-start";
+  name = "scary-fish-jam";
   src = lib.cleanSource ./.;
 
   nativeBuildInputs = [
@@ -61,15 +61,15 @@ stdenvNoCC.mkDerivation {
 
         if [[ "${strIf wrapper "1"}" ]]; then
           if [[ ${preset} = Linux ]]; then
-            wrapProgram $out/bin/godot-start --prefix PATH : ${lib.makeBinPath [ steam-run-free ]}
+            wrapProgram $out/bin/scary-fish-jam --prefix PATH : ${lib.makeBinPath [ steam-run-free ]}
           elif [[ ${preset} = Web ]]; then
-            wrapProgram $out/bin/godot-start --prefix PATH : ${lib.makeBinPath [ python3 ]}
+            wrapProgram $out/bin/scary-fish-jam --prefix PATH : ${lib.makeBinPath [ python3 ]}
           fi
         fi
       '';
 
   meta = {
-    mainProgram = if archive then null else "godot-start";
+    mainProgram = if archive then null else "scary-fish-jam";
     # description = "A short description of my application";
     # homepage = "https://github.com";
     # license = lib.licenses.mit;

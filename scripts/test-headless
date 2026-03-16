@@ -101,7 +101,7 @@ if [[ -z $binary ]]; then
         exit 3
     fi
 
-    binary="./build/godot-start-Linux/godot-start"
+    binary="./build/scary-fish-jam-Linux/scary-fish-jam"
 fi
 
 [[ $verbose ]] && set -x
