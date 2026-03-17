@@ -1,0 +1,91 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" uid="uid://bu2q2x32c2nug" path="res://scripts/components/level_config.gd" id="1_lvlcfg"]
+[ext_resource type="Script" path="res://scenes/levels/fishing/fishing_level.gd" id="2_level"]
+[ext_resource type="Script" path="res://scenes/levels/fishing/boat.gd" id="3_boat"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_fish"]
+sky_top_color = Color(0.35, 0.6, 0.85, 1)
+sky_horizon_color = Color(0.65, 0.8, 0.9, 1)
+ground_bottom_color = Color(0.2, 0.35, 0.15, 1)
+ground_horizon_color = Color(0.65, 0.8, 0.9, 1)
+
+[sub_resource type="Sky" id="Sky_fish"]
+sky_material = SubResource("ProceduralSkyMaterial_fish")
+
+[sub_resource type="Environment" id="Environment_fish"]
+background_mode = 2
+sky = SubResource("Sky_fish")
+ambient_light_source = 2
+ambient_light_color = Color(0.6, 0.7, 0.8, 1)
+ambient_light_energy = 0.5
+fog_enabled = true
+fog_light_color = Color(0.35, 0.5, 0.65, 1)
+fog_density = 0.002
+
+[sub_resource type="StandardMaterial3D" id="WaterMat_fish"]
+transparency = 1
+albedo_color = Color(0.08, 0.28, 0.52, 0.65)
+metallic = 0.3
+roughness = 0.05
+
+[sub_resource type="StandardMaterial3D" id="FloorMat_fish"]
+albedo_color = Color(0.45, 0.38, 0.25, 1)
+roughness = 0.95
+
+[sub_resource type="StandardMaterial3D" id="BoatMat_fish"]
+albedo_color = Color(0.55, 0.35, 0.15, 1)
+roughness = 0.75
+
+[sub_resource type="CylinderMesh" id="WaterMesh_fish"]
+top_radius = 35.0
+bottom_radius = 35.0
+height = 0.05
+radial_segments = 64
+
+[sub_resource type="CylinderMesh" id="FloorMesh_fish"]
+top_radius = 36.0
+bottom_radius = 36.0
+height = 0.1
+radial_segments = 64
+
+[sub_resource type="BoxMesh" id="HullMesh_fish"]
+size = Vector3(1.5, 0.5, 3.5)
+
+[node name="FishingLevel" type="Node3D"]
+script = ExtResource("2_level")
+
+[node name="LevelConfig" type="Node" parent="."]
+script = ExtResource("1_lvlcfg")
+mouse_capture = true
+metadata/_custom_type_script = "uid://bu2q2x32c2nug"
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_fish")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.866, 0.354, -0.354, 0, 0.707, 0.707, 0.5, -0.612, 0.612, 0, 15, 0)
+shadow_enabled = true
+
+[node name="WaterSurface" type="MeshInstance3D" parent="."]
+mesh = SubResource("WaterMesh_fish")
+surface_material_override/0 = SubResource("WaterMat_fish")
+
+[node name="SeaFloor" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8, 0)
+mesh = SubResource("FloorMesh_fish")
+surface_material_override/0 = SubResource("FloorMat_fish")
+
+[node name="Boat" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0)
+script = ExtResource("3_boat")
+
+[node name="Hull" type="MeshInstance3D" parent="Boat"]
+mesh = SubResource("HullMesh_fish")
+surface_material_override/0 = SubResource("BoatMat_fish")
+
+[node name="Camera3D" type="Camera3D" parent="Boat"]
+transform = Transform3D(1, 0, 0, 0, 0.866, -0.5, 0, 0.5, 0.866, 0, 4, 6)
+current = true
+
+[node name="SeaFloorObjects" type="Node3D" parent="."]
