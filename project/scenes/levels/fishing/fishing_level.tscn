@@ -1,8 +1,11 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://dku1y8g8g5cu1"]
 
 [ext_resource type="Script" uid="uid://bu2q2x32c2nug" path="res://scripts/components/level_config.gd" id="1_lvlcfg"]
-[ext_resource type="Script" path="res://scenes/levels/fishing/fishing_level.gd" id="2_level"]
-[ext_resource type="Script" path="res://scenes/levels/fishing/boat.gd" id="3_boat"]
+[ext_resource type="Script" uid="uid://c66jdsvnllmup" path="res://scenes/levels/fishing/fishing_level.gd" id="2_level"]
+[ext_resource type="Script" uid="uid://n835q6aite1h" path="res://scenes/levels/fishing/boat.gd" id="3_boat"]
+[ext_resource type="Script" uid="uid://da5uxcxgdyw4" path="res://scenes/levels/fishing/sonar.gd" id="4_kspqj"]
+[ext_resource type="Script" uid="uid://dtcnjkf3aa1lv" path="res://scenes/levels/fishing/sonar_cone.gd" id="4_s276m"]
+[ext_resource type="Script" uid="uid://4gtx2q7jsi3x" path="res://scenes/levels/fishing/fish.gd" id="6_1ewjx"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_fish"]
 sky_top_color = Color(0.35, 0.6, 0.85, 1)
@@ -23,69 +26,106 @@ fog_enabled = true
 fog_light_color = Color(0.35, 0.5, 0.65, 1)
 fog_density = 0.002
 
+[sub_resource type="CylinderMesh" id="WaterMesh_fish"]
+top_radius = 35.0
+bottom_radius = 35.0
+height = 0.05
+
 [sub_resource type="StandardMaterial3D" id="WaterMat_fish"]
 transparency = 1
 albedo_color = Color(0.08, 0.28, 0.52, 0.65)
 metallic = 0.3
 roughness = 0.05
 
+[sub_resource type="CylinderMesh" id="FloorMesh_fish"]
+top_radius = 36.0
+bottom_radius = 36.0
+height = 0.1
+
 [sub_resource type="StandardMaterial3D" id="FloorMat_fish"]
 albedo_color = Color(0.45, 0.38, 0.25, 1)
 roughness = 0.95
+
+[sub_resource type="BoxMesh" id="HullMesh_fish"]
+size = Vector3(1.5, 0.5, 3.5)
 
 [sub_resource type="StandardMaterial3D" id="BoatMat_fish"]
 albedo_color = Color(0.55, 0.35, 0.15, 1)
 roughness = 0.75
 
-[sub_resource type="CylinderMesh" id="WaterMesh_fish"]
-top_radius = 35.0
-bottom_radius = 35.0
-height = 0.05
-radial_segments = 64
+[sub_resource type="CylinderShape3D" id="BowShapePlaceholder_fish"]
+height = 1.0
+radius = 0.75
 
-[sub_resource type="CylinderMesh" id="FloorMesh_fish"]
-top_radius = 36.0
-bottom_radius = 36.0
-height = 0.1
-radial_segments = 64
+[sub_resource type="CylinderMesh" id="BowMesh_fish"]
+top_radius = 0.0
+bottom_radius = 0.75
+height = 1.0
 
-[sub_resource type="BoxMesh" id="HullMesh_fish"]
-size = Vector3(1.5, 0.5, 3.5)
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_1ewjx"]
 
-[node name="FishingLevel" type="Node3D"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1ewjx"]
+
+[sub_resource type="CapsuleShape3D" id="FishCollision_1ewjx"]
+
+[node name="FishingLevel" type="Node3D" unique_id=1521638617]
 script = ExtResource("2_level")
 
-[node name="LevelConfig" type="Node" parent="."]
+[node name="LevelConfig" type="Node" parent="." unique_id=159456657]
 script = ExtResource("1_lvlcfg")
 mouse_capture = true
 metadata/_custom_type_script = "uid://bu2q2x32c2nug"
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=29963070]
 environment = SubResource("Environment_fish")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=2046583784]
 transform = Transform3D(0.866, 0.354, -0.354, 0, 0.707, 0.707, 0.5, -0.612, 0.612, 0, 15, 0)
 shadow_enabled = true
 
-[node name="WaterSurface" type="MeshInstance3D" parent="."]
+[node name="WaterSurface" type="MeshInstance3D" parent="." unique_id=1101279172]
 mesh = SubResource("WaterMesh_fish")
 surface_material_override/0 = SubResource("WaterMat_fish")
 
-[node name="SeaFloor" type="MeshInstance3D" parent="."]
+[node name="SeaFloor" type="MeshInstance3D" parent="." unique_id=397263360]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8, 0)
 mesh = SubResource("FloorMesh_fish")
 surface_material_override/0 = SubResource("FloorMat_fish")
 
-[node name="Boat" type="Node3D" parent="."]
+[node name="Boat" type="Node3D" parent="." unique_id=307091637]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0)
 script = ExtResource("3_boat")
 
-[node name="Hull" type="MeshInstance3D" parent="Boat"]
+[node name="Hull" type="MeshInstance3D" parent="Boat" unique_id=1565644560]
 mesh = SubResource("HullMesh_fish")
 surface_material_override/0 = SubResource("BoatMat_fish")
 
-[node name="Camera3D" type="Camera3D" parent="Boat"]
+[node name="Sonar" type="Area3D" parent="Boat" unique_id=1297578068]
+transform = Transform3D(9, 0, 0, 0, 5.4163356, -7.18772, 0, 7.18772, 5.4163356, 0, -2.5, -4.954)
+script = ExtResource("4_kspqj")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Boat/Sonar" unique_id=1787798045]
+shape = SubResource("BowShapePlaceholder_fish")
+script = ExtResource("4_s276m")
+
+[node name="DebugMesh" type="MeshInstance3D" parent="Boat/Sonar" unique_id=327428268]
+mesh = SubResource("BowMesh_fish")
+surface_material_override/0 = SubResource("BoatMat_fish")
+
+[node name="Camera3D" type="Camera3D" parent="Boat" unique_id=1783302527]
 transform = Transform3D(1, 0, 0, 0, 0.866, -0.5, 0, 0.5, 0.866, 0, 4, 6)
 current = true
 
-[node name="SeaFloorObjects" type="Node3D" parent="."]
+[node name="SeaFloorObjects" type="Node3D" parent="." unique_id=1412279391]
+
+[node name="Fish demo" type="CharacterBody3D" parent="." unique_id=734827474]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3.1999142, -14.607383)
+script = ExtResource("6_1ewjx")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Fish demo" unique_id=537143151]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.009992242, -0.11344242, -0.15191078)
+mesh = SubResource("CapsuleMesh_1ewjx")
+surface_material_override/0 = SubResource("StandardMaterial3D_1ewjx")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Fish demo" unique_id=1742450616]
+shape = SubResource("FishCollision_1ewjx")
