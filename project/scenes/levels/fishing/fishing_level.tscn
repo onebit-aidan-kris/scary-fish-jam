@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://da5uxcxgdyw4" path="res://scenes/levels/fishing/sonar.gd" id="4_kspqj"]
 [ext_resource type="Script" uid="uid://dtcnjkf3aa1lv" path="res://scenes/levels/fishing/sonar_cone.gd" id="4_s276m"]
 [ext_resource type="Script" uid="uid://4gtx2q7jsi3x" path="res://scenes/levels/fishing/fish.gd" id="6_1ewjx"]
+[ext_resource type="AudioStream" uid="uid://dxrviqr8wqvij" path="res://assets/sounds/sonar_ping.mp3" id="6_58dmq"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_fish"]
 sky_top_color = Color(0.35, 0.6, 0.85, 1)
@@ -109,8 +110,12 @@ shape = SubResource("BowShapePlaceholder_fish")
 script = ExtResource("4_s276m")
 
 [node name="DebugMesh" type="MeshInstance3D" parent="Boat/Sonar" unique_id=327428268]
+visible = false
 mesh = SubResource("BowMesh_fish")
 surface_material_override/0 = SubResource("BoatMat_fish")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Boat/Sonar" unique_id=2126732850]
+stream = ExtResource("6_58dmq")
 
 [node name="Camera3D" type="Camera3D" parent="Boat" unique_id=1783302527]
 transform = Transform3D(1, 0, 0, 0, 0.866, -0.5, 0, 0.5, 0.866, 0, 4, 6)
