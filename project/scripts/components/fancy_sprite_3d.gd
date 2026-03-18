@@ -66,6 +66,7 @@ func _flip_frames_tool(animations: PackedStringArray, frames: PackedInt32Array) 
 func _flip_frame_horizontal_tool() -> void:
 	_flip_frames_tool([animation], [frame])
 
+
 func _reset_data_tool() -> void:
 	var animations: PackedStringArray = []
 	var frames: PackedInt32Array = []
