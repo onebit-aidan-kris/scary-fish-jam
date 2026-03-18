@@ -3,10 +3,10 @@ extends Area3D
 @onready var sonar_sound: AudioStreamPlayer3D = $AudioStreamPlayer3D
 @onready var _collision: CollisionShape3D = $CollisionShape3D
 @onready var _debug_mesh: MeshInstance3D = $DebugMesh
+@onready var _boat: Node = get_parent()
 
 var _input: PlayerInput
-var _last_input = false
-var _sonar_sound
+var _last_input: bool = false
 
 
 func _ready() -> void:
@@ -17,7 +17,8 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	if _input.interact:
 		if not _last_input:
-			fire_sonar()
+			if _boat.is_sonar_ready():
+				fire_sonar()
 		_last_input = true
 	else:
 		_last_input = false
@@ -29,6 +30,7 @@ func _process(_delta: float) -> void:
 #
 func fire_sonar() -> void:
 	sonar_sound.play()
+	_boat.trigger_sonar()
 	var overlapped_bodies: Array[Node3D] = get_overlapping_bodies()
 	print("overlapped bodies: ", overlapped_bodies)
 	for body in overlapped_bodies:

@@ -4,30 +4,26 @@ extends CharacterBody3D
 @onready var nav_agent: NavigationAgent3D = $NavigationAgent3D
 
 var child_mesh: MeshInstance3D
-var is_highlighted: bool = false
 
 var highlight_circle: MeshInstance3D
-var highlight_timer_ticks = 120 # Assume 60fps?
+
 
 func _ready() -> void:
 	child_mesh = get_node("MeshInstance3D")
 
 
-func _process(delta: float) -> void:
-	if is_highlighted:
-		if (highlight_circle.mesh as SphereMesh).radius > 0:
-			(highlight_circle.mesh as SphereMesh).radius -= 0.003
-		else:
-			is_highlighted = false
-			highlight_circle.queue_free()
-			highlight_circle = null
-			return
+func _process(_delta: float) -> void:
+	if highlight_circle and (highlight_circle.mesh as SphereMesh).radius > 0:
+		(highlight_circle.mesh as SphereMesh).radius -= 0.003
+	elif highlight_circle:
+		highlight_circle.queue_free()
+		highlight_circle = null
+
 
 # Highlights the fish in bright red.
 func highlight() -> void:
-	if is_highlighted:
+	if highlight_circle:
 		return
-	is_highlighted = true
 	# Calculate the y intersection above the fish with the WaterSurface
 	var water_surface: MeshInstance3D = get_tree().get_first_node_in_group("WaterSurface")
 	print("water surface is: ", water_surface)
@@ -57,5 +53,3 @@ func highlight() -> void:
 	highlight_circle.global_position = Vector3(fish_pos.x, intersection_y, fish_pos.z)
 	
 	print("highlight_circle is at position: ", highlight_circle.global_position)
-	
-	#(child_mesh.get_surface_override_material(0) as StandardMaterial3D).albedo_color = Color.RED

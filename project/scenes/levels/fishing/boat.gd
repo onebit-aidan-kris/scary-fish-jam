@@ -9,6 +9,9 @@ extends Node3D
 var _input: PlayerInput
 var _cam_origin_pitch: float
 
+var sonar_cooldown_ticks: int = 0
+var sonar_cooldown_max: int = 120
+
 
 func _ready() -> void:
 	_input = gamestate.player_input
@@ -16,6 +19,9 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
+	if sonar_cooldown_ticks > 0:
+		sonar_cooldown_ticks -= 1
+
 	if not _input:
 		return
 
@@ -37,3 +43,11 @@ func _process(_delta: float) -> void:
 			_cam_origin_pitch + _input.look.x, -89.0, 10.0
 		)
 		_camera.rotation_degrees.y = _input.look.y
+
+
+func is_sonar_ready() -> bool:
+	return sonar_cooldown_ticks <= 0
+
+
+func trigger_sonar() -> void:
+	sonar_cooldown_ticks = sonar_cooldown_max
