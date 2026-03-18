@@ -16,7 +16,7 @@ func _ready() -> void:
 func _anim_loop() -> void:
 	var anim_names := parent.sprite_frames.get_animation_names()
 	
-	var i = 0
+	var i := 0
 	while true:
 		parent.play(anim_names[i])
 		
