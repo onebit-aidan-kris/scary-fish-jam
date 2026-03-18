@@ -1,15 +1,32 @@
 extends CharacterBody3D
 
-@export var patrol_path: Node3D
+@export var patrol_path: NodePath
+@export var swim_speed := 3.0
+
 @onready var nav_agent: NavigationAgent3D = $NavigationAgent3D
+@onready var patrol_behavior: Node = $PatrolBehavior
 
 var child_mesh: MeshInstance3D
-
 var highlight_circle: MeshInstance3D
 
 
 func _ready() -> void:
 	child_mesh = get_node("MeshInstance3D")
+	var path_node := get_node(patrol_path)
+	patrol_behavior.nav_agent = nav_agent
+	patrol_behavior.set_patrol_nodes(path_node)
+
+
+func _physics_process(_delta: float) -> void:
+	var next_pos := nav_agent.get_next_path_position()
+	var direction := (next_pos - global_position).normalized()
+	velocity = direction * swim_speed
+
+	if velocity.length_squared() > 0.001:
+		var target_pos := global_position + velocity.normalized()
+		look_at(target_pos, Vector3.UP)
+
+	var _collided := move_and_slide()
 
 
 func _process(_delta: float) -> void:
@@ -20,29 +37,20 @@ func _process(_delta: float) -> void:
 		highlight_circle = null
 
 
-# Highlights the fish in bright red.
 func highlight() -> void:
 	if highlight_circle:
 		return
-	# Calculate the y intersection above the fish with the WaterSurface
 	var water_surface: MeshInstance3D = get_tree().get_first_node_in_group("WaterSurface")
-	print("water surface is: ", water_surface)
 	var water_surface_pos: Vector3 = water_surface.global_position
 	var fish_pos: Vector3 = global_position
-	var fish_height: float = fish_pos.y
-	var water_surface_height: float = water_surface_pos.y
-	var layer_offset: float = 1 # To ensure circle is visible above water surface (barely)
-	var intersection_y: float = fish_height + water_surface_height + layer_offset
-	print("intersection_y is: ", intersection_y)
+	var layer_offset := 1.0
+	var intersection_y: float = fish_pos.y + water_surface_pos.y + layer_offset
 
-
-	#Draw a red circle at this intersection point
 	highlight_circle = MeshInstance3D.new()
 	var sphere_mesh := SphereMesh.new()
 	sphere_mesh.radius = 3
 	sphere_mesh.height = 3
 	highlight_circle.mesh = sphere_mesh
-	# Set the material to red
 	var mat := StandardMaterial3D.new()
 	mat.albedo_color = Color.RED
 	mat.emission_energy_multiplier = 5.0
@@ -51,5 +59,3 @@ func highlight() -> void:
 
 	get_tree().root.add_child(highlight_circle)
 	highlight_circle.global_position = Vector3(fish_pos.x, intersection_y, fish_pos.z)
-	
-	print("highlight_circle is at position: ", highlight_circle.global_position)
