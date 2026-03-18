@@ -7,8 +7,10 @@
 [ext_resource type="Script" uid="uid://bi6c3npxdjhp7" path="res://scripts/components/debug_sprite_demo.gd" id="5_em55o"]
 [ext_resource type="SpriteFrames" uid="uid://d31wlrrswstyx" path="res://assets/spritesheets/abel.tres" id="5_vbmw7"]
 [ext_resource type="SpriteFrames" uid="uid://djqjdb1fp0ujk" path="res://assets/spritesheets/brad.tres" id="7_gdtmw"]
+[ext_resource type="SpriteFrames" uid="uid://dtks8q41tl0pa" path="res://assets/spritesheets/jeff.tres" id="8_ddptq"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_6f4l4"]
+ground_bottom_color = Color(0.27058825, 0.29411766, 0.29411766, 1)
 
 [sub_resource type="Sky" id="Sky_0xm2m"]
 sky_material = SubResource("ProceduralSkyMaterial_6f4l4")
@@ -75,5 +77,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2, 2, 2.078)
 sprite_frames = ExtResource("7_gdtmw")
 
 [node name="DebugSpriteDemo" type="Node" parent="Brad" unique_id=676599830]
+script = ExtResource("5_em55o")
+metadata/_custom_type_script = "uid://bi6c3npxdjhp7"
+
+[node name="Brad2" parent="." unique_id=1214926120 instance=ExtResource("4_bwg66")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.4, 2, 2.078)
+sprite_frames = ExtResource("8_ddptq")
+
+[node name="DebugSpriteDemo" type="Node" parent="Brad2" unique_id=1528894823]
 script = ExtResource("5_em55o")
 metadata/_custom_type_script = "uid://bi6c3npxdjhp7"
