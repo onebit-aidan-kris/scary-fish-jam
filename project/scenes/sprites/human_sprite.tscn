@@ -1,17 +1,15 @@
 [gd_scene format=3 uid="uid://jb5gd4kmndo8"]
 
-[ext_resource type="SpriteFrames" uid="uid://d31wlrrswstyx" path="res://assets/spritesheets/abel.tres" id="1_iwqdh"]
+[ext_resource type="SpriteFrames" uid="uid://ckbo7ly65qhh3" path="res://assets/spritesheets/capn.tres" id="1_avow0"]
 [ext_resource type="Script" uid="uid://b6mo6yr28xmfn" path="res://scripts/components/fancy_sprite_3d.gd" id="2_1qc03"]
 
-[node name="AbelSprite" type="AnimatedSprite3D" unique_id=2042291785]
-flip_h = true
+[node name="HumanSprite" type="AnimatedSprite3D" unique_id=2042291785]
 pixel_size = 0.08
 billboard = 2
 double_sided = false
 texture_filter = 0
-sprite_frames = ExtResource("1_iwqdh")
-animation = &"walk-w"
-frame_progress = 0.21701345
+sprite_frames = ExtResource("1_avow0")
+animation = &"walk-e"
 script = ExtResource("2_1qc03")
 flip_animations = PackedStringArray("walk-w", "walk-w")
 flip_frames = PackedInt32Array(0, 1)

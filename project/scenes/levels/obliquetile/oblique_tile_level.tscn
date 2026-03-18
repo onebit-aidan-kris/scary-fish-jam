@@ -2,8 +2,10 @@
 
 [ext_resource type="MeshLibrary" uid="uid://q2vjmi8n4ipj" path="res://assets/meshlibrary/test.meshlib" id="1_7367b"]
 [ext_resource type="Script" uid="uid://bu2q2x32c2nug" path="res://scripts/components/level_config.gd" id="1_bwg66"]
-[ext_resource type="Script" uid="uid://dgpbhxs8ofy5g" path="res://scripts/components/remove_on_game_start.gd" id="2_bwg66"]
 [ext_resource type="PackedScene" uid="uid://bwcxyj2dueo8r" path="res://scenes/levels/obliquetile/oblique_player.tscn" id="2_ycx6c"]
+[ext_resource type="PackedScene" uid="uid://jb5gd4kmndo8" path="res://scenes/sprites/human_sprite.tscn" id="4_bwg66"]
+[ext_resource type="Script" uid="uid://bi6c3npxdjhp7" path="res://scripts/components/debug_sprite_demo.gd" id="5_em55o"]
+[ext_resource type="SpriteFrames" uid="uid://d31wlrrswstyx" path="res://assets/spritesheets/abel.tres" id="5_vbmw7"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_6f4l4"]
 
@@ -16,14 +18,11 @@ sky = SubResource("Sky_0xm2m")
 ambient_light_source = 2
 ambient_light_color = Color(0.796243, 0.796243, 0.796243, 1)
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_vmmfd"]
-
-[sub_resource type="SphereMesh" id="SphereMesh_ppqqn"]
-
 [node name="ObliqueTileLevel" type="Node3D" unique_id=919855827]
 
 [node name="LevelConfig" type="Node" parent="." unique_id=1818743714]
 script = ExtResource("1_bwg66")
+skip_main_menu = true
 stretch_filter = true
 metadata/_custom_type_script = "uid://bu2q2x32c2nug"
 
@@ -41,6 +40,7 @@ size = 4.0
 far = 400.0
 
 [node name="GridMap" type="GridMap" parent="." unique_id=690059227]
+visible = false
 mesh_library = ExtResource("1_7367b")
 cell_size = Vector3(1, 1, 1)
 cell_center_x = false
@@ -50,18 +50,21 @@ data = {
 "cells": PackedInt32Array(0, 0, 1, 1, 0, 1, 1, 1, 2, 2, 0, 1, 0, 1, 1, 65535, 1, 0, 65535, 0, 2, 65535, 65535, 1, 65535, 2, 0, 0, 2, 1, 1, 2, 0, 2, 2, 0, 2, 1, 0, 0, 65535, 1, 1, 65535, 1, 2, 65535, 1, 65534, 65535, 1, 65534, 0, 1, 2, 3, 1, 1, 3, 1, 0, 3, 1, 65535, 3, 0, 65534, 2, 0, 65534, 1, 0, 65534, 3, 0)
 }
 
-[node name="RigidBody3D" type="RigidBody3D" parent="." unique_id=916085575]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.12143341, 1.7552598, 0.051014245)
-
-[node name="RemoveOnGameStart" type="Node" parent="RigidBody3D" unique_id=1932684640]
-script = ExtResource("2_bwg66")
-metadata/_custom_type_script = "uid://dgpbhxs8ofy5g"
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D" unique_id=44185165]
-shape = SubResource("SphereShape3D_vmmfd")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="RigidBody3D" unique_id=439081567]
-mesh = SubResource("SphereMesh_ppqqn")
-
 [node name="ObliquePlayer" parent="." unique_id=1920999902 instance=ExtResource("2_ycx6c")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.3909116, 1.1888564, 0)
+visible = false
+
+[node name="Abel" parent="." unique_id=2042291785 instance=ExtResource("4_bwg66")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.15946472, 2, 2.0783308)
+sprite_frames = ExtResource("5_vbmw7")
+
+[node name="DebugSpriteDemo" type="Node" parent="Abel" unique_id=1716715902]
+script = ExtResource("5_em55o")
+metadata/_custom_type_script = "uid://bi6c3npxdjhp7"
+
+[node name="Capn" parent="." unique_id=1732426709 instance=ExtResource("4_bwg66")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 2, 2.0783308)
+
+[node name="DebugSpriteDemo" type="Node" parent="Capn" unique_id=2011394230]
+script = ExtResource("5_em55o")
+metadata/_custom_type_script = "uid://bi6c3npxdjhp7"
