@@ -87,3 +87,6 @@ func _physics_process(_delta: float) -> void:
 			_tracked_boat = null
 			boat_lost.emit(boat)
 			_debug_mesh.set_surface_override_material(0, _mat_idle)
+
+	if _tracked_boat:
+		look_at(boat.global_position, Vector3.UP)

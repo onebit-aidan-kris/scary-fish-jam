@@ -43,17 +43,17 @@ func _physics_process(_delta: float) -> void:
 
 	var next_pos := nav_agent.get_next_path_position()
 	var direction := (next_pos - global_position).normalized()
+
+	# override Y to swim toward the player's actual depth if detected
+	if state == State.FOLLOWING and target_player:
+		var to_player := (target_player.global_position - global_position).normalized()
+		direction = direction.lerp(to_player, 0.5).normalized()
+
 	velocity = direction * speed
 
 	if velocity.length_squared() > 0.001:
 		var target_pos := global_position + velocity.normalized()
 		look_at(target_pos, Vector3.UP)
-
-	# Override Y to swim toward the player's actual depth if detected
-	if state == State.FOLLOWING and target_player:
-		var to_player := target_player.global_position - global_position
-		direction = direction.lerp(to_player.normalized(), 0.5)
-
 
 	var _collided := move_and_slide()
 
