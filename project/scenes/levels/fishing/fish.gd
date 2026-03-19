@@ -1,13 +1,21 @@
 extends CharacterBody3D
 
+enum State {PATROLLING, FOLLOWING}
+
 @export var patrol_path: NodePath
 @export var swim_speed := 3.0
+@export var chase_speed := 5.0
+@export var attackable: Node = null
+@export var player_detectable: Node = null
+
 
 @onready var nav_agent: NavigationAgent3D = $NavigationAgent3D
 @onready var patrol_behavior: Node = $PatrolBehavior
 
 var child_mesh: MeshInstance3D
 var highlight_circle: MeshInstance3D
+var state := State.PATROLLING
+var target_player: Node3D = null
 
 
 func _ready() -> void:
@@ -16,11 +24,20 @@ func _ready() -> void:
 	patrol_behavior.nav_agent = nav_agent
 	patrol_behavior.set_patrol_nodes(path_node)
 
+	attackable = util.load_export_var_or_sibling(self , &"Attackable", attackable, false) as Node
+	player_detectable = util.load_export_var_or_sibling(self , &"PlayerDetectable", player_detectable, false) as Node
+
 
 func _physics_process(_delta: float) -> void:
+	var speed := swim_speed
+
+	if state == State.FOLLOWING and target_player:
+		nav_agent.target_position = target_player.global_position
+		speed = chase_speed
+
 	var next_pos := nav_agent.get_next_path_position()
 	var direction := (next_pos - global_position).normalized()
-	velocity = direction * swim_speed
+	velocity = direction * speed
 
 	if velocity.length_squared() > 0.001:
 		var target_pos := global_position + velocity.normalized()
@@ -36,6 +53,14 @@ func _process(_delta: float) -> void:
 		highlight_circle.queue_free()
 		highlight_circle = null
 
+func on_player_detected(player: Node3D) -> void:
+	state = State.FOLLOWING
+	target_player = player
+
+
+func on_player_lost(_player: Node3D) -> void:
+	state = State.PATROLLING
+	target_player = null
 
 func highlight() -> void:
 	if highlight_circle:
@@ -59,3 +84,7 @@ func highlight() -> void:
 
 	get_tree().root.add_child(highlight_circle)
 	highlight_circle.global_position = Vector3(fish_pos.x, intersection_y, fish_pos.z)
+
+
+func play_animation(animation: String) -> void:
+	pass # TODO: Implement this.
