@@ -62,6 +62,7 @@ func _on_hitbox_body_entered(body: Node3D) -> void:
 func _on_hitbox_body_exited(body: Node3D) -> void:
 	if body.is_in_group("player"):
 		_on_player_exited(body)
+		stop_attacking()
 
 
 func start_attacking(body: Node3D) -> void:

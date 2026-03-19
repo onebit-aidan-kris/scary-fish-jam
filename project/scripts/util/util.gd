@@ -187,3 +187,21 @@ static func load_export_or_related_node(
 	if show_error:
 		push_error("util: load_export_or_related_node: '%s' not found relative to '%s'" % [fallback_name, node.name])
 	return null
+
+## Resolves a node reference with fallback search order:
+## 1. If `current_value` is already set (non-null), returns it as-is
+## 2. Searches children of `node` matching `fallback_name`
+## 3. Searches the entire scene tree for the first node named `fallback_name`
+## Returns null and logs an error if not found anywhere.
+static func load_export_or_absolute_node(node: Node, fallback_name: StringName, current_value: Node = null, show_error: bool = true) -> Node:
+	if current_value:
+		return current_value
+	var result: Node = node.get_node_or_null(NodePath(fallback_name))
+	if result:
+		return result
+	result = node.get_tree().root.find_child(fallback_name, true, false)
+	if result:
+		return result
+	if show_error:
+		push_error("util: load_export_or_absolute_node: '%s' not found relative to or anywhere in tree from '%s'" % [fallback_name, node.name])
+	return null

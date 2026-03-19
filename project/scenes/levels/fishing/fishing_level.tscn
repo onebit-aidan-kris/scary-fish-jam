@@ -13,6 +13,7 @@
 [ext_resource type="Script" uid="uid://comou8l10poef" path="res://scripts/components/fish/attackable.gd" id="12_attack"]
 [ext_resource type="Script" uid="uid://bba01x3j11oyw" path="res://scripts/components/fish/player_detectable.gd" id="12_hdgy8"]
 [ext_resource type="PackedScene" path="res://scenes/levels/fishing/hud.tscn" id="13_hud"]
+[ext_resource type="Script" uid="uid://clcjf1cfg352o" path="res://scripts/interfaces/fish/behavior_policy.gd" id="14_jaywq"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_fish"]
 sky_top_color = Color(0.35, 0.6, 0.85, 1)
@@ -200,8 +201,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, -4, -5)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, -4, -20)
 script = ExtResource("6_1ewjx")
 patrol_path = NodePath("../PatrolPath1")
-swim_speed = null
-chase_speed = null
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="Fish1" unique_id=329993256]
 
@@ -219,8 +218,6 @@ shape = SubResource("FishCollision_1ewjx")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, -4, 5)
 script = ExtResource("6_1ewjx")
 patrol_path = NodePath("../PatrolPath2")
-swim_speed = null
-chase_speed = null
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="Fish2" unique_id=510881228]
 
@@ -238,8 +235,6 @@ shape = SubResource("FishCollision_1ewjx")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, -4, 5)
 script = ExtResource("6_1ewjx")
 patrol_path = NodePath("../PatrolPath3")
-swim_speed = null
-chase_speed = null
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="Fish3" unique_id=1179597226]
 
@@ -277,8 +272,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4, 20)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4, -10)
 script = ExtResource("6_1ewjx")
 patrol_path = NodePath("../DangerPatrolPath")
-swim_speed = null
-chase_speed = null
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="Dangerfish" unique_id=1823798467]
 
@@ -311,3 +304,6 @@ mesh = SubResource("HitboxDebugMesh")
 script = ExtResource("12_hdgy8")
 
 [node name="HUD" parent="." unique_id=381760315 instance=ExtResource("13_hud")]
+
+[node name="BehaviorPolicy" type="Node" parent="." unique_id=1769684507]
+script = ExtResource("14_jaywq")

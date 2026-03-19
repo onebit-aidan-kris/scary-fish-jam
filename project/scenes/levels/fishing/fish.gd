@@ -1,3 +1,4 @@
+class_name FishEntity
 extends CharacterBody3D
 
 enum State {PATROLLING, FOLLOWING}
@@ -7,10 +8,12 @@ enum State {PATROLLING, FOLLOWING}
 @export var chase_speed := 5.0
 @export var attackable: Node = null
 @export var player_detectable: Node = null
+@export var behavior_policy: Node = null # AttackPolicy subclass
 
 
 @onready var nav_agent: NavigationAgent3D = $NavigationAgent3D
 @onready var patrol_behavior: Node = $PatrolBehavior
+
 
 var child_mesh: MeshInstance3D
 var highlight_circle: MeshInstance3D
@@ -27,35 +30,20 @@ func _ready() -> void:
 
 	attackable = util.load_export_or_related_node(self , &"Attackable", attackable, false) as Node
 	player_detectable = util.load_export_or_related_node(self , &"PlayerDetectable", player_detectable, false) as Node
-
+	behavior_policy = util.load_export_or_absolute_node(self , &"BehaviorPolicy", behavior_policy) as BehaviorPolicy
+	print("behavior policy is: ", behavior_policy)
+	if not behavior_policy:
+		return
+	
 
 func _physics_process(_delta: float) -> void:
-	var speed := swim_speed
-
-
-	#
-	# TODO: Figure out how to compose this behavior by fish type.
-	#
+	if not behavior_policy:
+		return
 
 	if state == State.FOLLOWING and target_player:
-		nav_agent.target_position = target_player.global_position
-		speed = chase_speed
-
-	var next_pos := nav_agent.get_next_path_position()
-	var direction := (next_pos - global_position).normalized()
-
-	# override Y to swim toward the player's actual depth if detected
-	if state == State.FOLLOWING and target_player:
-		var to_player := (target_player.global_position - global_position).normalized()
-		direction = direction.lerp(to_player, 0.5).normalized()
-
-	velocity = direction * speed
-
-	if velocity.length_squared() > 0.001:
-		var target_pos := global_position + velocity.normalized()
-		look_at(target_pos, Vector3.UP)
-
-	var _collided := move_and_slide()
+		behavior_policy.while_player_being_followed(self )
+	else:
+		behavior_policy.while_player_not_being_followed(self )
 
 
 func _process(_delta: float) -> void:
