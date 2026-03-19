@@ -1,4 +1,4 @@
-extends Node
+extends Node3D
 
 ###
 # Component node for attacking-related behaviors for entities capable of attacking the player.
@@ -62,6 +62,7 @@ func _on_hitbox_body_exited(body: Node3D) -> void:
 
 
 func start_attacking() -> void:
+	print("Attacking!!!")
 	state = State.ATTACKING
 
 

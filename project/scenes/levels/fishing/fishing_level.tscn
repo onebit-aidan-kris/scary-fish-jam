@@ -84,6 +84,16 @@ roughness = 0.6
 [sub_resource type="SphereShape3D" id="DangerHitboxShape"]
 radius = 2.0
 
+[sub_resource type="StandardMaterial3D" id="HitboxDebugMat"]
+transparency = 1
+cull_mode = 2
+shading_mode = 0
+albedo_color = Color(1, 0.5, 0, 0.3)
+
+[sub_resource type="SphereMesh" id="HitboxDebugMesh"]
+radius = 2.0
+height = 4.0
+
 [node name="FishingLevel" type="Node3D" unique_id=1521638617]
 script = ExtResource("2_level")
 
@@ -278,13 +288,17 @@ shape = SubResource("FishCollision_1ewjx")
 [node name="VisionCone" type="Node3D" parent="Dangerfish" unique_id=1102608571]
 script = ExtResource("11_vcone")
 
-[node name="Attackable" type="Node" parent="Dangerfish" unique_id=1498541721]
+[node name="Attackable" type="Node3D" parent="Dangerfish" unique_id=1498541721]
 script = ExtResource("12_attack")
 
 [node name="Hitbox" type="Area3D" parent="Dangerfish/Attackable" unique_id=1839218042]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Dangerfish/Attackable/Hitbox" unique_id=1652857943]
 shape = SubResource("DangerHitboxShape")
+
+[node name="DebugMesh" type="MeshInstance3D" parent="Dangerfish/Attackable/Hitbox" unique_id=1367368006]
+material_override = SubResource("HitboxDebugMat")
+mesh = SubResource("HitboxDebugMesh")
 
 [node name="PlayerDetectable" type="Node" parent="Dangerfish" unique_id=488956632]
 script = ExtResource("12_hdgy8")

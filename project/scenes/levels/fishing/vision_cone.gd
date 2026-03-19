@@ -74,19 +74,18 @@ func _physics_process(_delta: float) -> void:
 			_debug_mesh.set_surface_override_material(0, _mat_idle)
 		return
 
+	# Already tracking — stay locked on as long as within detection radius.
+	# Only the distance check above can break pursuit.
+	if _tracked_boat:
+		look_at(boat.global_position, Vector3.UP)
+		return
+
+	# Not yet tracking — require forward-cone angle to acquire target
 	var forward := -fish.global_transform.basis.z
 	var angle := rad_to_deg(forward.angle_to(to_boat.normalized()))
 
 	if angle <= cone_half_angle_deg:
-		if not _tracked_boat:
-			_tracked_boat = boat
-			boat_detected.emit(boat)
-			_debug_mesh.set_surface_override_material(0, _mat_alert)
-	else:
-		if _tracked_boat:
-			_tracked_boat = null
-			boat_lost.emit(boat)
-			_debug_mesh.set_surface_override_material(0, _mat_idle)
-
-	if _tracked_boat:
+		_tracked_boat = boat
+		boat_detected.emit(boat)
+		_debug_mesh.set_surface_override_material(0, _mat_alert)
 		look_at(boat.global_position, Vector3.UP)
