@@ -158,10 +158,11 @@ static func msg_unexpected_type(expected_type: Variant.Type, actual_value: Varia
 
 ## Resolves a node reference with fallback search order:
 ## 1. If `current_value` is already set (non-null), returns it as-is
-## 2. Searches for a child of `node` matching `fallback_name`
-## 3. Searches for a sibling of `node` matching `fallback_name`
+## 2. Searches children of `node` matching `fallback_name`
+## 3. Searches siblings of `node` (children of parent) matching `fallback_name`
+## 4. Searches children of siblings (grandchildren of parent) matching `fallback_name`
 ## Returns null and logs an error if not found anywhere.
-static func load_export_var_or_sibling(
+static func load_export_or_related_node(
 	node: Node,
 	fallback_name: StringName,
 	current_value: Node = null,
@@ -169,11 +170,20 @@ static func load_export_var_or_sibling(
 ) -> Node:
 	if current_value:
 		return current_value
-	var result := node.get_node_or_null(NodePath(fallback_name))
-	if not result:
-		result = node.get_parent().get_node_or_null(NodePath(fallback_name))
-	if not result:
-		if show_error:
-			push_error("util: load_export_var_or_sibling: " + fallback_name + " not found in " + node.name)
-		return null
-	return result
+	var result: Node = node.get_node_or_null(NodePath(fallback_name))
+	if result:
+		return result
+	var parent := node.get_parent()
+	if parent:
+		result = parent.get_node_or_null(NodePath(fallback_name))
+		if result:
+			return result
+		for sibling: Node in parent.get_children():
+			if sibling == node:
+				continue
+			result = sibling.get_node_or_null(NodePath(fallback_name))
+			if result:
+				return result
+	if show_error:
+		push_error("util: load_export_or_related_node: '%s' not found relative to '%s'" % [fallback_name, node.name])
+	return null

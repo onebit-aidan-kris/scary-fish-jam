@@ -20,12 +20,12 @@ extends Node
 
 enum State {NOT_DETECTED, DETECTED}
 
-var state : State = State.NOT_DETECTED
+var state: State = State.NOT_DETECTED
 var tracked_player: Node3D = null
 
 
 func _ready() -> void:
-	vision_cone = util.load_export_var_or_sibling(self , &"VisionCone", vision_cone)
+	vision_cone = util.load_export_or_related_node(self , &"VisionCone", vision_cone)
 	if vision_cone:
 		_connect_vision_cone_signals()
 	else:
@@ -54,7 +54,7 @@ func _on_player_detected(player: Node3D) -> void:
 		return
 	state = State.DETECTED
 	tracked_player = player
-	player_detected.emit(player)
+	#player_detected.emit(player)
 	var parent := get_parent()
 	if parent.has_method("on_player_detected"):
 		parent.on_player_detected(player)
@@ -65,7 +65,7 @@ func _on_player_lost(player: Node3D) -> void:
 		return
 	state = State.NOT_DETECTED
 	tracked_player = null
-	player_lost.emit(player)
+	#player_lost.emit(player)
 	var parent := get_parent()
 	if parent.has_method("on_player_lost"):
 		parent.on_player_lost(player)

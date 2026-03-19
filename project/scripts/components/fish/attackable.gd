@@ -27,7 +27,7 @@ var attack_cooldown := 0.0
 
 func _ready() -> void:
 	# Load hitbox
-	hitbox = util.load_export_var_or_sibling(self , &"Hitbox", hitbox) as Area3D
+	hitbox = util.load_export_or_related_node(self , &"Hitbox", hitbox) as Area3D
 	if hitbox:
 		var _err1 := hitbox.body_entered.connect(_on_hitbox_body_entered)
 		var _err2 := hitbox.body_exited.connect(_on_hitbox_body_exited)

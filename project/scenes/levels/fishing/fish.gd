@@ -25,8 +25,8 @@ func _ready() -> void:
 	patrol_behavior.nav_agent = nav_agent
 	patrol_behavior.set_patrol_nodes(path_node)
 
-	attackable = util.load_export_var_or_sibling(self , &"Attackable", attackable, false) as Node
-	player_detectable = util.load_export_var_or_sibling(self , &"PlayerDetectable", player_detectable, false) as Node
+	attackable = util.load_export_or_related_node(self , &"Attackable", attackable, false) as Node
+	player_detectable = util.load_export_or_related_node(self , &"PlayerDetectable", player_detectable, false) as Node
 
 
 func _physics_process(_delta: float) -> void:
@@ -48,6 +48,7 @@ func _physics_process(_delta: float) -> void:
 
 
 func _process(_delta: float) -> void:
+	# If the sonar is active, highlight the fish in the lake
 	if highlight_circle and (highlight_circle.mesh as SphereMesh).radius > 0:
 		(highlight_circle.mesh as SphereMesh).radius -= 0.003
 	elif highlight_circle:
@@ -55,6 +56,7 @@ func _process(_delta: float) -> void:
 		highlight_circle = null
 
 func on_player_detected(player: Node3D) -> void:
+	print("player detected!!")
 	state = State.FOLLOWING
 	target_player = player
 
