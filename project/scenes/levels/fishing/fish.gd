@@ -30,6 +30,8 @@ func _ready() -> void:
 
 	attackable = util.load_export_or_related_node(self , &"Attackable", attackable, false) as Node
 	player_detectable = util.load_export_or_related_node(self , &"PlayerDetectable", player_detectable, false) as Node
+
+    #Default to the BehaviorPolicy node at the root if none is attached as a child to this node.
 	behavior_policy = util.load_export_or_absolute_node(self , &"BehaviorPolicy", behavior_policy) as BehaviorPolicy
 	print("behavior policy is: ", behavior_policy)
 	if not behavior_policy:

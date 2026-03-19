@@ -6,19 +6,19 @@ extends Node
 
 
 func on_player_enter_attack_range(_entity: Node3D) -> void:
-	push_error(get_script().resource_path + ": on_player_enter_attack_range() not implemented")
+	pass
 
 
 func on_player_exit_attack_range(_entity: Node3D) -> void:
-	push_error(get_script().resource_path + ": on_player_exit_attack_range() not implemented")
+	pass
 
 
 func on_player_enter_perception_range(_entity: Node3D) -> void:
-	push_error(get_script().resource_path + ": on_player_enter_perception_range() not implemented")
+	pass
 
 
 func on_player_leave_perception_range(_entity: Node3D) -> void:
-	push_error(get_script().resource_path + ": on_player_leave_perception_range() not implemented")
+	pass
 
 func while_player_being_followed(entity: Node3D) -> void:
 	var node := entity as CharacterBody3D
