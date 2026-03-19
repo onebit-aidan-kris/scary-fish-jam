@@ -12,5 +12,5 @@ func _ready() -> void:
 
 
 func _process(_delta: float) -> void:
-	if boat and boat.has_meta("health"):
+	if boat:
 		health_label.text = "Health: %.0f" % boat.health

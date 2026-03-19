@@ -23,6 +23,7 @@ var state := State.NOT_ATTACKING
 var target_boat: Node3D = null
 var playing_attack_animation := false
 var attack_cooldown := 0.0
+var entity_being_attacked: Node3D = null
 
 
 func _ready() -> void:
@@ -39,10 +40,12 @@ func _physics_process(_delta: float) -> void:
 
 	# If state switches to attacking, play attack animation and start cooldown
 	if state == State.ATTACKING and not playing_attack_animation:
+		print("Firing attack animation!!!")
 		playing_attack_animation = true
 		get_parent().play_animation(&"Attack")
-		player_damaged.emit(10)
+		entity_being_attacked.receive_damage(10)
 		attack_cooldown = 0.5
+
 
 	# If cooldown is active, decrement it.
 	if attack_cooldown > 0.0:
@@ -53,7 +56,7 @@ func _physics_process(_delta: float) -> void:
 
 func _on_hitbox_body_entered(body: Node3D) -> void:
 	if body.is_in_group("player"):
-		_on_player_entered(body)
+		start_attacking(body)
 
 
 func _on_hitbox_body_exited(body: Node3D) -> void:
@@ -61,13 +64,14 @@ func _on_hitbox_body_exited(body: Node3D) -> void:
 		_on_player_exited(body)
 
 
-func start_attacking() -> void:
+func start_attacking(body: Node3D) -> void:
 	print("Attacking!!!")
+	entity_being_attacked = body
 	state = State.ATTACKING
 
 
 func _on_player_entered(_player: Node3D) -> void:
-	start_attacking()
+	start_attacking(_player)
 
 
 func _on_player_exited(_player: Node3D) -> void:

@@ -1,4 +1,4 @@
-extends Node3D
+extends CharacterBody3D
 
 @export var move_speed := 8.0
 @export var turn_speed := 2.0
@@ -17,12 +17,6 @@ var sonar_cooldown_max: int = 120
 func _ready() -> void:
 	_input = gamestate.player_input
 	_cam_origin_pitch = _camera.rotation_degrees.x
-	
-	var dangerfish := get_tree().get_first_node_in_group("dangerfish")
-	if dangerfish:
-		var attackable := dangerfish.get_node_or_null("Attackable")
-		if attackable:
-			attackable.player_damaged.connect(_on_player_damaged)
 
 
 func _physics_process(delta: float) -> void:
@@ -60,6 +54,8 @@ func trigger_sonar() -> void:
 	sonar_cooldown_ticks = sonar_cooldown_max
 
 
-func _on_player_damaged(damage_amount: int) -> void:
+func receive_damage(damage_amount: int) -> void:
+	print("Player received damage: ", damage_amount)
 	health -= damage_amount
-	print("Boat damaged for ", damage_amount, " HP. Remaining: ", health)
+	if health <= 0:
+		print("Player is dead!")
