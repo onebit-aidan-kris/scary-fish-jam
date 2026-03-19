@@ -20,6 +20,7 @@ var target_player: Node3D = null
 
 func _ready() -> void:
 	child_mesh = get_node("MeshInstance3D")
+	print("patrol path is: ", patrol_path)
 	var path_node := get_node(patrol_path)
 	patrol_behavior.nav_agent = nav_agent
 	patrol_behavior.set_patrol_nodes(path_node)

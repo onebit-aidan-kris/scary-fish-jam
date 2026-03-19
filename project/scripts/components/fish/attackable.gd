@@ -1,4 +1,4 @@
-extends CharacterBody3D
+extends Node
 
 ###
 # Component node for attacking-related behaviors for entities capable of attacking the player.

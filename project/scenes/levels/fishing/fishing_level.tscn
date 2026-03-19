@@ -11,6 +11,7 @@
 [ext_resource type="AudioStream" uid="uid://bstgfyfprod26" path="res://assets/sounds/wind_standard.mp3" id="9_asivi"]
 [ext_resource type="Script" uid="uid://qh6mkd6mxe0t" path="res://scenes/levels/fishing/vision_cone.gd" id="11_vcone"]
 [ext_resource type="Script" uid="uid://comou8l10poef" path="res://scripts/components/fish/attackable.gd" id="12_attack"]
+[ext_resource type="PackedScene" path="res://scenes/levels/fishing/hud.tscn" id="13_hud"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_fish"]
 sky_top_color = Color(0.35, 0.6, 0.85, 1)
@@ -181,7 +182,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, -4, -5)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, -4, -20)
 script = ExtResource("6_1ewjx")
 patrol_path = NodePath("../PatrolPath1")
-swim_speed = null
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="Fish1" unique_id=329993256]
 
@@ -199,7 +199,6 @@ shape = SubResource("FishCollision_1ewjx")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, -4, 5)
 script = ExtResource("6_1ewjx")
 patrol_path = NodePath("../PatrolPath2")
-swim_speed = null
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="Fish2" unique_id=510881228]
 
@@ -217,7 +216,6 @@ shape = SubResource("FishCollision_1ewjx")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, -4, 5)
 script = ExtResource("6_1ewjx")
 patrol_path = NodePath("../PatrolPath3")
-swim_speed = null
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="Fish3" unique_id=1179597226]
 
@@ -253,6 +251,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4, 20)
 
 [node name="Dangerfish" type="CharacterBody3D" parent="." unique_id=2140608507 groups=["dangerfish"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4, -10)
+script = ExtResource("6_1ewjx")
+patrol_path = NodePath("../DangerPatrolPath")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="Dangerfish" unique_id=1823798467]
 
@@ -276,3 +276,5 @@ script = ExtResource("12_attack")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Dangerfish/Attackable/Hitbox" unique_id=1652857943]
 shape = SubResource("DangerHitboxShape")
+
+[node name="HUD" parent="." unique_id=381760315 instance=ExtResource("13_hud")]

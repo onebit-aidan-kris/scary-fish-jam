@@ -6,6 +6,15 @@ var points: Array[Node3D] = []
 var curr_points_idx := 0
 
 
+func _ready() -> void:
+	nav_agent = get_parent().get_node("NavigationAgent3D")
+	if not nav_agent:
+		push_error("PatrolBehavior: NavigationAgent3D not found")
+		return
+
+	#nav_agent.target_reached.connect(_on_target_reached)
+
+
 func set_patrol_nodes(patrol_path_root: Node) -> void:
 	for child: Node in patrol_path_root.get_children():
 		if child is Node3D:
