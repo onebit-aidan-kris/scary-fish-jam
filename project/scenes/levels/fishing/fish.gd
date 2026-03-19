@@ -32,6 +32,11 @@ func _ready() -> void:
 func _physics_process(_delta: float) -> void:
 	var speed := swim_speed
 
+
+	#
+	# TODO: Figure out how to compose this behavior by fish type.
+	#
+
 	if state == State.FOLLOWING and target_player:
 		nav_agent.target_position = target_player.global_position
 		speed = chase_speed
@@ -43,6 +48,12 @@ func _physics_process(_delta: float) -> void:
 	if velocity.length_squared() > 0.001:
 		var target_pos := global_position + velocity.normalized()
 		look_at(target_pos, Vector3.UP)
+
+	# Override Y to swim toward the player's actual depth if detected
+	if state == State.FOLLOWING and target_player:
+		var to_player := target_player.global_position - global_position
+		direction = direction.lerp(to_player.normalized(), 0.5)
+
 
 	var _collided := move_and_slide()
 
