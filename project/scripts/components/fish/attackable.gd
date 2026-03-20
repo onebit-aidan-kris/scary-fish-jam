@@ -13,7 +13,8 @@ extends Node3D
 #  - Presence of Hitbox, passed in as export variable or sibling of parent node.
 #
 
-signal player_damaged(damage_amount: int) # Sends signal to boat to receive damage.
+signal player_damaged(damage_amount: int)
+signal attack_landed
 enum State {NOT_ATTACKING, ATTACKING}
 
 # Will search for adjacent hitbox if none specified.
@@ -44,6 +45,7 @@ func _physics_process(_delta: float) -> void:
 		playing_attack_animation = true
 		get_parent().play_animation(&"Attack")
 		entity_being_attacked.receive_damage(10)
+		attack_landed.emit()
 		attack_cooldown = 0.5
 
 
