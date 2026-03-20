@@ -3,7 +3,7 @@ extends CharacterBody3D
 
 enum State {PATROLLING, FOLLOWING}
 
-@export var patrol_path: NodePath
+@export var path_node: Node3D
 @export var swim_speed := 3.0
 @export var chase_speed := 5.0
 @export var attackable: Node = null
@@ -23,15 +23,14 @@ var target_player: Node3D = null
 
 func _ready() -> void:
 	child_mesh = get_node("MeshInstance3D")
-	print("patrol path is: ", patrol_path)
-	var path_node := get_node(patrol_path)
+	print("patrol path is: ", path_node)
 	patrol_behavior.nav_agent = nav_agent
 	patrol_behavior.set_patrol_nodes(path_node)
 
 	attackable = util.load_export_or_related_node(self , &"Attackable", attackable, false) as Node
 	player_detectable = util.load_export_or_related_node(self , &"PlayerDetectable", player_detectable, false) as Node
 
-    #Default to the BehaviorPolicy node at the root if none is attached as a child to this node.
+	#Default to the BehaviorPolicy node at the root if none is attached as a child to this node.
 	behavior_policy = util.load_export_or_absolute_node(self , &"BehaviorPolicy", behavior_policy) as BehaviorPolicy
 	print("behavior policy is: ", behavior_policy)
 	if not behavior_policy:

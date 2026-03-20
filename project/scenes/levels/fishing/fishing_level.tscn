@@ -138,7 +138,6 @@ shape = SubResource("BowShapePlaceholder_fish")
 script = ExtResource("4_s276m")
 
 [node name="DebugMesh" type="MeshInstance3D" parent="Boat/Sonar" unique_id=327428268]
-visible = false
 mesh = SubResource("BowMesh_fish")
 surface_material_override/0 = SubResource("BoatMat_fish")
 
@@ -197,10 +196,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, -4, 10)
 [node name="C" type="Marker3D" parent="PatrolPath3" unique_id=166413982]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, -4, -5)
 
-[node name="Fish1" type="CharacterBody3D" parent="." unique_id=2116931594]
+[node name="Fish1" type="CharacterBody3D" parent="." unique_id=2116931594 node_paths=PackedStringArray("path_node")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, -4, -20)
 script = ExtResource("6_1ewjx")
-patrol_path = NodePath("../PatrolPath1")
+path_node = NodePath("../PatrolPath1")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="Fish1" unique_id=329993256]
 
@@ -214,10 +213,10 @@ surface_material_override/0 = SubResource("StandardMaterial3D_1ewjx")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Fish1" unique_id=275143981]
 shape = SubResource("FishCollision_1ewjx")
 
-[node name="Fish2" type="CharacterBody3D" parent="." unique_id=1460629891]
+[node name="Fish2" type="CharacterBody3D" parent="." unique_id=1460629891 node_paths=PackedStringArray("path_node")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, -4, 5)
 script = ExtResource("6_1ewjx")
-patrol_path = NodePath("../PatrolPath2")
+path_node = NodePath("../PatrolPath2")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="Fish2" unique_id=510881228]
 
@@ -231,10 +230,10 @@ surface_material_override/0 = SubResource("StandardMaterial3D_1ewjx")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Fish2" unique_id=1929489257]
 shape = SubResource("FishCollision_1ewjx")
 
-[node name="Fish3" type="CharacterBody3D" parent="." unique_id=438467658]
+[node name="Fish3" type="CharacterBody3D" parent="." unique_id=438467658 node_paths=PackedStringArray("path_node")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, -4, 5)
 script = ExtResource("6_1ewjx")
-patrol_path = NodePath("../PatrolPath3")
+path_node = NodePath("../PatrolPath3")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="Fish3" unique_id=1179597226]
 
@@ -268,10 +267,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, -4, 10)
 [node name="D" type="Marker3D" parent="DangerPatrolPath" unique_id=1686067223]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4, 20)
 
-[node name="Dangerfish" type="CharacterBody3D" parent="." unique_id=2140608507 groups=["dangerfish"]]
+[node name="Dangerfish" type="CharacterBody3D" parent="." unique_id=2140608507 node_paths=PackedStringArray("path_node") groups=["dangerfish"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4, -10)
 script = ExtResource("6_1ewjx")
-patrol_path = NodePath("../DangerPatrolPath")
+path_node = NodePath("../DangerPatrolPath")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="Dangerfish" unique_id=1823798467]
 
@@ -286,6 +285,7 @@ surface_material_override/0 = SubResource("DangerFishMat")
 shape = SubResource("FishCollision_1ewjx")
 
 [node name="VisionCone" type="Node3D" parent="Dangerfish" unique_id=1102608571]
+visible = false
 script = ExtResource("11_vcone")
 
 [node name="Attackable" type="Node3D" parent="Dangerfish" unique_id=1498541721]
