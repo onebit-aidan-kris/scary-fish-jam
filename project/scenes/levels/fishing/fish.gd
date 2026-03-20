@@ -8,11 +8,11 @@ enum State {PATROLLING, FOLLOWING}
 @export var chase_speed := 5.0
 @export var attackable: Node = null
 @export var player_detectable: Node = null
-@export var behavior_policy: Node = null # AttackPolicy subclass
+@export var behavior_policy: BehaviorPolicy = null # AttackPolicy subclass
 
 
 @onready var nav_agent: NavigationAgent3D = $NavigationAgent3D
-@onready var patrol_behavior: Node = $PatrolBehavior
+@onready var patrol_behavior: PatrolBehavior = $PatrolBehavior
 
 
 var child_mesh: MeshInstance3D
@@ -27,11 +27,11 @@ func _ready() -> void:
 	patrol_behavior.nav_agent = nav_agent
 	patrol_behavior.set_patrol_nodes(path_node)
 
-	attackable = util.load_export_or_related_node(self , &"Attackable", attackable, false) as Node
-	player_detectable = util.load_export_or_related_node(self , &"PlayerDetectable", player_detectable, false) as Node
+	attackable = util.load_export_or_related_node(self , &"Attackable", attackable, false)
+	player_detectable = util.load_export_or_related_node(self , &"PlayerDetectable", player_detectable, false)
 
 	#Default to the BehaviorPolicy node at the root if none is attached as a child to this node.
-	behavior_policy = util.load_export_or_absolute_node(self , &"BehaviorPolicy", behavior_policy) as BehaviorPolicy
+	behavior_policy = util.load_export_or_absolute_node(self , &"BehaviorPolicy", behavior_policy)
 	print("behavior policy is: ", behavior_policy)
 	if not behavior_policy:
 		return
