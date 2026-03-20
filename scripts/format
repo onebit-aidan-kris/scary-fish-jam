@@ -15,14 +15,15 @@ Commands:
 Options:
     -c, --check         Check formatting without editing
     -f, --file FILE     Only run on a single file
+    -s, --strict        Enable strict mode (more lint rules)
     -h, --help          Display this help message
     -v, --verbose       Enable debug messages
 EOF
 }
 
 # NOTE: Use ':' suffix to specify opt has an arg
-OPTIONS="cf:hv"
-LONGOPTS="check,file:,help,verbose"
+OPTIONS="cf:shv"
+LONGOPTS="check,file:,strict,help,verbose"
 
 # NOTE: getopt comes from 'util-linux' package
 # Check if getopt is available, fallback to simple parsing if not
@@ -59,6 +60,7 @@ error() { log "0;31" "$@"; }
 args_nix=
 args_gd=
 file=
+strict=
 verbose=
 while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -74,6 +76,9 @@ while [[ $# -gt 0 ]]; do
         [[ ${2:-} ]] || die "--file requires an argument"
         file="$2"
         shift
+        ;;
+    -s | --strict)
+        strict=1
         ;;
     -v | --verbose) verbose=1 ;;
     --)
@@ -101,7 +106,10 @@ anyfiles() {
     find . -type f -name "*.$1" -print -quit | grep -q .
 }
 
-LINT_DISABLE="constant-name,private-access,class-name,max-line-length"
+LINT_DISABLE="constant-name,private-access,class-name"
+if [[ -z $strict ]]; then
+    LINT_DISABLE="$LINT_DISABLE,max-line-length"
+fi
 
 case "${1:-format}" in
 lint)
