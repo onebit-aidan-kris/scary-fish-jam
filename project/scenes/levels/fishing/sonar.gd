@@ -34,5 +34,5 @@ func fire_sonar() -> void:
 	var overlapped_bodies: Array[Node3D] = get_overlapping_bodies()
 	print("overlapped bodies: ", overlapped_bodies)
 	for body in overlapped_bodies:
-		print("body is:", body)
-		body.highlight()
+		if body.has_method("highlight"):
+			body.highlight()
