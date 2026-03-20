@@ -62,6 +62,7 @@ albedo_color = Color(0.55, 0.35, 0.15, 1)
 roughness = 0.75
 
 [sub_resource type="CylinderShape3D" id="BowShapePlaceholder_fish"]
+height = 1.7
 radius = 0.75
 
 [sub_resource type="CylinderMesh" id="BowMesh_fish"]
@@ -134,10 +135,13 @@ transform = Transform3D(9, 0, 0, 0, 5.4163356, -7.18772, 0, 7.18772, 5.4163356, 
 script = ExtResource("4_kspqj")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Boat/Sonar" unique_id=1787798045]
+transform = Transform3D(1, 0, 0, 0, 0.8191519, -0.5735767, 0, 0.5735767, 0.8191519, 0, -0.12287283, -0.086036384)
 shape = SubResource("BowShapePlaceholder_fish")
+debug_color = Color(0.7754631, 0.2857049, 0.8382921, 0.41960785)
 script = ExtResource("4_s276m")
 
 [node name="DebugMesh" type="MeshInstance3D" parent="Boat/Sonar" unique_id=327428268]
+visible = false
 mesh = SubResource("BowMesh_fish")
 surface_material_override/0 = SubResource("BoatMat_fish")
 

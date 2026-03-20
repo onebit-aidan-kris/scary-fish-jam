@@ -59,3 +59,6 @@ func receive_damage(damage_amount: int) -> void:
 	health -= damage_amount
 	if health <= 0:
 		print("Player is dead!")
+
+func highlight() -> void:
+	pass # no-op; if the sonar cone for some reason hits the boat, it should not be highlighted.
