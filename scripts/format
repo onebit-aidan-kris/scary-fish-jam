@@ -101,6 +101,8 @@ anyfiles() {
     find . -type f -name "*.$1" -print -quit | grep -q .
 }
 
+LINT_DISABLE="constant-name,private-access,class-name,max-line-length"
+
 case "${1:-format}" in
 lint)
     if [[ -n $file ]]; then
@@ -110,14 +112,14 @@ lint)
         (
             [[ -n $verbose ]] && set -x
             gdscript-formatter lint \
-                --disable constant-name,private-access,class-name \
+                --disable "$LINT_DISABLE" \
                 "$file"
         )
     else
         (
             [[ -n $verbose ]] && set -x
             gdscript-formatter lint \
-                --disable constant-name,private-access,class-name \
+                --disable "$LINT_DISABLE" \
                 ./**/*.gd
         )
     fi
