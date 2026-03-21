@@ -38,6 +38,8 @@ func _physics_process(delta: float) -> void:
 			move_boat(_input.move.x, _input.move.y, delta)
 		if Input.is_action_just_pressed("net_arm"):
 			net_state = NetState.AIMING
+			net_position = global_position + (-global_transform.basis.z) * 10.0
+			net_position.y = global_position.y
 		return
 
 	if net_state == NetState.AIMING:
