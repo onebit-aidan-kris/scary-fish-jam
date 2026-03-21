@@ -35,7 +35,7 @@ func _physics_process(delta: float) -> void:
 
 	if net_state == NetState.NONE:
 		if _input:
-			move_boat(delta)
+			move_boat(_input.move.x, _input.move.y, delta)
 		if Input.is_action_just_pressed("net_arm"):
 			net_state = NetState.AIMING
 		return
@@ -59,11 +59,11 @@ func receive_damage(damage_amount: int) -> void:
 		print("Player is dead!")
 
 
-func move_boat(delta: float) -> void:
-	rotation.y -= _input.move.x * turn_speed * delta
+func move_boat(x_move, y_move, delta: float) -> void:
+	rotation.y -= x_move * turn_speed * delta
 
 	var forward := -transform.basis.z
-	position += forward * (-_input.move.y) * move_speed * delta
+	position += forward * (-y_move) * move_speed * delta
 
 	var pos_flat := Vector2(position.x, position.z)
 	if pos_flat.length() > lake_radius:
@@ -72,46 +72,59 @@ func move_boat(delta: float) -> void:
 		position.z = pos_flat.y
 
 	_camera.rotation_degrees.x = clampf(
-		_cam_origin_pitch + _input.look.x,
+		_cam_origin_pitch + x_move,
 		-90.0,
 		10.0,
 	)
-	_camera.rotation_degrees.y = _input.look.y
+	_camera.rotation_degrees.y = y_move
 
 
 func aim_net() -> void:
-
 	#
 	# -- Delay when swapping between 2 modes. (reduce jerkiness)
 	# -- Support WASD (and HOLDING WASD!) due to webviews / mouse view flakiness.
 	# -- Replace code here as needed
 	# 
 	# 
+	var should_move_left: bool = Input.is_action_pressed("move_left")
+	var should_move_right: bool = Input.is_action_pressed("move_right")
+	var should_move_forward: bool = Input.is_action_pressed("move_forward")
+	var should_move_backward: bool = Input.is_action_pressed("move_backward")
+
+	var next_left_right_position: int = 0
+	var next_forward_position: int = 0
+
+	if should_move_left:
+		next_left_right_position -= 1
+	if should_move_right:
+		next_left_right_position += 1
+
+	if should_move_forward:
+		next_forward_position += 1
+
+	if should_move_backward:
+		next_forward_position -= 1
+
+	var x_move: float = float(next_left_right_position)
+	var y_move: float = float(next_forward_position)
+	move_boat(x_move, y_move, 0.01)
 
 
+	# If moving left or right, move the boat itself left or right.
+	if next_left_right_position != 0:
+		pass
 
-	if not net_position:
-		net_position = global_position + global_transform.basis.z * 10.0
 
-		net_debug_mesh = MeshInstance3D.new()
-		net_debug_mesh.mesh = CylinderMesh.new()
-		net_debug_mesh.set_surface_override_material(0, StandardMaterial3D.new())
-		net_debug_mesh.global_position = net_position
-		add_child(net_debug_mesh)
-
-	#
-	# Will change net's target position on the water based on mouse change position.
-	# goal: get the mouse delta
-	#
-	var mouse_delta: Vector2 = Input.get_last_mouse_velocity()
-	net_position += global_transform.basis.x * mouse_delta.x * 0.1
-	net_position += -global_transform.basis.z * mouse_delta.y * 0.1
+	net_position += global_transform.basis.x * x_move * 0.1
+	net_position += -global_transform.basis.z * y_move * 0.1
 	net_position.y = global_position.y
 	if not net_debug_mesh:
 		set_net_debug_mesh(net_debug_mesh)
 	else:
 		net_debug_mesh.global_position = net_position
 	# Ensures  the world-space vertex positions in the arc aren't offset by the boat's own transform
+
+	print("net_position: ", net_position)
 	net_arc.global_transform = Transform3D.IDENTITY
 	net_arc.mesh = net_arc.call("calculate_net_path", global_position, net_position)
 
