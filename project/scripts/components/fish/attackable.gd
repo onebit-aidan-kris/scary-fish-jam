@@ -13,8 +13,7 @@ extends Node3D
 #  - Presence of Hitbox, passed in as export variable or sibling of parent node.
 #
 
-signal player_damaged(damage_amount: int)
-signal attack_landed
+signal player_damaged(damage_amount: int) # Sends signal to boat to receive damage.
 enum State {NOT_ATTACKING, ATTACKING}
 
 # Will search for adjacent hitbox if none specified.
@@ -39,22 +38,7 @@ func _physics_process(_delta: float) -> void:
 	if state != State.ATTACKING:
 		return
 
-	# If state switches to attacking, play attack animation and start cooldown
-	if state == State.ATTACKING and not playing_attack_animation:
-		print("Firing attack animation!!!")
-		playing_attack_animation = true
-		get_parent().play_animation(&"Attack")
-		entity_being_attacked.receive_damage(10)
-		attack_landed.emit()
-		attack_cooldown = 0.5
-
-
-	# If cooldown is active, decrement it.
-	if attack_cooldown > 0.0:
-		attack_cooldown -= _delta
-		if attack_cooldown <= 0.0:
-			playing_attack_animation = false
-
+	attack_policy(_delta)
 
 func _on_hitbox_body_entered(body: Node3D) -> void:
 	if body.is_in_group("player"):
@@ -88,3 +72,25 @@ func stop_attacking() -> void:
 	# Ensure if there's an attack cooldown, it is reset.
 	playing_attack_animation = false
 	attack_cooldown = 0.0
+
+
+# Can subclass this component and override this method to change _how_ attacks are done.
+func attack_policy(_delta: float) -> void:
+	# If state switches to attacking, play attack animation and start cooldown
+	if state == State.ATTACKING and not playing_attack_animation:
+		print("Firing attack animation!!!")
+		playing_attack_animation = true
+		get_parent().play_animation(&"Attack")
+		entity_being_attacked.receive_damage(10)
+		attack_cooldown = 0.5
+
+		# Standard attack policy demands the fish return when done attacking.
+		# This can be changed via subclassing this component and overriding the disengage_from_player method.
+		get_parent().disengage_from_player()
+
+
+	# If cooldown is active, decrement it.
+	if attack_cooldown > 0.0:
+		attack_cooldown -= _delta
+		if attack_cooldown <= 0.0:
+			playing_attack_animation = false

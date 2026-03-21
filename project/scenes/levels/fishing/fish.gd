@@ -46,7 +46,6 @@ func _physics_process(_delta: float) -> void:
 		behavior_policy.while_player_not_being_followed(self )
 
 
-
 func on_player_detected(player: Node3D) -> void:
 	print("player detected!!")
 	state = State.FOLLOWING
@@ -63,3 +62,7 @@ func highlight() -> void:
 
 func play_animation(animation: String) -> void:
 	pass # TODO: Implement this.
+
+func disengage_from_player() -> void:
+	state = State.PATROLLING
+	target_player = null
