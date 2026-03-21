@@ -8,6 +8,7 @@ const gdserde_props := [
 	&"sprint",
 	&"crouch",
 	&"jump",
+	&"interact",
 ]
 
 @export var replay_system: ReplaySystem
@@ -20,6 +21,7 @@ const max_angle := 90
 
 var look := Vector2.ZERO
 var move := Vector2.ZERO
+var interact := false
 var sprint := false
 var crouch := false
 var jump := false
@@ -49,6 +51,7 @@ func _physics_process(_delta: float) -> void:
 		sprint = Input.is_action_pressed("sprint")
 		crouch = Input.is_action_pressed("crouch")
 		jump = Input.is_action_pressed("jump")
+		interact = Input.is_action_just_pressed("interact")
 
 
 func _input(event: InputEvent) -> void:
