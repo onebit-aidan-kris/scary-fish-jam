@@ -60,7 +60,7 @@ func highlight() -> void:
 	signalbus.sonar_highlight.emit(global_position)
 
 
-func play_animation(animation: String) -> void:
+func play_animation(_animation: String) -> void:
 	pass # TODO: Implement this.
 
 func disengage_from_player() -> void:
