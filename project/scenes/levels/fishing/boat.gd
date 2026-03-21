@@ -16,7 +16,7 @@ var sonar_cooldown_max: int = 120
 var net_position: Vector3 = Vector3.ZERO
 var net_debug_mesh: MeshInstance3D = null
 
-enum NetState {NONE, AIMING, NETTING, NETTED}
+enum NetState { NONE, AIMING, NETTING, NETTED }
 var net_state: NetState = NetState.NONE
 
 
@@ -39,7 +39,7 @@ func _physics_process(delta: float) -> void:
 		if Input.is_action_just_pressed("net_arm"):
 			net_state = NetState.AIMING
 		return
-	
+
 	if net_state == NetState.AIMING:
 		aim_net()
 
@@ -72,9 +72,12 @@ func move_boat(delta: float) -> void:
 		position.z = pos_flat.y
 
 	_camera.rotation_degrees.x = clampf(
-		_cam_origin_pitch + _input.look.x, -90.0, 10.0
+		_cam_origin_pitch + _input.look.x,
+		-90.0,
+		10.0,
 	)
 	_camera.rotation_degrees.y = _input.look.y
+
 
 func aim_net() -> void:
 	if not net_position:
@@ -89,7 +92,7 @@ func aim_net() -> void:
 	#
 	# Will change net's target position on the water based on mouse change position.
 	# goal: get the mouse delta
-	# 
+	#
 	var mouse_delta: Vector2 = Input.get_last_mouse_velocity()
 	net_position += global_transform.basis.x * mouse_delta.x * 0.1
 	net_position += -global_transform.basis.z * mouse_delta.y * 0.1
@@ -108,12 +111,14 @@ func retract_net() -> void:
 	clear_net_debug_mesh()
 	net_position = Vector3.ZERO
 
+
 func set_net_debug_mesh(mesh: MeshInstance3D) -> void:
 	net_debug_mesh = MeshInstance3D.new()
 	net_debug_mesh.mesh = CylinderMesh.new()
 	net_debug_mesh.set_surface_override_material(0, StandardMaterial3D.new())
 	net_debug_mesh.global_position = net_position
 	add_child(net_debug_mesh)
+
 
 func clear_net_debug_mesh() -> void:
 	if net_debug_mesh:

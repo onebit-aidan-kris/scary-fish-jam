@@ -92,7 +92,7 @@ static func try_as_dict(x: Variant) -> Dictionary:
 	if x is Dictionary:
 		var dict: Dictionary = x
 		return dict
-	return {}
+	return { }
 
 
 ## Casts Variant to Dictionary, otherise asserts and returns empty Dictionary
@@ -101,7 +101,7 @@ static func as_dict(x: Variant) -> Dictionary:
 		var dict: Dictionary = x
 		return dict
 	assert(false)
-	return {}
+	return { }
 
 
 ## Tries to cast Variant to Object, otherise returns null
@@ -156,6 +156,7 @@ static func msg_unexpected_type(expected_type: Variant.Type, actual_value: Varia
 		util.safe_var_to_str(actual_value),
 	)
 
+
 ## Resolves a node reference with fallback search order:
 ## 1. If `current_value` is already set (non-null), returns it as-is
 ## 2. Searches children of `node` matching `fallback_name`
@@ -163,10 +164,10 @@ static func msg_unexpected_type(expected_type: Variant.Type, actual_value: Varia
 ## 4. Searches children of siblings (grandchildren of parent) matching `fallback_name`
 ## Returns null and logs an error if not found anywhere.
 static func load_export_or_related_node(
-	node: Node,
-	fallback_name: StringName,
-	current_value: Node = null,
-	show_error: bool = true,
+		node: Node,
+		fallback_name: StringName,
+		current_value: Node = null,
+		show_error: bool = true,
 ) -> Node:
 	if current_value:
 		return current_value
@@ -187,6 +188,7 @@ static func load_export_or_related_node(
 	if show_error:
 		push_error("util: load_export_or_related_node: '%s' not found relative to '%s'" % [fallback_name, node.name])
 	return null
+
 
 ## Resolves a node reference with fallback search order:
 ## 1. If `current_value` is already set (non-null), returns it as-is

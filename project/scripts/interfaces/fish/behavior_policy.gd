@@ -4,7 +4,6 @@
 class_name BehaviorPolicy
 extends Node
 
-
 func on_player_enter_attack_range(_entity: Node3D) -> void:
 	pass
 
@@ -19,6 +18,7 @@ func on_player_enter_perception_range(_entity: Node3D) -> void:
 
 func on_player_leave_perception_range(_entity: Node3D) -> void:
 	pass
+
 
 func while_player_being_followed(entity: Node3D) -> void:
 	var node := entity as CharacterBody3D

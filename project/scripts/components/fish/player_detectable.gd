@@ -1,5 +1,4 @@
 extends Node
-
 ##
 ## Component for entities that can detect the player via a vision cone.
 ## Emits signals when the player enters/exits detection range.
@@ -18,14 +17,14 @@ extends Node
 @export var detection_radius := 15.0
 @export var cone_half_angle_deg := 45.0
 
-enum State {NOT_DETECTED, DETECTED}
+enum State { NOT_DETECTED, DETECTED }
 
 var state: State = State.NOT_DETECTED
 var tracked_player: Node3D = null
 
 
 func _ready() -> void:
-	vision_cone = util.load_export_or_related_node(self , &"VisionCone", vision_cone)
+	vision_cone = util.load_export_or_related_node(self, &"VisionCone", vision_cone)
 	if vision_cone:
 		_connect_vision_cone_signals()
 	else:
