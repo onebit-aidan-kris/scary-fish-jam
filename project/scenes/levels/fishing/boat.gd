@@ -80,6 +80,16 @@ func move_boat(delta: float) -> void:
 
 
 func aim_net() -> void:
+
+	#
+	# -- Delay when swapping between 2 modes. (reduce jerkiness)
+	# -- Support WASD (and HOLDING WASD!) due to webviews / mouse view flakiness.
+	# -- Replace code here as needed
+	# 
+	# 
+
+
+
 	if not net_position:
 		net_position = global_position + global_transform.basis.z * 10.0
 
