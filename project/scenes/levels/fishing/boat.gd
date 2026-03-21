@@ -16,7 +16,7 @@ var sonar_cooldown_max: int = 120
 var net_position: Vector3 = Vector3.ZERO
 var net_debug_mesh: MeshInstance3D = null
 
-enum NetState { NONE, AIMING, NETTING, NETTED }
+enum NetState {NONE, AIMING, NETTING, NETTED}
 var net_state: NetState = NetState.NONE
 
 
