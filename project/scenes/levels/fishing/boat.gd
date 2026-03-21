@@ -92,11 +92,14 @@ func aim_net() -> void:
 	# 
 	var mouse_delta: Vector2 = Input.get_last_mouse_velocity()
 	net_position += global_transform.basis.x * mouse_delta.x * 0.1
-	net_position += global_transform.basis.y * mouse_delta.y * 0.1
+	net_position += -global_transform.basis.z * mouse_delta.y * 0.1
+	net_position.y = global_position.y
 	if not net_debug_mesh:
 		set_net_debug_mesh(net_debug_mesh)
 	else:
 		net_debug_mesh.global_position = net_position
+	# Ensures  the world-space vertex positions in the arc aren't offset by the boat's own transform
+	net_arc.global_transform = Transform3D.IDENTITY
 	net_arc.mesh = net_arc.call("calculate_net_path", global_position, net_position)
 
 
