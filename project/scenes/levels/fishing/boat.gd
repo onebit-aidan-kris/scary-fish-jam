@@ -8,13 +8,16 @@ extends CharacterBody3D
 @onready var _camera: Camera3D = $Camera3D
 @onready var net_arc: MeshInstance3D = $NetArc
 
+const NET_PARABOLA_SPEED: float = 0.15
+
 var _input: PlayerInput
 var _cam_origin_pitch: float
-
 var sonar_cooldown_ticks: int = 0
 var sonar_cooldown_max: int = 120
 var net_local_offset: Vector3 = Vector3.ZERO
 var net_debug_mesh: MeshInstance3D = null
+
+var cumumative_forward_fishing_net_distance: float = 0.0
 
 enum NetState {NONE, AIMING, NETTING, NETTED}
 var net_state: NetState = NetState.NONE
@@ -66,7 +69,7 @@ func get_flat_position() -> Vector2:
 		pos_flat = pos_flat.normalized() * lake_radius
 	return pos_flat
 
-func move_boat(x_move, y_move, delta: float) -> void:
+func move_boat(x_move: float, y_move: float, delta: float) -> void:
 	rotation.y -= x_move * turn_speed * delta
 
 	var forward := -transform.basis.z
@@ -86,44 +89,17 @@ func move_boat(x_move, y_move, delta: float) -> void:
 
 func aim_net() -> void:
 	#
-	# -- Delay when swapping between 2 modes. (reduce jerkiness)
-	# -- Support WASD (and HOLDING WASD!) due to webviews / mouse view flakiness.
-	# -- Replace code here as needed
+	# -- The longer shift is held, the further from the player
 	# 
-	# 
-	var should_move_left: bool = Input.is_action_pressed("move_left")
-	var should_move_right: bool = Input.is_action_pressed("move_right")
-
-
-	var next_left_right_position: int = 0
-	var next_forward_position: int = 0
-
-	if should_move_left:
-		next_left_right_position -= 1
-	if should_move_right:
-		next_left_right_position += 1
-
-	next_forward_position += 1
-
-	var x_move: float = float(next_left_right_position)
-	var dummy_delta: float = Engine.time_scale / float(Engine.physics_ticks_per_second)
-	move_boat(x_move, 0, dummy_delta)
-
-
-	# If moving left or right, move the boat itself left or right.
-	if next_left_right_position != 0:
-		pass
-
-
-	net_local_offset.x += x_move * 0.1
+	cumumative_forward_fishing_net_distance += NET_PARABOLA_SPEED
+	net_local_offset.z = - float(cumumative_forward_fishing_net_distance)
 
 	var net_world_pos: Vector3 = global_transform * net_local_offset
 	net_world_pos.y = global_position.y
 
 	if not net_debug_mesh:
-		set_net_debug_mesh(net_debug_mesh)
-	else:
-		net_debug_mesh.global_position = net_world_pos
+		set_net_debug_mesh(null)
+	net_debug_mesh.global_position = net_world_pos
 
 	net_arc.global_transform = Transform3D.IDENTITY
 	net_arc.mesh = net_arc.call("calculate_net_path", global_position, net_world_pos)
@@ -133,6 +109,7 @@ func retract_net() -> void:
 	net_state = NetState.NONE
 	clear_net_debug_mesh()
 	net_local_offset = Vector3.ZERO
+	cumumative_forward_fishing_net_distance = 0.0
 	net_arc.mesh = null
 
 
