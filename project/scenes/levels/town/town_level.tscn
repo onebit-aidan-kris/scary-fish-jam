@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://b6mr0x45oaqyx"]
+
+[ext_resource type="Script" uid="uid://bu2q2x32c2nug" path="res://scripts/components/level_config.gd" id="1_dhged"]
+
+[sub_resource type="TileSet" id="TileSet_dhged"]
+
+[node name="TownLevel" type="Node2D" unique_id=195204190]
+
+[node name="LevelConfig" type="Node" parent="." unique_id=1001344085]
+script = ExtResource("1_dhged")
+skip_main_menu = true
+metadata/_custom_type_script = "uid://bu2q2x32c2nug"
+
+[node name="TileData" type="Node2D" parent="." unique_id=1192714371]
+
+[node name="TileMapLayer" type="TileMapLayer" parent="TileData" unique_id=669083843]
+tile_set = SubResource("TileSet_dhged")
