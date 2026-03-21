@@ -87,12 +87,24 @@ func move_boat(x_move: float, y_move: float, delta: float) -> void:
 	_camera.rotation_degrees.y = y_move
 
 
+func _is_over_water(world_pos: Vector3) -> bool:
+	var water: MeshInstance3D = get_tree().get_first_node_in_group("WaterSurface")
+	if not water:
+		return false
+	var aabb: AABB = water.get_aabb()
+	var local_pos: Vector3 = water.to_local(world_pos)
+	return aabb.has_point(Vector3(local_pos.x, aabb.position.y + aabb.size.y * 0.5, local_pos.z))
+
+
 func aim_net() -> void:
-	#
-	# -- The longer shift is held, the further from the player
-	# 
-	cumumative_forward_fishing_net_distance += NET_PARABOLA_SPEED
-	net_local_offset.z = - float(cumumative_forward_fishing_net_distance)
+	var candidate_offset := net_local_offset
+	candidate_offset.z = -(cumumative_forward_fishing_net_distance + NET_PARABOLA_SPEED)
+	var candidate_world: Vector3 = global_transform * candidate_offset
+	candidate_world.y = global_position.y
+
+	if _is_over_water(candidate_world):
+		cumumative_forward_fishing_net_distance += NET_PARABOLA_SPEED
+	net_local_offset.z = -cumumative_forward_fishing_net_distance
 
 	var net_world_pos: Vector3 = global_transform * net_local_offset
 	net_world_pos.y = global_position.y
