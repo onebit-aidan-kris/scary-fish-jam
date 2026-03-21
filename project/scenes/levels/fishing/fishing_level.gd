@@ -5,7 +5,6 @@ const SEA_FLOOR_Y := -8.0
 const NUM_OBJECTS := 80
 const RNG_SEED := 42
 
-
 # Used for rendering sonar highlights
 var _highlight_circles: Array[MeshInstance3D] = []
 var _highlight_mat: StandardMaterial3D

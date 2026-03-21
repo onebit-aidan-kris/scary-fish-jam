@@ -12,7 +12,7 @@ var _last_input: bool = false
 func _ready() -> void:
 	_input = gamestate.player_input
 	_collision.shape = _debug_mesh.mesh.create_convex_shape()
-	
+
 
 func _process(_delta: float) -> void:
 	if _input.interact:
@@ -25,7 +25,7 @@ func _process(_delta: float) -> void:
 
 
 #
-# Detects the collision of the sonar cone with the entities and 
+# Detects the collision of the sonar cone with the entities and
 # highlights the entities that are hit by the sonar cone in bright red.
 #
 func fire_sonar() -> void:

@@ -41,7 +41,9 @@ func _physics_process(delta: float) -> void:
 func _process(_delta: float) -> void:
 	if _input:
 		_camera.rotation_degrees.x = clampf(
-			_cam_origin_pitch + _input.look.x, -89.0, 10.0
+			_cam_origin_pitch + _input.look.x,
+			-89.0,
+			10.0,
 		)
 		_camera.rotation_degrees.y = _input.look.y
 
