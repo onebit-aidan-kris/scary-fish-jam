@@ -12,6 +12,7 @@ static func gdserde_fields() -> Array[gdserde.Field]:
 			&"choices",
 			gdserde.Spec.array(gdserde.Spec.object(DialogueChoice)),
 		).optional(),
+		gdserde.Field.new(&"callback", gdserde.Spec.object(DialogueCallback)).optional(),
 	]
 
 
@@ -20,6 +21,7 @@ var speaker: String
 var text: PackedStringArray
 var next: PackedStringArray
 var choices: Array[DialogueChoice]
+var callback := DialogueCallback.new()
 
 
 class DialogueCallback:

@@ -6,7 +6,7 @@ extends Node
 @export var entry_name := "start"
 @export var auto_start := false
 
-@export var trigger_on_parent_signal: StringName
+@export var parent_signal_trigger: StringName
 @export var state: Node
 
 var _dialogue_data := DialogueData.new()
@@ -15,6 +15,12 @@ var _current_choices: Array[DialogueEvent.DialogueChoice] = []
 
 
 func _ready() -> void:
+	if parent_signal_trigger:
+		if get_parent().has_signal(parent_signal_trigger):
+			util.aok(get_parent().connect(parent_signal_trigger, start))
+		else:
+			assert(false, str("parent does not have signal: ", parent_signal_trigger))
+
 	match util.parse_json_file(json_path):
 		[var data, OK]:
 			var res := gdserde.deserialize_object(_dialogue_data, data)
@@ -87,24 +93,30 @@ func _start_next_event() -> void:
 			_current_choices.push_back(choice)
 			util.expect_false(choice_texts.push_back(choice.text))
 
+	_call_callback(event.callback)
+
 	gamestate.dialogue_layer.render(speaker, text, choice_texts)
 
 
 func _on_advance(index: int) -> void:
 	if _current_choices:
 		var choice := _current_choices[index]
-		if choice.callback.name:
-			print(choice.callback.name, choice.callback.args)
-			assert(
-				state.has_method(choice.callback.name),
-				str("State object does not have method: ", choice.callback.name),
-			)
-			state.callv(choice.callback.name, choice.callback.args)
+		_call_callback(choice.callback)
 		_current_event_key = choice.next
 	else:
 		_current_event_key = _dialogue_data.get_next(state, _current_event_key)
 
 	_start_next_event()
+
+
+func _call_callback(callback: DialogueEvent.DialogueCallback) -> void:
+	if callback.name:
+		print(callback.name, callback.args)
+		assert(
+			state.has_method(callback.name),
+			str("State object does not have method: ", callback.name),
+		)
+		state.callv(callback.name, callback.args)
 
 
 func stop() -> void:

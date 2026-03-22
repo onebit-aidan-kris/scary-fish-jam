@@ -2,6 +2,7 @@
 class_name HumanCharacter
 extends CharacterBody2D
 
+@warning_ignore("unused_signal")
 signal interacted
 
 enum Direction {

@@ -1,10 +1,11 @@
 [gd_scene format=4 uid="uid://b6mr0x45oaqyx"]
 
 [ext_resource type="Script" uid="uid://bu2q2x32c2nug" path="res://scripts/components/level_config.gd" id="1_dhged"]
+[ext_resource type="Script" uid="uid://bpqx12vt5uh73" path="res://scenes/levels/town/town_state.gd" id="2_61x2n"]
 [ext_resource type="TileSet" uid="uid://0m1qnrql7ksf" path="res://assets/tiles/placeholder_tileset.tres" id="2_g6o05"]
 [ext_resource type="PackedScene" uid="uid://dg8or08jgcptp" path="res://scenes/levels/town/human_character.tscn" id="3_g6o05"]
 [ext_resource type="SpriteFrames" uid="uid://ckbo7ly65qhh3" path="res://assets/spritesheets/capn.tres" id="4_p7w6r"]
-[ext_resource type="Script" uid="uid://cc52ihbsr0lix" path="res://scenes/levels/town/interactable_test.gd" id="5_i3kfa"]
+[ext_resource type="Script" uid="uid://cws8nhjc45fo7" path="res://scripts/dialogue/dialogue_entry.gd" id="6_5sm54"]
 
 [node name="TownLevel" type="Node2D" unique_id=195204190]
 y_sort_enabled = true
@@ -14,6 +15,9 @@ texture_filter = 1
 script = ExtResource("1_dhged")
 skip_main_menu = true
 metadata/_custom_type_script = "uid://bu2q2x32c2nug"
+
+[node name="TownState" type="Node" parent="." unique_id=1254822420]
+script = ExtResource("2_61x2n")
 
 [node name="TileData" type="Node2D" parent="." unique_id=1192714371]
 y_sort_enabled = true
@@ -40,5 +44,9 @@ sprite_frames = ExtResource("4_p7w6r")
 animating = true
 animating_speed_scale = 0.5
 
-[node name="Node" type="Node" parent="CapnWalsh" unique_id=909609399]
-script = ExtResource("5_i3kfa")
+[node name="DialogueEntry" type="Node" parent="CapnWalsh" unique_id=1984655956 node_paths=PackedStringArray("state")]
+script = ExtResource("6_5sm54")
+json_path = "res://assets/dialogue/walsh_test.json"
+parent_signal_trigger = &"interacted"
+state = NodePath("../../TownState")
+metadata/_custom_type_script = "uid://cws8nhjc45fo7"
