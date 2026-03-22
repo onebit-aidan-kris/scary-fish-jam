@@ -19,8 +19,17 @@ var net_debug_mesh: MeshInstance3D = null
 
 var cumumative_forward_fishing_net_distance: float = 0.0
 
-enum NetState {NONE, AIMING, NETTING, NETTED}
+enum NetState {NONE, AIMING, FIRING_NET, UNDER_WATER, REELING_IN_NET}
 var net_state: NetState = NetState.NONE
+
+# Net projectile
+var _net_projectile: MeshInstance3D = null
+var _net_fire_start: Vector3
+var _net_fire_end: Vector3
+var _net_fire_t: float = 0.0
+const NET_FIRE_DURATION: float = 0.6
+const NET_ARC_HEIGHT: float = 3.0
+const NET_UNDERWATER_DURATION: float = 1.5
 
 
 func _ready() -> void:
@@ -46,6 +55,11 @@ func _physics_process(delta: float) -> void:
 
 	if net_state == NetState.AIMING:
 		aim_net()
+		if Input.is_action_just_pressed("netting"):
+			fire_net()
+
+	if net_state == NetState.FIRING_NET or net_state == NetState.UNDER_WATER:
+		_process_net_projectile(delta)
 
 
 func is_sonar_ready() -> bool:
@@ -97,14 +111,17 @@ func _is_over_water(world_pos: Vector3) -> bool:
 
 
 func aim_net() -> void:
+	if net_state == NetState.FIRING_NET:
+		return
+
 	var candidate_offset := net_local_offset
-	candidate_offset.z = -(cumumative_forward_fishing_net_distance + NET_PARABOLA_SPEED)
+	candidate_offset.z = - (cumumative_forward_fishing_net_distance + NET_PARABOLA_SPEED)
 	var candidate_world: Vector3 = global_transform * candidate_offset
 	candidate_world.y = global_position.y
 
 	if _is_over_water(candidate_world):
 		cumumative_forward_fishing_net_distance += NET_PARABOLA_SPEED
-	net_local_offset.z = -cumumative_forward_fishing_net_distance
+	net_local_offset.z = - cumumative_forward_fishing_net_distance
 
 	var net_world_pos: Vector3 = global_transform * net_local_offset
 	net_world_pos.y = global_position.y
@@ -137,3 +154,56 @@ func clear_net_debug_mesh() -> void:
 	if net_debug_mesh:
 		net_debug_mesh.queue_free()
 		net_debug_mesh = null
+
+
+func fire_net() -> void:
+	net_state = NetState.FIRING_NET
+
+	_net_fire_start = global_position
+	_net_fire_end = global_transform * net_local_offset
+	_net_fire_end.y = global_position.y
+	_net_fire_t = 0.0
+
+	if _net_projectile:
+		_net_projectile.queue_free()
+	_net_projectile = MeshInstance3D.new()
+	var sphere := SphereMesh.new()
+	sphere.radius = 0.4
+	sphere.height = 0.8
+	_net_projectile.mesh = sphere
+	var mat := StandardMaterial3D.new()
+	mat.albedo_color = Color(0.9, 0.85, 0.6)
+	mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	_net_projectile.set_surface_override_material(0, mat)
+	get_tree().root.add_child(_net_projectile)
+	_net_projectile.global_position = _net_fire_start
+
+
+func _process_net_projectile(delta: float) -> void:
+	if (net_state != NetState.FIRING_NET and net_state != NetState.UNDER_WATER) or not _net_projectile:
+		return
+
+	if net_state == NetState.FIRING_NET:
+		_net_fire_t += delta / NET_FIRE_DURATION
+		if _net_fire_t >= 1.0:
+			print("going under water!")
+			_net_fire_t = 0.0
+			#_on_net_landed()
+			net_state = NetState.UNDER_WATER
+			# Now set the new end to be the sea floor below the net's end position.
+			_net_fire_start = _net_fire_end
+			_net_fire_end = _net_fire_end - Vector3(0.0, 10.0, 0.0)
+	elif net_state == NetState.UNDER_WATER:
+		print("under water!")
+
+	var t := _net_fire_t
+	t += delta / NET_UNDERWATER_DURATION
+	var linear: Vector3 = _net_fire_start.lerp(_net_fire_end, t)
+	var arc_y: float = _net_fire_start.y + 4.0 * NET_ARC_HEIGHT * t * (1.0 - t)
+	# This should be the linear interpolation between the start and end positions.
+	if net_state == NetState.UNDER_WATER:
+		arc_y = _net_fire_start.y
+		var linear_underwater: Vector3 = _net_fire_start.lerp(_net_fire_end - Vector3(0.0, 10.0, 0.0), t)
+		arc_y = linear_underwater.y
+
+	_net_projectile.global_position = Vector3(linear.x, arc_y, linear.z)
