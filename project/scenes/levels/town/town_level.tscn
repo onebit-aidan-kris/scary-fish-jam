@@ -8,6 +8,11 @@
 [ext_resource type="Script" uid="uid://cws8nhjc45fo7" path="res://scripts/dialogue/dialogue_entry.gd" id="6_5sm54"]
 [ext_resource type="SpriteFrames" uid="uid://dtks8q41tl0pa" path="res://assets/spritesheets/jeff.tres" id="7_5sm54"]
 [ext_resource type="PackedScene" uid="uid://brt8eh1dd10p0" path="res://scenes/levels/town/tile_event.tscn" id="8_ywyd6"]
+[ext_resource type="Texture2D" uid="uid://3ueo3whkota3" path="res://assets/spritesheets/boat-topdown.png" id="9_hgas2"]
+[ext_resource type="Script" uid="uid://codxcir5kyuw0" path="res://scenes/levels/town/events/to_fishing.gd" id="9_rhu6c"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hgas2"]
+size = Vector2(32, 48)
 
 [node name="TownLevel" type="Node2D" unique_id=195204190]
 y_sort_enabled = true
@@ -86,6 +91,13 @@ z_index = 10
 position = Vector2(488, 248)
 portal = NodePath("../A\'")
 
+[node name="DialogueEntry" type="Node" parent="Events/A" unique_id=1229742317 node_paths=PackedStringArray("state")]
+script = ExtResource("6_5sm54")
+json_path = "res://assets/dialogue/jeff_test.json"
+parent_signal_trigger = &"tile_event_triggered"
+state = NodePath("../../../TownState")
+metadata/_custom_type_script = "uid://cws8nhjc45fo7"
+
 [node name="A\'" parent="Events" unique_id=2016925298 node_paths=PackedStringArray("portal") instance=ExtResource("8_ywyd6")]
 position = Vector2(1064, 152)
 portal = NodePath("../A")
@@ -97,3 +109,16 @@ portal = NodePath("../B\'")
 [node name="B\'" parent="Events" unique_id=1522078629 node_paths=PackedStringArray("portal") instance=ExtResource("8_ywyd6")]
 position = Vector2(1128, 88)
 portal = NodePath("../B")
+
+[node name="ToFishing" type="Area2D" parent="Events" unique_id=870229771]
+position = Vector2(320, 504)
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("9_rhu6c")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Events/ToFishing" unique_id=2030988016]
+shape = SubResource("RectangleShape2D_hgas2")
+
+[node name="Butt" type="Sprite2D" parent="." unique_id=968633815]
+position = Vector2(320, 512)
+texture = ExtResource("9_hgas2")

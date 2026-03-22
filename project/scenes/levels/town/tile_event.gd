@@ -1,7 +1,7 @@
 class_name TileEvent
 extends Area2D
 
-signal triggered
+signal tile_event_triggered
 
 @export var portal: TileEvent
 
@@ -37,6 +37,6 @@ func _on_body_exited(body: PhysicsBody2D) -> void:
 		var exit_offset := body.position - position
 		if exit_offset.distance_to(active_body_entry_offset) > PORTAL_DIST_THRESHOLD:
 			body.position = portal.position + exit_offset
-		triggered.emit()
+		tile_event_triggered.emit()
 
 	active_body = null
