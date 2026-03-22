@@ -23,13 +23,22 @@ enum NetState {NONE, AIMING, FIRING_NET, UNDER_WATER, REELING_IN_NET}
 var net_state: NetState = NetState.NONE
 
 # Net projectile
-var _net_projectile: MeshInstance3D = null
+var _net_projectile: Area3D = null
 var _net_fire_start: Vector3
 var _net_fire_end: Vector3
 var _net_fire_t: float = 0.0
 const NET_FIRE_DURATION: float = 0.6
 const NET_ARC_HEIGHT: float = 3.0
 const NET_UNDERWATER_DURATION: float = 2.0
+const NET_REEL_DURATION: float = 0.8
+const SPHERE_RADIUS: float = 4.8
+const SPHERE_HEIGHT: float = 9.6
+
+
+# Reel-in state
+var _reel_t: float = 0.0
+var _reel_start: Vector3
+var _caught_fish: Node3D = null
 
 
 func _ready() -> void:
@@ -41,7 +50,7 @@ func _physics_process(delta: float) -> void:
 	if sonar_cooldown_ticks > 0:
 		sonar_cooldown_ticks -= 1
 
-	if net_state == NetState.AIMING and Input.is_action_just_released("net_arm"):
+	if Input.is_action_just_released("net_arm"):
 		print('retracting net')
 		retract_net()
 
@@ -94,11 +103,11 @@ func move_boat(x_move: float, y_move: float, delta: float) -> void:
 	position.z = pos_flat.y
 
 	_camera.rotation_degrees.x = clampf(
-		_cam_origin_pitch + x_move,
+		_cam_origin_pitch,
 		-90.0,
-		10.0,
+		-20.0,
 	)
-	_camera.rotation_degrees.y = y_move
+	#_camera.rotation_degrees.y = y_move
 
 
 func _is_over_water(world_pos: Vector3) -> bool:
@@ -137,6 +146,9 @@ func aim_net() -> void:
 func retract_net() -> void:
 	net_state = NetState.NONE
 	clear_net_debug_mesh()
+	if _net_projectile:
+		_net_projectile.queue_free()
+		_net_projectile = null
 	net_local_offset = Vector3.ZERO
 	cumumative_forward_fishing_net_distance = 0.0
 	net_arc.mesh = null
@@ -166,17 +178,41 @@ func fire_net() -> void:
 
 	if _net_projectile:
 		_net_projectile.queue_free()
-	_net_projectile = MeshInstance3D.new()
+
+	_net_projectile = Area3D.new()
+
+	var col := CollisionShape3D.new()
+	var shape := SphereShape3D.new()
+	shape.radius = SPHERE_RADIUS
+	col.shape = shape
+	_net_projectile.add_child(col)
+
+	var mesh_inst := MeshInstance3D.new()
 	var sphere := SphereMesh.new()
-	sphere.radius = 0.4
-	sphere.height = 0.8
-	_net_projectile.mesh = sphere
+	sphere.radius = SPHERE_RADIUS
+	sphere.height = SPHERE_HEIGHT
+	mesh_inst.mesh = sphere
 	var mat := StandardMaterial3D.new()
 	mat.albedo_color = Color(0.9, 0.85, 0.6)
 	mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	_net_projectile.set_surface_override_material(0, mat)
+	mesh_inst.set_surface_override_material(0, mat)
+	_net_projectile.add_child(mesh_inst)
+
+	var _err := _net_projectile.body_entered.connect(_on_projectile_body_entered)
 	get_tree().root.add_child(_net_projectile)
 	_net_projectile.global_position = _net_fire_start
+
+
+func _on_projectile_body_entered(body: Node3D) -> void:
+	if body == self:
+		return
+	if body is CharacterBody3D and net_state == NetState.UNDER_WATER:
+		print("gottem!")
+		_caught_fish = body
+		_caught_fish.set_physics_process(false)
+		_reel_start = body.global_position
+		_reel_t = 0.0
+		net_state = NetState.REELING_IN_NET
 
 
 func _process_net_projectile(delta: float) -> void:
