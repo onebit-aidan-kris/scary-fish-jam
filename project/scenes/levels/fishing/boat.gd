@@ -29,7 +29,7 @@ var _net_fire_end: Vector3
 var _net_fire_t: float = 0.0
 const NET_FIRE_DURATION: float = 0.6
 const NET_ARC_HEIGHT: float = 3.0
-const NET_UNDERWATER_DURATION: float = 1.5
+const NET_UNDERWATER_DURATION: float = 2.0
 
 
 func _ready() -> void:
@@ -195,15 +195,14 @@ func _process_net_projectile(delta: float) -> void:
 			_net_fire_end = _net_fire_end - Vector3(0.0, 10.0, 0.0)
 	elif net_state == NetState.UNDER_WATER:
 		print("under water!")
+		_net_fire_t += delta / NET_UNDERWATER_DURATION
 
-	var t := _net_fire_t
-	t += delta / NET_UNDERWATER_DURATION
-	var linear: Vector3 = _net_fire_start.lerp(_net_fire_end, t)
-	var arc_y: float = _net_fire_start.y + 4.0 * NET_ARC_HEIGHT * t * (1.0 - t)
+	var linear: Vector3 = _net_fire_start.lerp(_net_fire_end, _net_fire_t)
+	var arc_y: float = _net_fire_start.y + 4.0 * NET_ARC_HEIGHT * _net_fire_t * (1.0 - _net_fire_t)
 	# This should be the linear interpolation between the start and end positions.
 	if net_state == NetState.UNDER_WATER:
 		arc_y = _net_fire_start.y
-		var linear_underwater: Vector3 = _net_fire_start.lerp(_net_fire_end - Vector3(0.0, 10.0, 0.0), t)
+		var linear_underwater: Vector3 = _net_fire_start.lerp(_net_fire_end - Vector3(0.0, 10.0, 0.0), _net_fire_t)
 		arc_y = linear_underwater.y
 
 	_net_projectile.global_position = Vector3(linear.x, arc_y, linear.z)
