@@ -31,8 +31,8 @@ const NET_FIRE_DURATION: float = 0.6
 const NET_ARC_HEIGHT: float = 3.0
 const NET_UNDERWATER_DURATION: float = 2.0
 const NET_REEL_DURATION: float = 0.8
-const SPHERE_RADIUS: float = 4.8
-const SPHERE_HEIGHT: float = 9.6
+const SPHERE_RADIUS: float = 9.6
+const SPHERE_HEIGHT: float = 9.6 * 2.0
 
 
 # Reel-in state
@@ -69,6 +69,9 @@ func _physics_process(delta: float) -> void:
 
 	if net_state == NetState.FIRING_NET or net_state == NetState.UNDER_WATER:
 		_process_net_projectile(delta)
+
+	if net_state == NetState.REELING_IN_NET:
+		_process_reeling_in_net(delta)
 
 
 func is_sonar_ready() -> bool:
@@ -198,21 +201,25 @@ func fire_net() -> void:
 	mesh_inst.set_surface_override_material(0, mat)
 	_net_projectile.add_child(mesh_inst)
 
-	var _err := _net_projectile.body_entered.connect(_on_projectile_body_entered)
+	_net_projectile.monitoring = true
 	get_tree().root.add_child(_net_projectile)
 	_net_projectile.global_position = _net_fire_start
 
 
-func _on_projectile_body_entered(body: Node3D) -> void:
-	if body == self:
+func _check_net_overlap() -> void:
+	if not _net_projectile or net_state != NetState.UNDER_WATER:
 		return
-	if body is CharacterBody3D and net_state == NetState.UNDER_WATER:
-		print("gottem!")
-		_caught_fish = body
-		_caught_fish.set_physics_process(false)
-		_reel_start = body.global_position
-		_reel_t = 0.0
-		net_state = NetState.REELING_IN_NET
+	for body: Node3D in _net_projectile.get_overlapping_bodies():
+		if body == self:
+			continue
+		if body is CharacterBody3D:
+			print("gottem!")
+			_caught_fish = body
+			_caught_fish.set_physics_process(false)
+			_reel_start = body.global_position
+			_reel_t = 0.0
+			net_state = NetState.REELING_IN_NET
+			return
 
 
 func _process_net_projectile(delta: float) -> void:
@@ -230,8 +237,10 @@ func _process_net_projectile(delta: float) -> void:
 			_net_fire_start = _net_fire_end
 			_net_fire_end = _net_fire_end - Vector3(0.0, 10.0, 0.0)
 	elif net_state == NetState.UNDER_WATER:
-		print("under water!")
 		_net_fire_t += delta / NET_UNDERWATER_DURATION
+		_check_net_overlap()
+		if net_state != NetState.UNDER_WATER:
+			return
 
 	var linear: Vector3 = _net_fire_start.lerp(_net_fire_end, _net_fire_t)
 	var arc_y: float = _net_fire_start.y + 4.0 * NET_ARC_HEIGHT * _net_fire_t * (1.0 - _net_fire_t)
@@ -242,3 +251,10 @@ func _process_net_projectile(delta: float) -> void:
 		arc_y = linear_underwater.y
 
 	_net_projectile.global_position = Vector3(linear.x, arc_y, linear.z)
+
+func _process_reeling_in_net(_delta: float) -> void:
+	# TODO: Some animation of maybe water splashes implying 'reeling in' a fish.
+	signalbus.fish_caught.emit(_caught_fish)
+
+	# Reset the net state.
+	net_state = NetState.NONE
