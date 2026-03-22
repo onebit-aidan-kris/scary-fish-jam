@@ -24,12 +24,10 @@ enum Direction {
 
 @onready var _human_sprite: HumanSprite2D = $HumanSprite2D
 
-@onready var _interact_north: CollisionShape2D = $DetectInteractable/North
-@onready var _interact_south: CollisionShape2D = $DetectInteractable/South
-@onready var _interact_east: CollisionShape2D = $DetectInteractable/East
-@onready var _interact_west: CollisionShape2D = $DetectInteractable/West
-
-@onready var _interactable_area: Area2D = $InteractableArea
+@onready var _interact_north: RayCast2D = $InteractNorth
+@onready var _interact_south: RayCast2D = $InteractSouth
+@onready var _interact_east: RayCast2D = $InteractEast
+@onready var _interact_west: RayCast2D = $InteractWest
 
 
 func _ready() -> void:
@@ -39,9 +37,6 @@ func _ready() -> void:
 	assert(_interact_south)
 	assert(_interact_east)
 	assert(_interact_west)
-
-	assert(_interactable_area)
-	util.aok(_interactable_area.area_entered.connect(_player_interacted))
 
 	set_sprite_frames(sprite_frames)
 	set_direction(direction)
@@ -60,29 +55,23 @@ func _physics_process(_delta: float) -> void:
 		_player_move(gamestate.player_input.move)
 
 
-func _player_interacted() -> void:
-	print("foo")
-	interacted.emit()
-
-
 func _player_interact() -> void:
-	var interact_shape: CollisionShape2D
+	var raycast: RayCast2D
 	match direction:
 		Direction.NORTH:
-			interact_shape = _interact_north
+			raycast = _interact_north
 		Direction.SOUTH:
-			interact_shape = _interact_south
+			raycast = _interact_south
 		Direction.EAST:
-			interact_shape = _interact_east
+			raycast = _interact_east
 		Direction.WEST:
-			interact_shape = _interact_west
+			raycast = _interact_west
 		_:
 			assert(false)
 			return
 
-	# Enable for one frame to trigger any colliding interaction areas
-	interact_shape.disabled = false
-	interact_shape.set_deferred(&"disabled", true)
+	if raycast.is_colliding():
+		Interactable.interact(raycast.get_collider())
 
 
 func _player_move(move: Vector2) -> void:

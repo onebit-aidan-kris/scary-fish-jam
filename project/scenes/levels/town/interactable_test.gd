@@ -1,7 +1,7 @@
 extends Node
 
 func _ready() -> void:
-	get_parent().interacted.connect(_test)
+	Interactable.register(get_parent(), _test)
 
 
 func _test() -> void:
