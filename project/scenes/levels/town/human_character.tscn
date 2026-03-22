@@ -7,10 +7,11 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qkgad"]
 size = Vector2(12, 3)
 
-[node name="HumanCharacter" type="CharacterBody2D" unique_id=644383466]
+[node name="HumanCharacter" type="CharacterBody2D" unique_id=1879680299]
 texture_filter = 1
 script = ExtResource("1_lmi4m")
 sprite_frames = ExtResource("1_x1mec")
+metadata/_custom_type_script = "uid://3tb3olm5hjy1"
 
 [node name="HumanSprite2D" type="AnimatedSprite2D" parent="." unique_id=1898277973]
 sprite_frames = ExtResource("1_x1mec")
