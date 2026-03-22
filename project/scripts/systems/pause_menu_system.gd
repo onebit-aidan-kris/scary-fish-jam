@@ -117,3 +117,5 @@ func _build_menu() -> void:
 func _show_startup() -> void:
 	if show_on_start:
 		menu.show()
+	else:
+		unpause()

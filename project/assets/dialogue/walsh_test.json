@@ -1,0 +1,33 @@
+{
+	"events": {
+		"start": {
+			"next": [
+				"has_met",
+				"intro"
+			],
+			"callback": {
+				"name": "face",
+				"args": ["$walsh", "$player"]
+			}
+		},
+		"intro": {
+			"speaker": "Walsh",
+			"text": [
+				"You must be the new fella.",
+				"I'm Captain Walsh."
+			],
+			"callback": {
+				"name": "met_walsh"
+			}
+		},
+		"has_met": {
+			"conds": [
+				"has_met_walsh"
+			],
+			"speaker": "Walsh",
+			"text": [
+				"I'm very busy"
+			]
+		}
+	}
+}
