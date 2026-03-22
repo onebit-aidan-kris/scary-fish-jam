@@ -2,6 +2,8 @@
 class_name HumanCharacter
 extends CharacterBody2D
 
+signal interacted
+
 enum Direction {
 	NORTH,
 	SOUTH,
@@ -20,18 +22,91 @@ enum Direction {
 	set = set_animating_speed_scale
 @export var walk_speed := 100.0
 
-@onready var human_sprite: HumanSprite2D = $HumanSprite2D
+@onready var _human_sprite: HumanSprite2D = $HumanSprite2D
+
+@onready var _interact_north: CollisionShape2D = $DetectInteractable/North
+@onready var _interact_south: CollisionShape2D = $DetectInteractable/South
+@onready var _interact_east: CollisionShape2D = $DetectInteractable/East
+@onready var _interact_west: CollisionShape2D = $DetectInteractable/West
+
+@onready var _interactable_area: Area2D = $InteractableArea
+
+
+func _ready() -> void:
+	assert(_human_sprite)
+
+	assert(_interact_north)
+	assert(_interact_south)
+	assert(_interact_east)
+	assert(_interact_west)
+
+	assert(_interactable_area)
+	util.aok(_interactable_area.area_entered.connect(_player_interacted))
+
+	set_sprite_frames(sprite_frames)
+	set_direction(direction)
+	set_animating(animating)
+	set_animating_speed_scale(animating_speed_scale)
+
+
+func _physics_process(_delta: float) -> void:
+	# Don't move character in editor
+	if Engine.is_editor_hint():
+		return
+
+	if player_controlled:
+		if gamestate.player_input.interact:
+			_player_interact()
+		_player_move(gamestate.player_input.move)
+
+
+func _player_interacted() -> void:
+	print("foo")
+	interacted.emit()
+
+
+func _player_interact() -> void:
+	var interact_shape: CollisionShape2D
+	match direction:
+		Direction.NORTH:
+			interact_shape = _interact_north
+		Direction.SOUTH:
+			interact_shape = _interact_south
+		Direction.EAST:
+			interact_shape = _interact_east
+		Direction.WEST:
+			interact_shape = _interact_west
+		_:
+			assert(false)
+			return
+
+	# Enable for one frame to trigger any colliding interaction areas
+	interact_shape.disabled = false
+	interact_shape.set_deferred(&"disabled", true)
+
+
+func _player_move(move: Vector2) -> void:
+	velocity = move * walk_speed
+
+	if velocity.is_zero_approx():
+		set_animating(false)
+	else:
+		set_direction_vector(velocity)
+		set_animating(true)
+
+	var _collided := move_and_slide()
 
 
 func set_sprite_frames(value: SpriteFrames) -> void:
 	sprite_frames = value
-	if human_sprite and sprite_frames:
-		human_sprite.sprite_frames = sprite_frames
+	if _human_sprite and sprite_frames:
+		_human_sprite.sprite_frames = sprite_frames
 
 
 func set_direction(value: Direction) -> void:
 	direction = value
-	if human_sprite:
+
+	if _human_sprite:
 		var anim: StringName
 		match direction:
 			Direction.NORTH:
@@ -45,28 +120,28 @@ func set_direction(value: Direction) -> void:
 			_:
 				assert(false)
 				return
-		human_sprite.animation = anim
+		_human_sprite.animation = anim
 
 
 func set_animating(value: bool) -> void:
 	var changed := value != animating
 	animating = value
-	if human_sprite:
+	if _human_sprite:
 		if animating:
 			if changed:
-				human_sprite.frame = 1
-				human_sprite.frame_progress = 0.0
-			human_sprite.play()
+				_human_sprite.frame = 1
+				_human_sprite.frame_progress = 0.0
+			_human_sprite.play()
 		else:
-			human_sprite.pause()
-			human_sprite.frame = 0
-			human_sprite.frame_progress = 0.0
+			_human_sprite.pause()
+			_human_sprite.frame = 0
+			_human_sprite.frame_progress = 0.0
 
 
 func set_animating_speed_scale(value: float) -> void:
 	animating_speed_scale = value
-	if human_sprite:
-		human_sprite.speed_scale = animating_speed_scale
+	if _human_sprite:
+		_human_sprite.speed_scale = animating_speed_scale
 
 
 func set_direction_vector(vector: Vector2) -> void:
@@ -86,26 +161,3 @@ func set_direction_vector(vector: Vector2) -> void:
 			set_direction(Direction.SOUTH)
 		elif vector.y < 0:
 			set_direction(Direction.NORTH)
-
-
-func _ready() -> void:
-	assert(human_sprite)
-	set_sprite_frames(sprite_frames)
-	set_direction(direction)
-	set_animating(animating)
-	set_animating_speed_scale(animating_speed_scale)
-
-
-func _physics_process(_delta: float) -> void:
-	# Don't move character in editor
-	if not Engine.is_editor_hint():
-		if player_controlled:
-			velocity = gamestate.player_input.move * walk_speed
-
-			if velocity.is_zero_approx():
-				set_animating(false)
-			else:
-				set_direction_vector(velocity)
-				set_animating(true)
-
-			var _collided := move_and_slide()

@@ -7,6 +7,12 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qkgad"]
 size = Vector2(12, 8)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lmi4m"]
+size = Vector2(8, 1.875)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dwd0u"]
+size = Vector2(1.75, 6)
+
 [node name="HumanCharacter" type="CharacterBody2D" unique_id=1879680299]
 y_sort_enabled = true
 texture_filter = 1
@@ -21,5 +27,38 @@ script = ExtResource("2_lmi4m")
 metadata/_custom_type_script = "uid://c6ie1dficwsk0"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=8628469]
+position = Vector2(0, 5)
+shape = SubResource("RectangleShape2D_qkgad")
+
+[node name="DetectInteractable" type="Area2D" parent="." unique_id=245289044]
+collision_layer = 0
+collision_mask = 2
+input_pickable = false
+monitorable = false
+
+[node name="South" type="CollisionShape2D" parent="DetectInteractable" unique_id=325662325]
+position = Vector2(0, 10)
+shape = SubResource("RectangleShape2D_lmi4m")
+disabled = true
+
+[node name="North" type="CollisionShape2D" parent="DetectInteractable" unique_id=1309940277]
+shape = SubResource("RectangleShape2D_lmi4m")
+disabled = true
+
+[node name="East" type="CollisionShape2D" parent="DetectInteractable" unique_id=932700695]
+position = Vector2(7, 5)
+shape = SubResource("RectangleShape2D_dwd0u")
+disabled = true
+
+[node name="West" type="CollisionShape2D" parent="DetectInteractable" unique_id=79939421]
+position = Vector2(-7, 5)
+shape = SubResource("RectangleShape2D_dwd0u")
+disabled = true
+
+[node name="InteractableArea" type="Area2D" parent="." unique_id=1335416082]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractableArea" unique_id=682646271]
 position = Vector2(0, 5)
 shape = SubResource("RectangleShape2D_qkgad")

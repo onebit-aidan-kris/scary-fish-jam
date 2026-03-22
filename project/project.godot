@@ -101,6 +101,11 @@ interact={
 ]
 }
 
+[layer_names]
+
+2d_physics/layer_1="Solid"
+2d_physics/layer_2="Interactable"
+
 [rendering]
 
 renderer/rendering_method="gl_compatibility"

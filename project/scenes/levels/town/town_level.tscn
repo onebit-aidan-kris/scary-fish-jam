@@ -4,6 +4,7 @@
 [ext_resource type="TileSet" uid="uid://0m1qnrql7ksf" path="res://assets/tiles/placeholder_tileset.tres" id="2_g6o05"]
 [ext_resource type="PackedScene" uid="uid://dg8or08jgcptp" path="res://scenes/levels/town/human_character.tscn" id="3_g6o05"]
 [ext_resource type="SpriteFrames" uid="uid://ckbo7ly65qhh3" path="res://assets/spritesheets/capn.tres" id="4_p7w6r"]
+[ext_resource type="Script" uid="uid://cc52ihbsr0lix" path="res://scenes/levels/town/interactable_test.gd" id="5_i3kfa"]
 
 [node name="TownLevel" type="Node2D" unique_id=195204190]
 y_sort_enabled = true
@@ -38,3 +39,6 @@ position = Vector2(344, 440)
 sprite_frames = ExtResource("4_p7w6r")
 animating = true
 animating_speed_scale = 0.5
+
+[node name="Node" type="Node" parent="CapnWalsh" unique_id=909609399]
+script = ExtResource("5_i3kfa")

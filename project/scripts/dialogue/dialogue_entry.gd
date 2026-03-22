@@ -6,7 +6,8 @@ extends Node
 @export var entry_name := "start"
 @export var auto_start := false
 
-@onready var state := get_parent()
+@export var trigger_on_parent_signal: StringName
+@export var state: Node
 
 var _dialogue_data := DialogueData.new()
 var _current_event_key := ""
