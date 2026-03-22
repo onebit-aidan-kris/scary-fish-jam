@@ -19,7 +19,7 @@ var net_debug_mesh: MeshInstance3D = null
 
 var cumumative_forward_fishing_net_distance: float = 0.0
 
-enum NetState {NONE, AIMING, FIRING_NET, UNDER_WATER, REELING_IN_NET}
+enum NetState { NONE, AIMING, FIRING_NET, UNDER_WATER, REELING_IN_NET }
 var net_state: NetState = NetState.NONE
 
 # Net projectile
@@ -33,7 +33,6 @@ const NET_UNDERWATER_DURATION: float = 2.0
 const NET_REEL_DURATION: float = 0.8
 const SPHERE_RADIUS: float = 9.6
 const SPHERE_HEIGHT: float = 9.6 * 2.0
-
 
 # Reel-in state
 var _reel_t: float = 0.0
@@ -95,6 +94,7 @@ func get_flat_position() -> Vector2:
 		pos_flat = pos_flat.normalized() * lake_radius
 	return pos_flat
 
+
 func move_boat(x_move: float, y_move: float, delta: float) -> void:
 	rotation.y -= x_move * turn_speed * delta
 
@@ -127,13 +127,13 @@ func aim_net() -> void:
 		return
 
 	var candidate_offset := net_local_offset
-	candidate_offset.z = - (cumumative_forward_fishing_net_distance + NET_PARABOLA_SPEED)
+	candidate_offset.z = -(cumumative_forward_fishing_net_distance + NET_PARABOLA_SPEED)
 	var candidate_world: Vector3 = global_transform * candidate_offset
 	candidate_world.y = global_position.y
 
 	if _is_over_water(candidate_world):
 		cumumative_forward_fishing_net_distance += NET_PARABOLA_SPEED
-	net_local_offset.z = - cumumative_forward_fishing_net_distance
+	net_local_offset.z = -cumumative_forward_fishing_net_distance
 
 	var net_world_pos: Vector3 = global_transform * net_local_offset
 	net_world_pos.y = global_position.y
@@ -251,6 +251,7 @@ func _process_net_projectile(delta: float) -> void:
 		arc_y = linear_underwater.y
 
 	_net_projectile.global_position = Vector3(linear.x, arc_y, linear.z)
+
 
 func _process_reeling_in_net(_delta: float) -> void:
 	# TODO: Some animation of maybe water splashes implying 'reeling in' a fish.

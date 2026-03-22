@@ -2,7 +2,6 @@ extends MeshInstance3D
 
 class_name NetArc
 
-
 static var h: float = 3.0
 static var parabola_segments: int = 30
 #
@@ -14,6 +13,7 @@ static var parabola_segments: int = 30
 # 3) Apply a quadratic offset to the line to create the net curve.
 #
 #
+
 
 func calculate_net_path(boat_position: Vector3, net_position: Vector3) -> ArrayMesh:
 	var vertices := PackedVector3Array()
