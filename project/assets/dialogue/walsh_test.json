@@ -4,7 +4,11 @@
 			"next": [
 				"has_met",
 				"intro"
-			]
+			],
+			"callback": {
+				"name": "face",
+				"args": ["$walsh", "$player"]
+			}
 		},
 		"intro": {
 			"speaker": "Walsh",

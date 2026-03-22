@@ -16,8 +16,10 @@ script = ExtResource("1_dhged")
 skip_main_menu = true
 metadata/_custom_type_script = "uid://bu2q2x32c2nug"
 
-[node name="TownState" type="Node" parent="." unique_id=1254822420]
+[node name="TownState" type="Node" parent="." unique_id=1254822420 node_paths=PackedStringArray("player", "walsh")]
 script = ExtResource("2_61x2n")
+player = NodePath("../Player")
+walsh = NodePath("../CapnWalsh")
 
 [node name="TileData" type="Node2D" parent="." unique_id=1192714371]
 y_sort_enabled = true

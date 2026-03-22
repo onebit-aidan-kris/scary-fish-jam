@@ -73,6 +73,7 @@ func _start_next_event() -> void:
 		return
 
 	var event: DialogueEvent = _dialogue_data.events[_current_event_key]
+	_call_callback(event.callback)
 
 	while not event.text and not event.choices:
 		_current_event_key = _dialogue_data.get_next(state, _current_event_key)
@@ -80,6 +81,7 @@ func _start_next_event() -> void:
 			stop()
 			return
 		event = _dialogue_data.events[_current_event_key]
+		_call_callback(event.callback)
 
 	var speaker := event.speaker
 	var text: Array[String] = []
@@ -92,8 +94,6 @@ func _start_next_event() -> void:
 		if _dialogue_data.check_condition(state, choice.next):
 			_current_choices.push_back(choice)
 			util.expect_false(choice_texts.push_back(choice.text))
-
-	_call_callback(event.callback)
 
 	gamestate.dialogue_layer.render(speaker, text, choice_texts)
 
@@ -116,7 +116,13 @@ func _call_callback(callback: DialogueEvent.DialogueCallback) -> void:
 			state.has_method(callback.name),
 			str("State object does not have method: ", callback.name),
 		)
-		state.callv(callback.name, callback.args)
+		var args := []
+		for arg in callback.args:
+			if arg is String and arg.begins_with("$"):
+				args.push_back(state.get(arg.substr(1)))
+			else:
+				args.push_back(arg)
+		state.callv(callback.name, args)
 
 
 func stop() -> void:

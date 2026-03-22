@@ -135,7 +135,10 @@ func set_animating_speed_scale(value: float) -> void:
 
 
 func set_direction_vector(vector: Vector2) -> void:
-	var is_diagonal := is_equal_approx(absf(vector.x), absf(vector.y))
+	var abs_x := absf(vector.x)
+	var abs_y := absf(vector.y)
+	var is_diagonal := is_equal_approx(abs_x, abs_y)
+	var is_x_bigger := abs_x > abs_y
 	var is_wrong_dir := (
 		(vector.x > 0 and direction == Direction.WEST) or
 		(vector.x < 0 and direction == Direction.EAST) or
@@ -143,11 +146,13 @@ func set_direction_vector(vector: Vector2) -> void:
 		(vector.y < 0 and direction == Direction.SOUTH)
 	)
 	if is_wrong_dir or not is_diagonal:
-		if vector.x > 0:
-			set_direction(Direction.EAST)
-		elif vector.x < 0:
-			set_direction(Direction.WEST)
-		elif vector.y > 0:
-			set_direction(Direction.SOUTH)
-		elif vector.y < 0:
-			set_direction(Direction.NORTH)
+		if is_x_bigger:
+			if vector.x > 0:
+				set_direction(Direction.EAST)
+			elif vector.x < 0:
+				set_direction(Direction.WEST)
+		else:
+			if vector.y > 0:
+				set_direction(Direction.SOUTH)
+			elif vector.y < 0:
+				set_direction(Direction.NORTH)
