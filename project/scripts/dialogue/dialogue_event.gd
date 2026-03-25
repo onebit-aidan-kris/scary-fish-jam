@@ -13,6 +13,10 @@ static func gdserde_fields() -> Array[gdserde.Field]:
 			gdserde.Spec.array(gdserde.Spec.object(DialogueChoice)),
 		).optional(),
 		gdserde.Field.new(&"callback", gdserde.Spec.object(DialogueCallback)).optional(),
+		gdserde.Field.new(
+			&"sequence",
+			gdserde.Spec.array(gdserde.Spec.object(DialogueSequenceEntry)),
+		).optional(),
 	]
 
 
@@ -22,6 +26,7 @@ var text: PackedStringArray
 var next: PackedStringArray
 var choices: Array[DialogueChoice]
 var callback := DialogueCallback.new()
+var sequence: Array[DialogueSequenceEntry]
 
 
 class DialogueCallback:
@@ -54,3 +59,18 @@ class DialogueChoice:
 	var text: String
 	var next: String
 	var callback := DialogueCallback.new()
+
+
+class DialogueSequenceEntry:
+	const gdserde_class = &"DialogueSequenceEntry"
+
+
+	static func gdserde_fields() -> Array[gdserde.Field]:
+		return [
+			gdserde.Field.native(&"speaker", TYPE_STRING).optional(),
+			gdserde.Field.native(&"text", TYPE_PACKED_STRING_ARRAY),
+		]
+
+
+	var speaker: String
+	var text: PackedStringArray

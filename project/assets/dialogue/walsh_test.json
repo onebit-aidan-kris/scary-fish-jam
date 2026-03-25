@@ -11,10 +11,30 @@
 			}
 		},
 		"intro": {
-			"speaker": "Walsh",
-			"text": [
-				"You must be the new fella.",
-				"I'm Captain Walsh."
+			"sequence": [
+				{
+					"speaker": "Abel",
+					"text": ["Hello?"]
+				},
+				{
+					"speaker": "???",
+					"text": ["Ahoy!"]
+				},
+				{
+					"text": ["An elderly man appeared as if summoned from the opposite corner of the boathouse."]
+				},
+				{
+					"speaker": "Walsh",
+					"text": ["Well I wouldn't say that, not yet at least..."]
+				},
+				{
+					"speaker": "Narrator",
+					"text": ["The man retorted with an overwhelming boisterousness."]
+				},
+				{
+					"speaker": "Walsh",
+					"text": ["But soon I'll make sure you're capable. Call me Captain Walsh."]
+				}
 			],
 			"callback": {
 				"name": "met_walsh"

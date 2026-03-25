@@ -12,6 +12,7 @@ extends Node
 var _dialogue_data := DialogueData.new()
 var _current_event_key := ""
 var _current_choices: Array[DialogueEvent.DialogueChoice] = []
+var _sequence_index: int = -1
 
 
 func _ready() -> void:
@@ -74,14 +75,20 @@ func _start_next_event() -> void:
 
 	var event: DialogueEvent = _dialogue_data.events[_current_event_key]
 	_call_callback(event.callback)
+	_sequence_index = -1
 
-	while not event.text and not event.choices:
+	while not event.text and not event.choices and not event.sequence:
 		_current_event_key = _dialogue_data.get_next(state, _current_event_key)
 		if not _current_event_key:
 			stop()
 			return
 		event = _dialogue_data.events[_current_event_key]
 		_call_callback(event.callback)
+
+	if event.sequence:
+		_sequence_index = 0
+		_render_sequence_entry()
+		return
 
 	var speaker := event.speaker
 	var text: Array[String] = []
@@ -98,7 +105,25 @@ func _start_next_event() -> void:
 	gamestate.dialogue_layer.render(speaker, text, choice_texts)
 
 
+func _render_sequence_entry() -> void:
+	var event: DialogueEvent = _dialogue_data.events[_current_event_key]
+	var entry: DialogueEvent.DialogueSequenceEntry = event.sequence[_sequence_index]
+	var text: Array[String] = []
+	for line in entry.text:
+		text.push_back(_interpolate(line))
+	var no_choices: PackedStringArray = []
+	gamestate.dialogue_layer.render(entry.speaker, text, no_choices)
+
+
 func _on_advance(index: int) -> void:
+	if _sequence_index >= 0:
+		var event: DialogueEvent = _dialogue_data.events[_current_event_key]
+		_sequence_index += 1
+		if _sequence_index < event.sequence.size():
+			_render_sequence_entry()
+			return
+		_sequence_index = -1
+
 	if _current_choices:
 		var choice := _current_choices[index]
 		_call_callback(choice.callback)
