@@ -1,13 +1,13 @@
 extends Node
 
-@export var path_start : Vector2i
-@export var path_end : Vector2i
+@export var path_start: Vector2i
+@export var path_end: Vector2i
 
-var astar_grid : AStarGrid2D
+var astar_grid: AStarGrid2D
 var path
 var path_index := 0
 
-var _full_path_name : String
+var _full_path_name: String
 
 var activated := true
 
@@ -16,10 +16,11 @@ func _ready() -> void:
 	assert(path_start)
 	assert(path_end)
 	astar_grid = AStarGrid2D.new()
+	astar_grid.region = Rect2i(0, 0, 50, 50) # cover your map
 	astar_grid.cell_size = Vector2(16, 16)
 	astar_grid.diagonal_mode = AStarGrid2D.DIAGONAL_MODE_NEVER
-	path = astar_grid.get_point_path(path_start, path_end)
 	astar_grid.update()
+	path = astar_grid.get_point_path(path_start, path_end)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -29,8 +30,18 @@ func _process(delta: float) -> void:
 
 func activate() -> void:
 	activated = true
+	var parent_node = get_parent()
+	if parent_node is HumanCharacter:
+		parent_node.activated_path = self
+
+func deactivate() -> void:
+	activated = false
+	var parent_node = get_parent()
+	if parent_node is HumanCharacter:
+		parent_node.activated_path = null
 
 func get_next_position() -> Vector2i:
+	print("astar_grid.get_point_path(path_start, path_end) is: ", path)
 	return path[path_index]
 
 func update_path_position() -> Vector2i:

@@ -92,7 +92,7 @@ static func try_as_dict(x: Variant) -> Dictionary:
 	if x is Dictionary:
 		var dict: Dictionary = x
 		return dict
-	return { }
+	return {}
 
 
 ## Casts Variant to Dictionary, otherise asserts and returns empty Dictionary
@@ -101,7 +101,7 @@ static func as_dict(x: Variant) -> Dictionary:
 		var dict: Dictionary = x
 		return dict
 	assert(false)
-	return { }
+	return {}
 
 
 ## Tries to cast Variant to Object, otherise returns null
@@ -206,4 +206,13 @@ static func load_export_or_absolute_node(node: Node, fallback_name: StringName, 
 		return result
 	if show_error:
 		push_error("util: load_export_or_absolute_node: '%s' not found relative to or anywhere in tree from '%s'" % [fallback_name, node.name])
+	return null
+
+
+static func find_parent_by_type(node, parent_type_name: String):
+	var current_node = node.get_parent()
+	while current_node != null:
+		if current_node.get_class() == parent_type_name:
+			return current_node
+		current_node = current_node.get_parent()
 	return null

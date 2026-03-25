@@ -24,6 +24,12 @@ func face(src: HumanCharacter, target: HumanCharacter) -> void:
 func met_walsh() -> void:
 	has_met_walsh = true
 	print("player met Walsh")
+	var ap = walsh.find_child("DockToBoatPath")
+	if ap:
+		print("DockToBoatPath found")
+		ap.activate()
+	else:
+		print("AStar2DPath not found")
 
 
 func met_jeff() -> void:

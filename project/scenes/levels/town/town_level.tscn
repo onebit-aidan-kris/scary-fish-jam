@@ -73,7 +73,7 @@ parent_signal_trigger = &"interacted"
 state = NodePath("../../TownState")
 metadata/_custom_type_script = "uid://cws8nhjc45fo7"
 
-[node name="AStar2DPath" type="Node" parent="CapnWalsh" unique_id=2029402912]
+[node name="DockToBoatPath" type="Node" parent="CapnWalsh" unique_id=2029402912]
 script = ExtResource("7_pmooe")
 path_start = Vector2i(21, 27)
 path_end = Vector2i(21, 32)
