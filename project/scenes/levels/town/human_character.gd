@@ -162,13 +162,16 @@ func set_direction_vector(vector: Vector2) -> void:
 			elif vector.y < 0:
 				set_direction(Direction.NORTH)
 
-func _follow_path(path) -> void:
-	var current_position = global_position as Vector2
-	var next_position = path.get_next_position() as Vector2
-	var direction = (next_position - current_position).normalized()
-	if direction.is_zero_approx():
-		next_position = path.update_path_position() as Vector2
-		direction = (next_position - current_position).normalized()
-	set_direction_vector(direction)
-	var velocity = direction * walk_speed
-	_player_move(velocity)
+func _follow_path(ap) -> void:
+	if ap.is_finished():
+		ap.deactivate()
+		return
+
+	var target: Vector2 = ap.get_next_position()
+	var diff := target - global_position
+
+	if diff.length() < 4.0:
+		ap.advance()
+		return
+
+	_player_move(diff.normalized())

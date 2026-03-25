@@ -4,7 +4,7 @@ extends Node
 @export var path_end: Vector2i
 
 var astar_grid: AStarGrid2D
-var path
+var path: PackedVector2Array
 var path_index := 0
 
 var _full_path_name: String
@@ -23,10 +23,6 @@ func _ready() -> void:
 	path = astar_grid.get_point_path(path_start, path_end)
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	if activated and astar_grid:
-		astar_grid.update()
 
 func activate() -> void:
 	activated = true
@@ -40,12 +36,11 @@ func deactivate() -> void:
 	if parent_node is HumanCharacter:
 		parent_node.activated_path = null
 
-func get_next_position() -> Vector2i:
-	print("astar_grid.get_point_path(path_start, path_end) is: ", path)
+func get_next_position() -> Vector2:
 	return path[path_index]
 
-func update_path_position() -> Vector2i:
+func is_finished() -> bool:
+	return path_index >= path.size()
+
+func advance() -> void:
 	path_index += 1
-	if path_index >= path.size():
-		path_index = 0
-	return path[path_index]
