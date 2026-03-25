@@ -5,6 +5,7 @@ Converts screenplay-style dialogue text into a JSON dialogue sequence.
 Usage:
     python tools/dialogue_converter.py input.txt
     python tools/dialogue_converter.py input.txt --base project/assets/dialogue/walsh_test.json --event-key intro
+    python tools/dialogue_converter.py input.txt --base walsh_test.json --event-key intro --append
 
 Input format:
     Abel: "Hello?"
@@ -26,6 +27,8 @@ Output:
     With --base:    patches the sequence into the given JSON file's
                     event (specified by --event-key, default "intro")
                     and prints the full amended JSON to stdout.
+    With --append:  appends to an existing sequence instead of replacing it.
+    With --out:     writes output to the given file instead of stdout.
 """
 
 import sys
@@ -71,7 +74,7 @@ def parse_dialogue(lines: list[str]) -> list[dict]:
 def main() -> None:
     if len(sys.argv) < 2:
         print(
-            "Usage: dialogue_converter.py <input.txt> [--base <file.json>] [--event-key <key>]",
+            "Usage: dialogue_converter.py <input.txt> [--base <file.json>] [--event-key <key>] [--append] [--out <file>]",
             file=sys.stderr,
         )
         sys.exit(1)
@@ -79,6 +82,8 @@ def main() -> None:
     input_file = sys.argv[1]
     base_file: str | None = None
     event_key = "intro"
+    append = False
+    out_file: str | None = None
 
     i = 2
     while i < len(sys.argv):
@@ -87,6 +92,12 @@ def main() -> None:
             i += 2
         elif sys.argv[i] == "--base" and i + 1 < len(sys.argv):
             base_file = sys.argv[i + 1]
+            i += 2
+        elif sys.argv[i] == "--append":
+            append = True
+            i += 1
+        elif sys.argv[i] == "--out" and i + 1 < len(sys.argv):
+            out_file = sys.argv[i + 1]
             i += 2
         else:
             print(f"Unknown argument: {sys.argv[i]}", file=sys.stderr)
@@ -101,15 +112,24 @@ def main() -> None:
 
         event = data.get("events", {}).get(event_key)
         if event is not None:
-            event.pop("text", None)
-            event.pop("speaker", None)
-            event["sequence"] = sequence
+            if append and "sequence" in event:
+                event["sequence"].extend(sequence)
+            else:
+                event.pop("text", None)
+                event.pop("speaker", None)
+                event["sequence"] = sequence
         else:
             data.setdefault("events", {})[event_key] = {"sequence": sequence}
 
-        print(json.dumps(data, indent="\t", ensure_ascii=False))
+        output = json.dumps(data, indent="\t", ensure_ascii=False)
     else:
-        print(json.dumps(sequence, indent="\t", ensure_ascii=False))
+        output = json.dumps(sequence, indent="\t", ensure_ascii=False)
+
+    if out_file:
+        with open(out_file, "w", encoding="utf-8") as f:
+            f.write(output + "\n")
+    else:
+        print(output)
 
 
 if __name__ == "__main__":

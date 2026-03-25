@@ -50,6 +50,9 @@ func _physics_process(_delta: float) -> void:
 	if Engine.is_editor_hint():
 		return
 
+	if following_path:
+		_follow_path()
+
 	if player_controlled:
 		if gamestate.player_input.interact:
 			_player_interact()
@@ -156,3 +159,14 @@ func set_direction_vector(vector: Vector2) -> void:
 				set_direction(Direction.SOUTH)
 			elif vector.y < 0:
 				set_direction(Direction.NORTH)
+
+func _follow_path() -> void:
+	var current_position = get_current_position()
+	var next_position = path.get_next_position(current_position)
+	var direction = (next_position - current_position).normalized()
+	if direction.is_zero_approx():
+		next_position = path.update_path_position()
+		direction = (next_position - current_position).normalized()
+	set_direction_vector(direction)
+	var velocity = direction * walk_speed
+	_player_move(velocity)

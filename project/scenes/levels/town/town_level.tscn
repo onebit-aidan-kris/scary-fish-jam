@@ -7,6 +7,7 @@
 [ext_resource type="SpriteFrames" uid="uid://ckbo7ly65qhh3" path="res://assets/spritesheets/capn.tres" id="4_p7w6r"]
 [ext_resource type="Script" uid="uid://cws8nhjc45fo7" path="res://scripts/dialogue/dialogue_entry.gd" id="6_5sm54"]
 [ext_resource type="SpriteFrames" uid="uid://dtks8q41tl0pa" path="res://assets/spritesheets/jeff.tres" id="7_5sm54"]
+[ext_resource type="Script" uid="uid://6oqbt4cmd71t" path="res://scenes/levels/town/a_star_2d_path.gd" id="7_pmooe"]
 [ext_resource type="PackedScene" uid="uid://brt8eh1dd10p0" path="res://scenes/levels/town/tile_event.tscn" id="8_ywyd6"]
 [ext_resource type="Texture2D" uid="uid://3ueo3whkota3" path="res://assets/spritesheets/boat-topdown.png" id="9_hgas2"]
 [ext_resource type="Script" uid="uid://codxcir5kyuw0" path="res://scenes/levels/town/events/to_fishing.gd" id="9_rhu6c"]
@@ -71,6 +72,11 @@ json_path = "res://assets/dialogue/walsh_test.json"
 parent_signal_trigger = &"interacted"
 state = NodePath("../../TownState")
 metadata/_custom_type_script = "uid://cws8nhjc45fo7"
+
+[node name="AStar2DPath" type="Node" parent="CapnWalsh" unique_id=2029402912]
+script = ExtResource("7_pmooe")
+path_start = Vector2i(21, 27)
+path_end = Vector2i(21, 32)
 
 [node name="Jeff" parent="." unique_id=2041412736 instance=ExtResource("3_g6o05")]
 position = Vector2(1048, 104)
