@@ -19,7 +19,7 @@ var net_debug_mesh: MeshInstance3D = null
 
 var cumumative_forward_fishing_net_distance: float = 0.0
 
-enum NetState { NONE, AIMING, FIRING_NET, UNDER_WATER, REELING_IN_NET }
+enum NetState {NONE, AIMING, FIRING_NET, UNDER_WATER, REELING_IN_NET}
 var net_state: NetState = NetState.NONE
 
 # Net projectile
@@ -46,6 +46,10 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
+	# do nothing if dialogue is playing
+	if gamestate.is_dialogue_playing:
+		return
+
 	if sonar_cooldown_ticks > 0:
 		sonar_cooldown_ticks -= 1
 
@@ -79,6 +83,7 @@ func is_sonar_ready() -> bool:
 
 func trigger_sonar() -> void:
 	sonar_cooldown_ticks = sonar_cooldown_max
+	signalbus.sonar_highlight.emit(global_position)
 
 
 func receive_damage(damage_amount: int) -> void:
@@ -127,13 +132,13 @@ func aim_net() -> void:
 		return
 
 	var candidate_offset := net_local_offset
-	candidate_offset.z = -(cumumative_forward_fishing_net_distance + NET_PARABOLA_SPEED)
+	candidate_offset.z = - (cumumative_forward_fishing_net_distance + NET_PARABOLA_SPEED)
 	var candidate_world: Vector3 = global_transform * candidate_offset
 	candidate_world.y = global_position.y
 
 	if _is_over_water(candidate_world):
 		cumumative_forward_fishing_net_distance += NET_PARABOLA_SPEED
-	net_local_offset.z = -cumumative_forward_fishing_net_distance
+	net_local_offset.z = - cumumative_forward_fishing_net_distance
 
 	var net_world_pos: Vector3 = global_transform * net_local_offset
 	net_world_pos.y = global_position.y

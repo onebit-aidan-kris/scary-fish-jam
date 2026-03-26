@@ -12,6 +12,7 @@ var fish_caught: Array[Node3D] = []
 
 
 func _ready() -> void:
+	gamestate.unpause() # To unblock dialog that'll load immediately for the tutorial level
 	_highlight_mat = StandardMaterial3D.new()
 	_highlight_mat.albedo_color = Color.RED
 	_highlight_mat.emission_energy_multiplier = 5.0
@@ -19,6 +20,7 @@ func _ready() -> void:
 
 	var _err: int = signalbus.sonar_highlight.connect(_on_sonar_highlight)
 	var _err2: int = signalbus.fish_caught.connect(add_fish_caught)
+	
 
 
 func _process(_delta: float) -> void:

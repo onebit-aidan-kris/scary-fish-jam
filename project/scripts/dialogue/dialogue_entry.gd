@@ -23,7 +23,7 @@ func _ready() -> void:
 			assert(false, str("parent does not have signal: ", parent_signal_trigger))
 
 	match util.parse_json_file(json_path):
-		[var data, OK]:
+		[ var data, OK]:
 			var res := gdserde.deserialize_object(_dialogue_data, data)
 			res.expect_ok()
 			#print(gdserde.serialize_object(_dialogue_data))
@@ -40,6 +40,16 @@ func start() -> void:
 
 	_current_event_key = entry_name
 	util.aok(gamestate.dialogue_layer.advanced.connect(_on_advance))
+	signalbus.dialogue_started.emit()
+	_start_next_event()
+
+
+func jump_to_event(event_key: String) -> void:
+	if not _current_event_key:
+		start()
+
+	_current_event_key = event_key
+	_sequence_index = -1
 	_start_next_event()
 
 
@@ -165,4 +175,5 @@ func _call_callback(callback: DialogueEvent.DialogueCallback) -> void:
 func stop() -> void:
 	gamestate.dialogue_layer.advanced.disconnect(_on_advance)
 	gamestate.dialogue_layer.hide()
+	signalbus.dialogue_ended.emit()
 	_current_event_key = ""

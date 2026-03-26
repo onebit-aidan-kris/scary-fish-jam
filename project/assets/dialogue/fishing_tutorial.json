@@ -1,0 +1,57 @@
+{
+	"events": {
+		"start": {
+			"sequence": [
+				{
+					"speaker": "Cpt. Walsh",
+					"text": [
+						"Alrighty, welcome to your bootcampt into real honest work.  Yer training program is to first start in this lagoon. Then, ye'll move onto the bay. After that you might end up catching some real fish!"
+					]
+				},
+				{
+					"speaker": "Cpt. Walsh",
+					"text": [
+						"The first thing ya gotta use is the old fish finder."
+					]
+				},
+				{
+					"speaker": "Cpt. Walsh",
+					"text": [
+						"Press E and it'll show you where the fish is, if it's in front of ye."
+					]
+				},
+				{
+					"speaker": "Cpt. Walsh",
+					"text": [
+						"Once you've got a lock, cast your net with a good arc."
+					]
+				},
+				{
+					"speaker": "Cpt. Walsh",
+					"text": [
+						"And whatever you do — stay away from the red one."
+					]
+				}
+			],
+			"after": {
+				"name": "post_sonar_explanation"
+			}
+		},
+		"post_sonar": {
+			"sequence": [
+				{
+					"speaker": "Cpt. Walsh",
+					"text": [
+						"Ah, splendid! If you see the red dot, that's a fish. Cast your net at it and reel it in!"
+					]
+				},
+				{
+					"speaker": "Cpt. Walsh",
+					"text": [
+						"Now, here's an old fisherman's tip: You can't jus' use the finder and then cast the net, by the time the net gets down thar these little skippers'dve bailed fer yonder. You gotta use it in several places, understand where the fish _WILL_ go, then cast yer net based off of that. Ye gotta build an image in yer mind of where they be headin. But also, ya got limited daylight. So you'll need to hone your own mind's 'fish sense', yes sir..."
+					]
+				},
+			]
+		}
+	}
+}

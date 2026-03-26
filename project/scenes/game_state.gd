@@ -8,6 +8,8 @@ extends Node
 @onready var stretch_filter: CanvasLayer = %StretchFilter
 @onready var dialogue_layer: DialogueLayer = %DialogueLayer
 
+var is_dialogue_playing := false
+
 # Public Methods
 
 
@@ -28,6 +30,9 @@ func _ready() -> void:
 	util.printdbg("DEBUG BUILD")
 
 	sync_object_state(&"player_input", player_input)
+
+	util.aok(signalbus.dialogue_started.connect(_on_dialogue_started))
+	util.aok(signalbus.dialogue_ended.connect(_on_dialogue_ended))
 
 	var args := OS.get_cmdline_user_args()
 	if args:
@@ -50,3 +55,14 @@ func _process(_delta: float) -> void:
 			pause_menu_system.pause()
 
 # Private Methods
+
+
+func _on_dialogue_started() -> void:
+	is_dialogue_playing = true
+
+
+func _on_dialogue_ended() -> void:
+	is_dialogue_playing = false
+
+func unpause() -> void:
+	pause_menu_system.unpause()

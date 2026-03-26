@@ -5,7 +5,7 @@
 				"has_met",
 				"intro"
 			],
-			"callback": {
+			"before": {
 				"name": "face",
 				"args": [
 					"$walsh",
