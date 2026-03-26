@@ -8,6 +8,7 @@ const RNG_SEED := 42
 # Used for rendering sonar highlights
 var _highlight_circles: Array[MeshInstance3D] = []
 var _highlight_mat: StandardMaterial3D
+var fish_caught: Array[Node3D] = []
 
 
 func _ready() -> void:
@@ -17,6 +18,7 @@ func _ready() -> void:
 	_highlight_mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 
 	var _err: int = signalbus.sonar_highlight.connect(_on_sonar_highlight)
+	var _err2: int = signalbus.fish_caught.connect(add_fish_caught)
 
 
 func _process(_delta: float) -> void:
@@ -49,3 +51,9 @@ func _on_sonar_highlight(fish_position: Vector3) -> void:
 	add_child(circle)
 	circle.global_position = Vector3(fish_position.x, highlight_y, fish_position.z)
 	_highlight_circles.append(circle)
+
+
+func add_fish_caught(fish: Node3D) -> void:
+	fish_caught.append(fish)
+	fish.queue_free()
+	print("fish caught! : ", fish_caught.size())
