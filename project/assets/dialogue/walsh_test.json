@@ -33,9 +33,15 @@
 					]
 				},
 				{
+					"speaker": "Abel",
+					"text": [
+						"Hi.... I'm Abel..."
+					]
+				},
+				{
 					"speaker": "Walsh",
 					"text": [
-						"Well I wouldn't say that, not yet at least..."
+						"Well I wouldn't say _that_ yet, not yet at least..."
 					]
 				},
 				{
@@ -48,6 +54,24 @@
 					"speaker": "Walsh",
 					"text": [
 						"But soon I'll make sure you're capable. Call me Captain Walsh."
+					]
+				},
+				{
+					"speaker": "Narrator",
+					"text": [
+						"They exchanged a basic handshake. Captain Walsh's right hand felt pruned by the sea."
+					]
+				},
+				{
+					"speaker": "Narrator",
+					"text": [
+						"Despite this, the strength of the grip felt uncomfortably firm."
+					]
+				},
+				{
+					"speaker": "Abel",
+					"text": [
+						"Nice to meet you..."
 					]
 				},
 				{
