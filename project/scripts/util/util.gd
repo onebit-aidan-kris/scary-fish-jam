@@ -209,6 +209,27 @@ static func load_export_or_absolute_node(node: Node, fallback_name: StringName, 
 	return null
 
 
+## Marks cells solid on [param astar] for every cell in [param layers] that has
+## at least one collision polygon on [param physics_layer] (default 0).
+## Only cells whose grid coordinates fall within [param astar]'s region are
+## considered. Call this after astar.update() has been called.
+static func mark_solid_from_tilemaps(
+	astar: AStarGrid2D,
+	layers: Array,
+	physics_layer: int = 0,
+) -> void:
+	for layer: TileMapLayer in layers:
+		if not layer.collision_enabled:
+			continue
+		for cell: Vector2i in layer.get_used_cells():
+			var tile_data: TileData = layer.get_cell_tile_data(cell)
+			if tile_data == null:
+				continue
+			if tile_data.get_collision_polygons_count(physics_layer) > 0:
+				if astar.is_in_boundsv(cell):
+					astar.set_point_solid(cell, true)
+
+
 static func find_parent_by_type(node, parent_type_name: String):
 	var current_node = node.get_parent()
 	while current_node != null:
