@@ -52,7 +52,6 @@ func _physics_process(_delta: float) -> void:
 		return
 
 	if activated_path:
-		print("following path: ", activated_path)
 		_follow_path(activated_path)
 
 	if player_controlled:

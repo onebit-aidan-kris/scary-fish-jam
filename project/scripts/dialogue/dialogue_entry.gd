@@ -68,13 +68,22 @@ func _interpolate(text: String) -> String:
 	return out
 
 
+func _fire_before(event: DialogueEvent) -> void:
+	_call_callback(event.callback)
+	_call_callback(event.before)
+
+
+func _fire_after(event: DialogueEvent) -> void:
+	_call_callback(event.after)
+
+
 func _start_next_event() -> void:
 	if not _current_event_key:
 		stop()
 		return
 
 	var event: DialogueEvent = _dialogue_data.events[_current_event_key]
-	_call_callback(event.callback)
+	_fire_before(event)
 	_sequence_index = -1
 
 	while not event.text and not event.choices and not event.sequence:
@@ -83,7 +92,7 @@ func _start_next_event() -> void:
 			stop()
 			return
 		event = _dialogue_data.events[_current_event_key]
-		_call_callback(event.callback)
+		_fire_before(event)
 
 	if event.sequence:
 		_sequence_index = 0
@@ -116,13 +125,16 @@ func _render_sequence_entry() -> void:
 
 
 func _on_advance(index: int) -> void:
+	var event: DialogueEvent = _dialogue_data.events[_current_event_key]
+
 	if _sequence_index >= 0:
-		var event: DialogueEvent = _dialogue_data.events[_current_event_key]
 		_sequence_index += 1
 		if _sequence_index < event.sequence.size():
 			_render_sequence_entry()
 			return
 		_sequence_index = -1
+
+	_fire_after(event)
 
 	if _current_choices:
 		var choice := _current_choices[index]

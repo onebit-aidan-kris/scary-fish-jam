@@ -63,7 +63,7 @@
 					]
 				}
 			],
-			"callback": {
+			"after": {
 				"name": "met_walsh"
 			}
 		},
@@ -73,7 +73,7 @@
 			],
 			"speaker": "Walsh",
 			"text": [
-				"I'm very busy"
+				"Stop wasting time and hop in!"
 			]
 		}
 	}

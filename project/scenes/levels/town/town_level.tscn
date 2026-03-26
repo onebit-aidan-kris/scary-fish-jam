@@ -75,8 +75,8 @@ metadata/_custom_type_script = "uid://cws8nhjc45fo7"
 
 [node name="DockToBoatPath" type="Node" parent="CapnWalsh" unique_id=2029402912]
 script = ExtResource("7_pmooe")
-path_start = Vector2i(21, 27)
-path_end = Vector2i(21, 32)
+path_start = Vector2i(22, 27)
+path_end = Vector2i(20, 34)
 
 [node name="Jeff" parent="." unique_id=2041412736 instance=ExtResource("3_g6o05")]
 position = Vector2(1048, 104)

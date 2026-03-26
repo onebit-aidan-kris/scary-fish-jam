@@ -12,7 +12,10 @@ static func gdserde_fields() -> Array[gdserde.Field]:
 			&"choices",
 			gdserde.Spec.array(gdserde.Spec.object(DialogueChoice)),
 		).optional(),
+		# "callback" is an alias for "before" kept for backwards compatibility
 		gdserde.Field.new(&"callback", gdserde.Spec.object(DialogueCallback)).optional(),
+		gdserde.Field.new(&"before", gdserde.Spec.object(DialogueCallback)).optional(),
+		gdserde.Field.new(&"after", gdserde.Spec.object(DialogueCallback)).optional(),
 		gdserde.Field.new(
 			&"sequence",
 			gdserde.Spec.array(gdserde.Spec.object(DialogueSequenceEntry)),
@@ -26,6 +29,8 @@ var text: PackedStringArray
 var next: PackedStringArray
 var choices: Array[DialogueChoice]
 var callback := DialogueCallback.new()
+var before := DialogueCallback.new()
+var after := DialogueCallback.new()
 var sequence: Array[DialogueSequenceEntry]
 
 
