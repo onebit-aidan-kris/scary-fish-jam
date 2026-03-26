@@ -1,0 +1,52 @@
+[gd_scene format=3 uid="uid://dg8or08jgcptp"]
+
+[ext_resource type="Script" uid="uid://3tb3olm5hjy1" path="res://scenes/levels/town/human_character.gd" id="1_lmi4m"]
+[ext_resource type="SpriteFrames" uid="uid://d31wlrrswstyx" path="res://assets/spritesheets/abel.tres" id="1_x1mec"]
+[ext_resource type="Script" uid="uid://c6ie1dficwsk0" path="res://scenes/levels/town/human_sprite_2d.gd" id="2_lmi4m"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qkgad"]
+size = Vector2(12, 8)
+
+[node name="HumanCharacter" type="CharacterBody2D" unique_id=1879680299]
+y_sort_enabled = true
+texture_filter = 1
+collision_layer = 3
+script = ExtResource("1_lmi4m")
+sprite_frames = ExtResource("1_x1mec")
+metadata/_custom_type_script = "uid://3tb3olm5hjy1"
+
+[node name="HumanSprite2D" type="AnimatedSprite2D" parent="." unique_id=1898277973]
+position = Vector2(0, 7)
+sprite_frames = ExtResource("1_x1mec")
+animation = &"walk-s"
+offset = Vector2(0, -7)
+script = ExtResource("2_lmi4m")
+metadata/_custom_type_script = "uid://c6ie1dficwsk0"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=8628469]
+position = Vector2(0, 5)
+shape = SubResource("RectangleShape2D_qkgad")
+
+[node name="InteractNorth" type="RayCast2D" parent="." unique_id=229837590]
+position = Vector2(0, 1)
+target_position = Vector2(0, -3)
+collision_mask = 2
+collide_with_areas = true
+
+[node name="InteractSouth" type="RayCast2D" parent="." unique_id=1008059892]
+position = Vector2(0, 9)
+target_position = Vector2(0, 3)
+collision_mask = 2
+collide_with_areas = true
+
+[node name="InteractEast" type="RayCast2D" parent="." unique_id=2078641462]
+position = Vector2(6, 5)
+target_position = Vector2(3, 0)
+collision_mask = 2
+collide_with_areas = true
+
+[node name="InteractWest" type="RayCast2D" parent="." unique_id=1569484362]
+position = Vector2(-6, 5)
+target_position = Vector2(-3, 0)
+collision_mask = 2
+collide_with_areas = true
