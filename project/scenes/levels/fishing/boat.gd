@@ -161,8 +161,8 @@ func set_net_debug_mesh(_mesh: MeshInstance3D) -> void:
 	net_debug_mesh = MeshInstance3D.new()
 	net_debug_mesh.mesh = CylinderMesh.new()
 	net_debug_mesh.set_surface_override_material(0, StandardMaterial3D.new())
-	net_debug_mesh.global_position = global_transform * net_local_offset
 	get_tree().root.add_child(net_debug_mesh)
+	net_debug_mesh.position = global_transform * net_local_offset
 
 
 func clear_net_debug_mesh() -> void:
