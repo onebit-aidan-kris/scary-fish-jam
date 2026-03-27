@@ -50,7 +50,29 @@
 					"text": [
 						"Now, here's an old fisherman's tip: You can't jus' use the finder and then cast the net, by the time the net gets down thar these little skippers'dve bailed fer yonder. You gotta use it in several places, understand where the fish _WILL_ go, then cast yer net based off of that. Ye gotta build an image in yer mind of where they be headin. But also, ya got limited daylight. So you'll need to hone your own mind's 'fish sense', yes sir..."
 					]
+				}
+			]
+		},
+		"first_catch": {
+			"sequence": [
+				{
+					"speaker": "Cpt. Walsh",
+					"text": [
+						"Well, would ye look at that! Not bad for yer first go!"
+					]
 				},
+				{
+					"speaker": "Cpt. Walsh",
+					"text": [
+						"Keep it up and ye might just survive out here on the open water."
+					]
+				},
+				{
+					"speaker": "Cpt. Walsh",
+					"text": [
+						"Now, let's get you some more fish! Try catching 2 more for me."
+					]
+				}
 			]
 		}
 	}

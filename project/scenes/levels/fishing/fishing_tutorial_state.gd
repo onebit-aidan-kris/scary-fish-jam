@@ -2,6 +2,7 @@ extends Node
 
 var sonar_explanation_finished := false
 var sonar_highlight_explanation_finished := false
+var fish_caught_explanation_finished := false
 
 @onready var dialogue_entry: DialogueEntry = $DialogueEntryTutorial
 
@@ -9,6 +10,7 @@ var sonar_highlight_explanation_finished := false
 func _ready() -> void:
 	assert(dialogue_entry, "DialogueEntryTutorial node not found")
 	util.aok(signalbus.sonar_highlight.connect(_on_sonar_highlight))
+	util.aok(signalbus.fish_caught.connect(_on_fish_caught))
 
 
 func post_sonar_explanation() -> void:
@@ -23,3 +25,11 @@ func _on_sonar_highlight(position: Vector3) -> void:
 	sonar_highlight_explanation_finished = true
 	print("sonar highlight: ", position)
 	dialogue_entry.jump_to_event("post_sonar")
+
+
+func _on_fish_caught(fish: Node3D) -> void:
+	print("!!! fish caught: ", fish)
+	if fish_caught_explanation_finished:
+		return
+	fish_caught_explanation_finished = true
+	dialogue_entry.jump_to_event("first_catch")
