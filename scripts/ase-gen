@@ -1,0 +1,100 @@
+#!/usr/bin/env bash
+set -euo pipefail
+shopt -s failglob
+
+# shopt -s nullglob  # Allow failed globs, but expand to empty string
+# shopt -s dotglob   # Include .dotfiles in globs
+## shellcheck disable=SC2086 # allow word splitting
+# SCRIPT_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
+# cd "$SCRIPT_DIR"
+
+usage() {
+    # NOTE: Don't forget to update OPTIONS/LONGOPTS below!
+    cat <<EOF
+Usage: $(basename "$0") [options]
+
+Options:
+    -p, --aseprite-path     Path to Aseprite binary
+    -h, --help              Display this help message
+    -v, --verbose           Enable debug messages
+EOF
+}
+
+# NOTE: Use ':' suffix to specify opt has an arg
+OPTIONS="p:hv"
+LONGOPTS="aseprite-path:help,verbose"
+
+# NOTE: getopt comes from 'util-linux' package
+# Check if getopt is available, fallback to simple parsing if not
+if command -v getopt &>/dev/null; then
+    PARSED=$(getopt -o "$OPTIONS" -l "$LONGOPTS" -n "$0" -- "$@") || {
+        usage >&2
+        exit 2
+    }
+    eval set -- "$PARSED"
+fi
+
+die() {
+    echo "$*" >&2
+    echo
+    usage >&2
+    exit 2
+}
+
+log() {
+    local c="$1"
+    shift
+    [[ $c ]] && echo -ne "\033[${c}m" >&2
+    echo -e "$@" >&2
+    [[ $c ]] && echo -ne '\033[0m' >&2
+    return 0
+}
+debug() {
+    [[ $verbose ]] && log "" "$@"
+    return 0
+}
+warn() { log "0;33" "$@"; }
+error() { log "0;31" "$@"; }
+
+verbose=
+aseprite_bin=aseprite
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+    -p | --aseprite-path)
+        [[ $# -lt 2 ]] && die "Option $1 requires an argument"
+        aseprite_bin="$2"
+        shift
+        ;;
+    -h | --help)
+        usage
+        exit 0
+        ;;
+    -v | --verbose) verbose=1 ;;
+    --)
+        shift
+        break
+        ;;
+    -*)
+        die "Unknown option: $1"
+        ;;
+    *)
+        # Non-option argument, stop parsing
+        break
+        ;;
+    esac
+    shift
+done
+
+(($# >= 1)) && die "Too many arguments"
+
+cd "$(dirname "$(realpath "${BASH_SOURCE[0]}")")"/../project/assets
+
+ase() {
+    (
+        [[ $verbose ]] && set -x
+        "$aseprite_bin" "$@"
+    )
+}
+
+mkdir -p spritesheets/rocks
+ase -b spritesheets/rocks.aseprite --save-as 'spritesheets/rocks/{slice}.png'
