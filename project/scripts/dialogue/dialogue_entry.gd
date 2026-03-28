@@ -23,7 +23,7 @@ func _ready() -> void:
 			assert(false, str("parent does not have signal: ", parent_signal_trigger))
 
 	match util.parse_json_file(json_path):
-		[ var data, OK]:
+		[var data, OK]:
 			var res := gdserde.deserialize_object(_dialogue_data, data)
 			res.expect_ok()
 			#print(gdserde.serialize_object(_dialogue_data))

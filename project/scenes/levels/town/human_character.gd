@@ -32,6 +32,7 @@ enum Direction {
 
 var activated_path
 
+
 func _ready() -> void:
 	assert(_human_sprite)
 
@@ -160,6 +161,7 @@ func set_direction_vector(vector: Vector2) -> void:
 				set_direction(Direction.SOUTH)
 			elif vector.y < 0:
 				set_direction(Direction.NORTH)
+
 
 func _follow_path(ap) -> void:
 	if ap.is_finished():

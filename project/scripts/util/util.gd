@@ -92,7 +92,7 @@ static func try_as_dict(x: Variant) -> Dictionary:
 	if x is Dictionary:
 		var dict: Dictionary = x
 		return dict
-	return {}
+	return { }
 
 
 ## Casts Variant to Dictionary, otherise asserts and returns empty Dictionary
@@ -101,7 +101,7 @@ static func as_dict(x: Variant) -> Dictionary:
 		var dict: Dictionary = x
 		return dict
 	assert(false)
-	return {}
+	return { }
 
 
 ## Tries to cast Variant to Object, otherise returns null
@@ -230,9 +230,9 @@ static func load_export_or_absolute_node(node: Node, fallback_name: StringName, 
 ## Only cells whose grid coordinates fall within [param astar]'s region are
 ## considered. Call this after astar.update() has been called.
 static func mark_solid_from_tilemaps(
-	astar: AStarGrid2D,
-	layers: Array,
-	physics_layer: int = 0,
+		astar: AStarGrid2D,
+		layers: Array,
+		physics_layer: int = 0,
 ) -> void:
 	for layer: TileMapLayer in layers:
 		if not layer.collision_enabled:

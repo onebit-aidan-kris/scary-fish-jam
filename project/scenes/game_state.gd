@@ -66,5 +66,6 @@ func _on_dialogue_started() -> void:
 func _on_dialogue_ended() -> void:
 	is_dialogue_playing = false
 
+
 func unpause() -> void:
 	pause_menu_system.unpause()

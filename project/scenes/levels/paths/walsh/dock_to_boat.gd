@@ -6,8 +6,10 @@ var path: Array[Vector2i] = []
 var start_position: Vector2i
 var end_position: Vector2i
 
+
 func _ready() -> void:
 	pass
+
 
 func _process(delta: float) -> void:
 	if active:
@@ -24,8 +26,10 @@ func _process(delta: float) -> void:
 func activate() -> void:
 	active = true
 
+
 func set_start_position(position: Vector2i) -> void:
 	start_position = position
+
 
 func set_end_position(position: Vector2i) -> void:
 	end_position = position

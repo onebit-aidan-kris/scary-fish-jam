@@ -30,6 +30,7 @@ func met_jeff() -> void:
 	has_met_jeff = true
 	print("player met Jeff")
 
+
 func walsh_to_boat() -> void:
 	print("walsh to boat")
 	var ap = walsh.find_child("DockToBoatPath")

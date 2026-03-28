@@ -24,7 +24,6 @@ func _ready() -> void:
 	util.aok(signalbus.sonar_highlight.connect(_on_sonar_highlight))
 	util.aok(signalbus.fish_caught.connect(add_fish_caught))
 	util.aok(signalbus.level_won.connect(_on_level_won))
-	
 
 
 func _process(_delta: float) -> void:
