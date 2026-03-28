@@ -16,6 +16,7 @@
 [ext_resource type="Script" uid="uid://bba01x3j11oyw" path="res://scripts/components/fish/player_detectable.gd" id="12_hdgy8"]
 [ext_resource type="PackedScene" uid="uid://d3f18gvut8igp" path="res://scenes/levels/fishing/hud.tscn" id="13_hud"]
 [ext_resource type="Script" uid="uid://clcjf1cfg352o" path="res://scripts/interfaces/fish/behavior_policy.gd" id="14_jaywq"]
+[ext_resource type="Script" uid="uid://bop81tscj8rdm" path="res://scenes/levels/fishing/rock_spawner.gd" id="17_qulve"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_fish"]
 sky_top_color = Color(0.35, 0.6, 0.85, 1)
@@ -46,6 +47,9 @@ transparency = 1
 albedo_color = Color(0.08, 0.28, 0.52, 0.65)
 metallic = 0.3
 roughness = 0.05
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_1jjmo"]
+size = Vector2(1000, 1000)
 
 [sub_resource type="CylinderMesh" id="FloorMesh_fish"]
 top_radius = 36.0
@@ -117,8 +121,13 @@ transform = Transform3D(0.866, 0.354, -0.354, 0, 0.707, 0.707, 0.5, -0.612, 0.61
 shadow_enabled = true
 
 [node name="WaterSurface" type="MeshInstance3D" parent="." unique_id=1101279172 groups=["WaterSurface"]]
+visible = false
 mesh = SubResource("WaterMesh_fish")
 surface_material_override/0 = SubResource("WaterMat_fish")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=252522768]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
+mesh = SubResource("PlaneMesh_1jjmo")
 
 [node name="SeaFloor" type="MeshInstance3D" parent="." unique_id=397263360]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8, 0)
@@ -324,3 +333,9 @@ script = ExtResource("12_hdgy8")
 
 [node name="BehaviorPolicy" type="Node" parent="." unique_id=1769684507]
 script = ExtResource("14_jaywq")
+
+[node name="RockSpawner" type="Node3D" parent="." unique_id=1376710829]
+script = ExtResource("17_qulve")
+radius = 35.0
+thickness = 1.5
+density = 4.8
