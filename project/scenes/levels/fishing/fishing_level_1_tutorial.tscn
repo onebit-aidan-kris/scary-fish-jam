@@ -14,6 +14,7 @@
 [ext_resource type="Script" uid="uid://clcjf1cfg352o" path="res://scripts/interfaces/fish/behavior_policy.gd" id="15_nivoj"]
 [ext_resource type="Script" uid="uid://cww83iditct2p" path="res://scenes/levels/fishing/win_condition.gd" id="15_o7t48"]
 [ext_resource type="Script" uid="uid://cws8nhjc45fo7" path="res://scripts/dialogue/dialogue_entry.gd" id="16_dlgen"]
+[ext_resource type="Script" uid="uid://s2st5ighxp1k" path="res://scenes/levels/fishing/fish_count_condition.gd" id="16_w4rkf"]
 [ext_resource type="Script" uid="uid://ci0s5n2ma2ljx" path="res://scenes/levels/fishing/fishing_tutorial_state.gd" id="17_ftst"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_fish"]
@@ -325,3 +326,6 @@ state = NodePath("..")
 
 [node name="WinCondition" type="Node" parent="." unique_id=502337740]
 script = ExtResource("15_o7t48")
+
+[node name="FishCountCondition" type="Node" parent="WinCondition" unique_id=1630240404]
+script = ExtResource("16_w4rkf")
