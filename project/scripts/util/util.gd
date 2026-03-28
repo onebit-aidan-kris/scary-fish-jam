@@ -168,6 +168,11 @@ static func transform_3d(
 	base.z *= scale.z
 	return Transform3D(base, position)
 
+
+static func rand_index(arr: Array) -> int:
+	return randi_range(0, arr.size() - 1)
+
+
 ## Resolves a node reference with fallback search order:
 ## 1. If `current_value` is already set (non-null), returns it as-is
 ## 2. Searches children of `node` matching `fallback_name`
