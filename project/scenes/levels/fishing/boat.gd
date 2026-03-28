@@ -203,7 +203,7 @@ func fire_net() -> void:
 		mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 		mesh_inst.set_surface_override_material(0, mat)
 		_net_projectile.add_child(mesh_inst)
-	
+
 	var net_sprite: FishingNetSprite = net_scene.instantiate()
 	net_sprite.rotate(Vector3.UP, global_rotation.y)
 	_net_projectile.add_child(net_sprite)

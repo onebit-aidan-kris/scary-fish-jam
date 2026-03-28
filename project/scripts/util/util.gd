@@ -158,9 +158,9 @@ static func msg_unexpected_type(expected_type: Variant.Type, actual_value: Varia
 
 
 static func transform_3d(
-	position: Vector3 = Vector3.ZERO,
-	rotation: Vector3 = Vector3.ZERO,
-	scale: Vector3 = Vector3.ONE
+		position: Vector3 = Vector3.ZERO,
+		rotation: Vector3 = Vector3.ZERO,
+		scale: Vector3 = Vector3.ONE,
 ) -> Transform3D:
 	var base := Basis.from_euler(rotation)
 	base.x *= scale.x
