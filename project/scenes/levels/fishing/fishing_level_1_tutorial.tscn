@@ -83,8 +83,10 @@ polygons = [PackedInt32Array(0, 1, 2), PackedInt32Array(0, 2, 3), PackedInt32Arr
 
 [sub_resource type="CapsuleShape3D" id="FishCollision_1ewjx"]
 
-[node name="FishingLevel" type="Node3D" unique_id=1521638617]
+[node name="FishingLevel" type="Node3D" unique_id=1521638617 node_paths=PackedStringArray("win_dialogue")]
 script = ExtResource("1_o7t48")
+next_level_scene = "uid://b6mr0x45oaqyx"
+win_dialogue = NodePath("WinDialogue")
 
 [node name="LevelConfig" type="Node" parent="." unique_id=159456657]
 script = ExtResource("2_w4rkf")
@@ -324,8 +326,14 @@ json_path = "res://assets/dialogue/fishing_tutorial.json"
 auto_start = true
 state = NodePath("..")
 
+[node name="WinDialogue" type="Node" parent="." unique_id=445058869 node_paths=PackedStringArray("state")]
+script = ExtResource("16_dlgen")
+json_path = "res://assets/dialogue/fishing_tutorial_win.json"
+state = NodePath("../TutorialState")
+
 [node name="WinCondition" type="Node" parent="." unique_id=502337740]
 script = ExtResource("15_o7t48")
 
 [node name="FishCountCondition" type="Node" parent="WinCondition" unique_id=1630240404]
 script = ExtResource("16_w4rkf")
+required_count = 3

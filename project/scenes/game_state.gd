@@ -7,6 +7,7 @@ extends Node
 @onready var player_input: PlayerInput = %PlayerInput
 @onready var stretch_filter: CanvasLayer = %StretchFilter
 @onready var dialogue_layer: DialogueLayer = %DialogueLayer
+@onready var screen_fade: ScreenFade = %ScreenFade
 
 var is_dialogue_playing := false
 
@@ -26,6 +27,7 @@ func _ready() -> void:
 	assert(player_input)
 	assert(stretch_filter)
 	assert(dialogue_layer)
+	assert(screen_fade)
 
 	util.printdbg("DEBUG BUILD")
 

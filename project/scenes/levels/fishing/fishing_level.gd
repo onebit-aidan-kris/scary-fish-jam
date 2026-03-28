@@ -6,6 +6,7 @@ const NUM_OBJECTS := 80
 const RNG_SEED := 42
 
 @export_file("*.tscn") var next_level_scene: String
+@export var win_dialogue: DialogueEntry
 
 # Used for rendering sonar highlights
 var _highlight_circles: Array[MeshInstance3D] = []
@@ -66,7 +67,19 @@ func add_fish_caught(fish: Node3D) -> void:
 
 func _on_level_won() -> void:
 	print("Level won! Transitioning to: ", next_level_scene)
+	if win_dialogue:
+		util.aok(signalbus.dialogue_ended.connect(_on_win_dialogue_ended, CONNECT_ONE_SHOT))
+		win_dialogue.start()
+	else:
+		_transition_to_next_level()
+
+
+func _on_win_dialogue_ended() -> void:
+	_transition_to_next_level()
+
+
+func _transition_to_next_level() -> void:
 	if next_level_scene:
-		util.aok(get_tree().change_scene_to_file(next_level_scene))
+		gamestate.screen_fade.fade_to_scene(next_level_scene)
 	else:
 		print("No next level scene configured")

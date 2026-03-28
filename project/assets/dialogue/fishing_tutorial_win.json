@@ -1,0 +1,20 @@
+{
+	"events": {
+		"start": {
+			"sequence": [
+				{
+					"speaker": "Cpt. Walsh",
+					"text": [
+						"Ha HA! Now THAT'S what I call a haul!"
+					]
+				},
+				{
+					"speaker": "Cpt. Walsh",
+					"text": [
+						"Ye might just have a future on the water after all. Let's head back to shore."
+					]
+				}
+			]
+		}
+	}
+}
