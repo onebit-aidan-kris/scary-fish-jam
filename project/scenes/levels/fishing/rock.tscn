@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://cqgo7x3ibdciy"]
+
+[ext_resource type="Script" uid="uid://7j8jt30xcw12" path="res://scenes/levels/fishing/rock.gd" id="1_pyfux"]
+[ext_resource type="Texture2D" uid="uid://djjf7a88yvuqm" path="res://assets/spritesheets/rocks.png" id="1_r716d"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_pyfux"]
+radius = 1.1228027
+height = 3.1228027
+
+[node name="Rock" type="StaticBody3D" unique_id=368164761]
+script = ExtResource("1_pyfux")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1446457936]
+shape = SubResource("CapsuleShape3D_pyfux")
+
+[node name="RockSprite" type="Sprite3D" parent="." unique_id=1012070416]
+pixel_size = 0.08
+billboard = 1
+texture_filter = 0
+texture = ExtResource("1_r716d")
+hframes = 4

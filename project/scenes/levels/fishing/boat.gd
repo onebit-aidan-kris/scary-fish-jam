@@ -1,5 +1,7 @@
 extends CharacterBody3D
 
+const net_scene := preload("uid://bs7e0u028upx4")
+
 @export var move_speed := 8.0
 @export var turn_speed := 2.0
 @export var lake_radius := 30.0
@@ -190,16 +192,21 @@ func fire_net() -> void:
 	col.shape = shape
 	_net_projectile.add_child(col)
 
-	var mesh_inst := MeshInstance3D.new()
-	var sphere := SphereMesh.new()
-	sphere.radius = SPHERE_RADIUS
-	sphere.height = SPHERE_HEIGHT
-	mesh_inst.mesh = sphere
-	var mat := StandardMaterial3D.new()
-	mat.albedo_color = Color(0.9, 0.85, 0.6)
-	mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	mesh_inst.set_surface_override_material(0, mat)
-	_net_projectile.add_child(mesh_inst)
+	if false:
+		var mesh_inst := MeshInstance3D.new()
+		var sphere := SphereMesh.new()
+		sphere.radius = SPHERE_RADIUS
+		sphere.height = SPHERE_HEIGHT
+		mesh_inst.mesh = sphere
+		var mat := StandardMaterial3D.new()
+		mat.albedo_color = Color(0.9, 0.85, 0.6)
+		mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+		mesh_inst.set_surface_override_material(0, mat)
+		_net_projectile.add_child(mesh_inst)
+
+	var net_sprite: FishingNetSprite = net_scene.instantiate()
+	net_sprite.rotate(Vector3.UP, global_rotation.y)
+	_net_projectile.add_child(net_sprite)
 
 	_net_projectile.monitoring = true
 	get_tree().root.add_child(_net_projectile)

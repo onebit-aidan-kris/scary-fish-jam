@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://bs7e0u028upx4"]
+
+[ext_resource type="Texture2D" uid="uid://c3i5l4nxmxym0" path="res://assets/spritesheets/fishing-net.png" id="1_5ldmt"]
+[ext_resource type="Script" uid="uid://c0ml1manamft6" path="res://scenes/levels/fishing/fishing_net_sprite.gd" id="2_ilpml"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ilpml"]
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+shading_mode = 0
+albedo_texture = ExtResource("1_5ldmt")
+texture_filter = 0
+
+[sub_resource type="QuadMesh" id="QuadMesh_h1m7m"]
+material = SubResource("StandardMaterial3D_ilpml")
+size = Vector2(8, 8)
+
+[sub_resource type="Curve" id="Curve_ilpml"]
+_data = [Vector2(0, 0.056179762), 0.0, 6.1797767, 0, 0, Vector2(0.21999998, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[node name="MeshInstance3D" type="MeshInstance3D" unique_id=314009594]
+transform = Transform3D(0.5363304, -0.8440081, 0, 0.8440081, 0.5363304, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("QuadMesh_h1m7m")
+script = ExtResource("2_ilpml")
+scale_curve = SubResource("Curve_ilpml")
