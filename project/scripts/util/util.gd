@@ -157,6 +157,17 @@ static func msg_unexpected_type(expected_type: Variant.Type, actual_value: Varia
 	)
 
 
+static func transform_3d(
+	position: Vector3 = Vector3.ZERO,
+	rotation: Vector3 = Vector3.ZERO,
+	scale: Vector3 = Vector3.ONE
+) -> Transform3D:
+	var base := Basis.from_euler(rotation)
+	base.x *= scale.x
+	base.y *= scale.y
+	base.z *= scale.z
+	return Transform3D(base, position)
+
 ## Resolves a node reference with fallback search order:
 ## 1. If `current_value` is already set (non-null), returns it as-is
 ## 2. Searches children of `node` matching `fallback_name`

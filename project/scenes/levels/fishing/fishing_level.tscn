@@ -17,6 +17,10 @@
 [ext_resource type="PackedScene" uid="uid://d3f18gvut8igp" path="res://scenes/levels/fishing/hud.tscn" id="13_hud"]
 [ext_resource type="Script" uid="uid://clcjf1cfg352o" path="res://scripts/interfaces/fish/behavior_policy.gd" id="14_jaywq"]
 [ext_resource type="Script" uid="uid://bop81tscj8rdm" path="res://scenes/levels/fishing/rock_spawner.gd" id="17_qulve"]
+[ext_resource type="Texture2D" uid="uid://dj5puqm3pibfl" path="res://assets/spritesheets/rocks/rock1.png" id="18_18ysy"]
+[ext_resource type="Texture2D" uid="uid://daug3f4g26xsq" path="res://assets/spritesheets/rocks/rock2.png" id="19_nsrqc"]
+[ext_resource type="Texture2D" uid="uid://cqmfop81rhod8" path="res://assets/spritesheets/rocks/rock3.png" id="20_mm18j"]
+[ext_resource type="Texture2D" uid="uid://b5urikh5s04ln" path="res://assets/spritesheets/rocks/rock4.png" id="21_slwk1"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_fish"]
 sky_top_color = Color(0.35, 0.6, 0.85, 1)
@@ -48,8 +52,21 @@ albedo_color = Color(0.08, 0.28, 0.52, 0.65)
 metallic = 0.3
 roughness = 0.05
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_18ysy"]
+shading_mode = 0
+albedo_color = Color(0.7372549, 0.7176471, 0.64705884, 1)
+
 [sub_resource type="PlaneMesh" id="PlaneMesh_1jjmo"]
+material = SubResource("StandardMaterial3D_18ysy")
 size = Vector2(1000, 1000)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vmuc0"]
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+shading_mode = 0
+texture_filter = 0
+billboard_mode = 1
 
 [sub_resource type="CylinderMesh" id="FloorMesh_fish"]
 top_radius = 36.0
@@ -125,9 +142,17 @@ visible = false
 mesh = SubResource("WaterMesh_fish")
 surface_material_override/0 = SubResource("WaterMat_fish")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=252522768]
+[node name="WaterSurface2" type="MeshInstance3D" parent="." unique_id=252522768]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
 mesh = SubResource("PlaneMesh_1jjmo")
+
+[node name="RockSpawner" type="Node3D" parent="." unique_id=218318360]
+script = ExtResource("17_qulve")
+radius = 40.0
+density = 3.0
+mesh_scale = 4.0
+material_template = SubResource("StandardMaterial3D_vmuc0")
+textures = Array[Texture2D]([ExtResource("18_18ysy"), ExtResource("19_nsrqc"), ExtResource("20_mm18j"), ExtResource("21_slwk1")])
 
 [node name="SeaFloor" type="MeshInstance3D" parent="." unique_id=397263360]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8, 0)
@@ -333,9 +358,3 @@ script = ExtResource("12_hdgy8")
 
 [node name="BehaviorPolicy" type="Node" parent="." unique_id=1769684507]
 script = ExtResource("14_jaywq")
-
-[node name="RockSpawner" type="Node3D" parent="." unique_id=1376710829]
-script = ExtResource("17_qulve")
-radius = 35.0
-thickness = 1.5
-density = 4.8
