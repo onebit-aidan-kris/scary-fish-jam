@@ -10,11 +10,9 @@
 [ext_resource type="AudioStream" uid="uid://bstgfyfprod26" path="res://assets/sounds/wind_standard.mp3" id="8_05u28"]
 [ext_resource type="Script" uid="uid://4gtx2q7jsi3x" path="res://scenes/levels/fishing/fish.gd" id="9_wctvh"]
 [ext_resource type="Script" uid="uid://bk0gw6mycptk4" path="res://scenes/levels/fishing/patrol_behavior.gd" id="10_diss8"]
-[ext_resource type="Script" uid="uid://qh6mkd6mxe0t" path="res://scenes/levels/fishing/vision_cone.gd" id="11_1g2x1"]
-[ext_resource type="Script" uid="uid://comou8l10poef" path="res://scripts/components/fish/attackable.gd" id="12_wer5m"]
-[ext_resource type="Script" uid="uid://bba01x3j11oyw" path="res://scripts/components/fish/player_detectable.gd" id="13_6eqmm"]
 [ext_resource type="PackedScene" path="res://scenes/levels/fishing/hud.tscn" id="14_qc0gi"]
 [ext_resource type="Script" uid="uid://clcjf1cfg352o" path="res://scripts/interfaces/fish/behavior_policy.gd" id="15_nivoj"]
+[ext_resource type="Script" uid="uid://cww83iditct2p" path="res://scenes/levels/fishing/win_condition.gd" id="15_o7t48"]
 [ext_resource type="Script" uid="uid://cws8nhjc45fo7" path="res://scripts/dialogue/dialogue_entry.gd" id="16_dlgen"]
 [ext_resource type="Script" uid="uid://ci0s5n2ma2ljx" path="res://scenes/levels/fishing/fishing_tutorial_state.gd" id="17_ftst"]
 
@@ -83,23 +81,6 @@ polygons = [PackedInt32Array(0, 1, 2), PackedInt32Array(0, 2, 3), PackedInt32Arr
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1ewjx"]
 
 [sub_resource type="CapsuleShape3D" id="FishCollision_1ewjx"]
-
-[sub_resource type="StandardMaterial3D" id="DangerFishMat"]
-albedo_color = Color(0.7, 0.15, 0.1, 1)
-roughness = 0.6
-
-[sub_resource type="SphereShape3D" id="DangerHitboxShape"]
-radius = 2.0
-
-[sub_resource type="StandardMaterial3D" id="HitboxDebugMat"]
-transparency = 1
-cull_mode = 2
-shading_mode = 0
-albedo_color = Color(1, 0.5, 0, 0.3)
-
-[sub_resource type="SphereMesh" id="HitboxDebugMesh"]
-radius = 2.0
-height = 4.0
 
 [node name="FishingLevel" type="Node3D" unique_id=1521638617]
 script = ExtResource("1_o7t48")
@@ -257,6 +238,57 @@ surface_material_override/0 = SubResource("StandardMaterial3D_1ewjx")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Fish3" unique_id=463349306]
 shape = SubResource("FishCollision_1ewjx")
 
+[node name="Fish4" type="CharacterBody3D" parent="." unique_id=-1178035701 node_paths=PackedStringArray("path_node")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, -4, -15)
+script = ExtResource("9_wctvh")
+path_node = NodePath("../PatrolPath1")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="Fish4" unique_id=329993257]
+
+[node name="PatrolBehavior" type="Node" parent="Fish4" unique_id=1886188928]
+script = ExtResource("10_diss8")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Fish4" unique_id=1953340607]
+mesh = SubResource("CapsuleMesh_1ewjx")
+surface_material_override/0 = SubResource("StandardMaterial3D_1ewjx")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Fish4" unique_id=275143982]
+shape = SubResource("FishCollision_1ewjx")
+
+[node name="Fish5" type="CharacterBody3D" parent="." unique_id=1460629892 node_paths=PackedStringArray("path_node")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, -4, 20)
+script = ExtResource("9_wctvh")
+path_node = NodePath("../PatrolPath2")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="Fish5" unique_id=510881229]
+
+[node name="PatrolBehavior" type="Node" parent="Fish5" unique_id=1886188929]
+script = ExtResource("10_diss8")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Fish5" unique_id=1555449959]
+mesh = SubResource("CapsuleMesh_1ewjx")
+surface_material_override/0 = SubResource("StandardMaterial3D_1ewjx")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Fish5" unique_id=1929489258]
+shape = SubResource("FishCollision_1ewjx")
+
+[node name="Fish6" type="CharacterBody3D" parent="." unique_id=438467659 node_paths=PackedStringArray("path_node")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4, -5)
+script = ExtResource("9_wctvh")
+path_node = NodePath("../PatrolPath3")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="Fish6" unique_id=1179597227]
+
+[node name="PatrolBehavior" type="Node" parent="Fish6" unique_id=1886188930]
+script = ExtResource("10_diss8")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Fish6" unique_id=1920115998]
+mesh = SubResource("CapsuleMesh_1ewjx")
+surface_material_override/0 = SubResource("StandardMaterial3D_1ewjx")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Fish6" unique_id=463349307]
+shape = SubResource("FishCollision_1ewjx")
+
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=433113643]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.231449, 2.5440874, 0)
 stream = ExtResource("8_05u28")
@@ -277,42 +309,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, -4, 10)
 [node name="D" type="Marker3D" parent="DangerPatrolPath" unique_id=1686067223]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4, 20)
 
-[node name="Dangerfish" type="CharacterBody3D" parent="." unique_id=2140608507 node_paths=PackedStringArray("path_node") groups=["dangerfish"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4, -10)
-script = ExtResource("9_wctvh")
-path_node = NodePath("../DangerPatrolPath")
-
-[node name="NavigationAgent3D" type="NavigationAgent3D" parent="Dangerfish" unique_id=1823798467]
-
-[node name="PatrolBehavior" type="Node" parent="Dangerfish" unique_id=806830455]
-script = ExtResource("10_diss8")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Dangerfish" unique_id=669747252]
-mesh = SubResource("CapsuleMesh_1ewjx")
-surface_material_override/0 = SubResource("DangerFishMat")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Dangerfish" unique_id=1396212403]
-shape = SubResource("FishCollision_1ewjx")
-
-[node name="VisionCone" type="Node3D" parent="Dangerfish" unique_id=1102608571]
-visible = false
-script = ExtResource("11_1g2x1")
-
-[node name="Attackable" type="Node3D" parent="Dangerfish" unique_id=1498541721]
-script = ExtResource("12_wer5m")
-
-[node name="Hitbox" type="Area3D" parent="Dangerfish/Attackable" unique_id=1839218042]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Dangerfish/Attackable/Hitbox" unique_id=1652857943]
-shape = SubResource("DangerHitboxShape")
-
-[node name="DebugMesh" type="MeshInstance3D" parent="Dangerfish/Attackable/Hitbox" unique_id=1367368006]
-material_override = SubResource("HitboxDebugMat")
-mesh = SubResource("HitboxDebugMesh")
-
-[node name="PlayerDetectable" type="Node" parent="Dangerfish" unique_id=488956632]
-script = ExtResource("13_6eqmm")
-
 [node name="HUD" parent="." unique_id=381760315 instance=ExtResource("14_qc0gi")]
 
 [node name="BehaviorPolicy" type="Node" parent="." unique_id=1769684507]
@@ -326,3 +322,6 @@ script = ExtResource("16_dlgen")
 json_path = "res://assets/dialogue/fishing_tutorial.json"
 auto_start = true
 state = NodePath("..")
+
+[node name="WinCondition" type="Node" parent="." unique_id=502337740]
+script = ExtResource("15_o7t48")
