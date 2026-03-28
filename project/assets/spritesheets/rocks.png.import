@@ -2,20 +2,22 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://clkjkjt7iqhns"
-path="res://.godot/imported/boat-oblique.png-de0ec220c1af94f9d89cf74e6e80b5c2.ctex"
+uid="uid://djjf7a88yvuqm"
+path.s3tc="res://.godot/imported/rocks.png-7f6bafa0c06c13cec77f00f2c2b3fe30.s3tc.ctex"
+path.etc2="res://.godot/imported/rocks.png-7f6bafa0c06c13cec77f00f2c2b3fe30.etc2.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
+"vram_texture": true
 }
 
 [deps]
 
-source_file="res://assets/spritesheets/boat-oblique.png"
-dest_files=["res://.godot/imported/boat-oblique.png-de0ec220c1af94f9d89cf74e6e80b5c2.ctex"]
+source_file="res://assets/spritesheets/rocks.png"
+dest_files=["res://.godot/imported/rocks.png-7f6bafa0c06c13cec77f00f2c2b3fe30.s3tc.ctex", "res://.godot/imported/rocks.png-7f6bafa0c06c13cec77f00f2c2b3fe30.etc2.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
