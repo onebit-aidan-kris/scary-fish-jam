@@ -5,6 +5,9 @@ const SEA_FLOOR_Y := -8.0
 const NUM_OBJECTS := 80
 const RNG_SEED := 42
 
+@export_file("*.tscn") var next_level_scene: String
+@export var win_dialogue: DialogueEntry
+
 # Used for rendering sonar highlights
 var _highlight_circles: Array[MeshInstance3D] = []
 var _highlight_mat: StandardMaterial3D
@@ -12,13 +15,15 @@ var fish_caught: Array[Node3D] = []
 
 
 func _ready() -> void:
+	gamestate.unpause()
 	_highlight_mat = StandardMaterial3D.new()
 	_highlight_mat.albedo_color = Color.RED
 	_highlight_mat.emission_energy_multiplier = 5.0
 	_highlight_mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 
-	var _err: int = signalbus.sonar_highlight.connect(_on_sonar_highlight)
-	var _err2: int = signalbus.fish_caught.connect(add_fish_caught)
+	util.aok(signalbus.sonar_highlight.connect(_on_sonar_highlight))
+	util.aok(signalbus.fish_caught.connect(add_fish_caught))
+	util.aok(signalbus.level_won.connect(_on_level_won))
 
 
 func _process(_delta: float) -> void:
@@ -57,3 +62,23 @@ func add_fish_caught(fish: Node3D) -> void:
 	fish_caught.append(fish)
 	fish.queue_free()
 	print("fish caught! : ", fish_caught.size())
+
+
+func _on_level_won() -> void:
+	print("Level won! Transitioning to: ", next_level_scene)
+	if win_dialogue:
+		util.aok(signalbus.dialogue_ended.connect(_on_win_dialogue_ended, CONNECT_ONE_SHOT))
+		win_dialogue.start()
+	else:
+		_transition_to_next_level()
+
+
+func _on_win_dialogue_ended() -> void:
+	_transition_to_next_level()
+
+
+func _transition_to_next_level() -> void:
+	if next_level_scene:
+		gamestate.screen_fade.fade_to_scene(next_level_scene)
+	else:
+		print("No next level scene configured")
