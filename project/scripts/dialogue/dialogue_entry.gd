@@ -12,6 +12,7 @@ extends Node
 var _dialogue_data := DialogueData.new()
 var _current_event_key := ""
 var _current_choices: Array[DialogueEvent.DialogueChoice] = []
+var _sequence_index: int = -1
 
 
 func _ready() -> void:
@@ -39,6 +40,16 @@ func start() -> void:
 
 	_current_event_key = entry_name
 	util.aok(gamestate.dialogue_layer.advanced.connect(_on_advance))
+	signalbus.dialogue_started.emit()
+	_start_next_event()
+
+
+func jump_to_event(event_key: String) -> void:
+	if not _current_event_key:
+		start()
+
+	_current_event_key = event_key
+	_sequence_index = -1
 	_start_next_event()
 
 
@@ -67,21 +78,36 @@ func _interpolate(text: String) -> String:
 	return out
 
 
+func _fire_before(event: DialogueEvent) -> void:
+	_call_callback(event.callback)
+	_call_callback(event.before)
+
+
+func _fire_after(event: DialogueEvent) -> void:
+	_call_callback(event.after)
+
+
 func _start_next_event() -> void:
 	if not _current_event_key:
 		stop()
 		return
 
 	var event: DialogueEvent = _dialogue_data.events[_current_event_key]
-	_call_callback(event.callback)
+	_fire_before(event)
+	_sequence_index = -1
 
-	while not event.text and not event.choices:
+	while not event.text and not event.choices and not event.sequence:
 		_current_event_key = _dialogue_data.get_next(state, _current_event_key)
 		if not _current_event_key:
 			stop()
 			return
 		event = _dialogue_data.events[_current_event_key]
-		_call_callback(event.callback)
+		_fire_before(event)
+
+	if event.sequence:
+		_sequence_index = 0
+		_render_sequence_entry()
+		return
 
 	var speaker := event.speaker
 	var text: Array[String] = []
@@ -98,7 +124,28 @@ func _start_next_event() -> void:
 	gamestate.dialogue_layer.render(speaker, text, choice_texts)
 
 
+func _render_sequence_entry() -> void:
+	var event: DialogueEvent = _dialogue_data.events[_current_event_key]
+	var entry: DialogueEvent.DialogueSequenceEntry = event.sequence[_sequence_index]
+	var text: Array[String] = []
+	for line in entry.text:
+		text.push_back(_interpolate(line))
+	var no_choices: PackedStringArray = []
+	gamestate.dialogue_layer.render(entry.speaker, text, no_choices)
+
+
 func _on_advance(index: int) -> void:
+	var event: DialogueEvent = _dialogue_data.events[_current_event_key]
+
+	if _sequence_index >= 0:
+		_sequence_index += 1
+		if _sequence_index < event.sequence.size():
+			_render_sequence_entry()
+			return
+		_sequence_index = -1
+
+	_fire_after(event)
+
 	if _current_choices:
 		var choice := _current_choices[index]
 		_call_callback(choice.callback)
@@ -128,4 +175,5 @@ func _call_callback(callback: DialogueEvent.DialogueCallback) -> void:
 func stop() -> void:
 	gamestate.dialogue_layer.advanced.disconnect(_on_advance)
 	gamestate.dialogue_layer.hide()
+	signalbus.dialogue_ended.emit()
 	_current_event_key = ""

@@ -30,6 +30,8 @@ enum Direction {
 @onready var _interact_east: RayCast2D = $InteractEast
 @onready var _interact_west: RayCast2D = $InteractWest
 
+var activated_path
+
 
 func _ready() -> void:
 	assert(_human_sprite)
@@ -49,6 +51,9 @@ func _physics_process(_delta: float) -> void:
 	# Don't move character in editor
 	if Engine.is_editor_hint():
 		return
+
+	if activated_path:
+		_follow_path(activated_path)
 
 	if player_controlled:
 		if gamestate.player_input.interact:
@@ -156,3 +161,18 @@ func set_direction_vector(vector: Vector2) -> void:
 				set_direction(Direction.SOUTH)
 			elif vector.y < 0:
 				set_direction(Direction.NORTH)
+
+
+func _follow_path(ap) -> void:
+	if ap.is_finished():
+		ap.deactivate()
+		return
+
+	var target: Vector2 = ap.get_next_position()
+	var diff := target - global_position
+
+	if diff.length() < 4.0:
+		ap.advance()
+		return
+
+	_player_move(diff.normalized())

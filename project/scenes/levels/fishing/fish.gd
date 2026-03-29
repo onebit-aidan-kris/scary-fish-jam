@@ -3,6 +3,7 @@ extends CharacterBody3D
 
 enum State { PATROLLING, FOLLOWING }
 
+@export var fish_type := "any"
 @export var path_node: Node3D
 @export var swim_speed := 3.0
 @export var chase_speed := 5.0
@@ -36,6 +37,9 @@ func _ready() -> void:
 
 func _physics_process(_delta: float) -> void:
 	if not behavior_policy:
+		return
+
+	if gamestate.is_dialogue_playing:
 		return
 
 	if state == State.FOLLOWING and target_player:

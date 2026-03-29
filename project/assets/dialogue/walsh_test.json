@@ -5,18 +5,85 @@
 				"has_met",
 				"intro"
 			],
-			"callback": {
+			"before": {
 				"name": "face",
-				"args": ["$walsh", "$player"]
+				"args": [
+					"$walsh",
+					"$player"
+				]
 			}
 		},
 		"intro": {
-			"speaker": "Walsh",
-			"text": [
-				"You must be the new fella.",
-				"I'm Captain Walsh."
+			"sequence": [
+				{
+					"speaker": "Abel",
+					"text": [
+						"Hello?"
+					]
+				},
+				{
+					"speaker": "???",
+					"text": [
+						"Ahoy!"
+					]
+				},
+				{
+					"text": [
+						"An elderly man appeared as if summoned from the opposite corner of the boathouse."
+					]
+				},
+				{
+					"speaker": "Abel",
+					"text": [
+						"Hi.... I'm Abel..."
+					]
+				},
+				{
+					"speaker": "Walsh",
+					"text": [
+						"Well I wouldn't say [i]that[/i] yet, not yet at least..."
+					]
+				},
+				{
+					"text": [
+						"The man retorted with an overwhelming boisterousness."
+					]
+				},
+				{
+					"speaker": "Walsh",
+					"text": [
+						"But soon I'll make sure you're capable. Call me Captain Walsh."
+					]
+				},
+				{
+					"text": [
+						"They exchanged a basic handshake. Captain Walsh's right hand felt pruned by the sea."
+					]
+				},
+				{
+					"text": [
+						"Despite this, the strength of the grip felt uncomfortably firm."
+					]
+				},
+				{
+					"speaker": "Abel",
+					"text": [
+						"Nice to meet you..."
+					]
+				},
+				{
+					"text": [
+						"Abel looked over his shoulder and glanced at the boat. His heart sank. He didn't expect luxury but at least had hoped for something that looked like a rusted tin can."
+					]
+				},
+				{
+					"speaker": "Walsh",
+					"text": [
+						"Well, daylight's a-wasting. Hop inside and I'll show you the ropes."
+					]
+				}
 			],
-			"callback": {
+			"after": {
 				"name": "met_walsh"
 			}
 		},
@@ -26,7 +93,7 @@
 			],
 			"speaker": "Walsh",
 			"text": [
-				"I'm very busy"
+				"Stop wasting time and hop in!"
 			]
 		}
 	}

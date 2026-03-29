@@ -1,6 +1,6 @@
 extends CharacterBody3D
 
-const net_scene := preload("uid://bs7e0u028upx4")
+const net_scene := preload("res://scenes/levels/fishing/fishing_net_sprite.tscn")
 
 @export var move_speed := 8.0
 @export var turn_speed := 2.0
@@ -45,9 +45,15 @@ var _caught_fish: Node3D = null
 func _ready() -> void:
 	_input = gamestate.player_input
 	_cam_origin_pitch = _camera.rotation_degrees.x
+	_camera.rotation_degrees.x = clampf(_cam_origin_pitch, -90.0, -20.0)
+	_camera.make_current()
 
 
 func _physics_process(delta: float) -> void:
+	# do nothing if dialogue is playing
+	if gamestate.is_dialogue_playing:
+		return
+
 	if sonar_cooldown_ticks > 0:
 		sonar_cooldown_ticks -= 1
 
@@ -262,7 +268,7 @@ func _process_net_projectile(delta: float) -> void:
 
 func _process_reeling_in_net(_delta: float) -> void:
 	# TODO: Some animation of maybe water splashes implying 'reeling in' a fish.
-	signalbus.fish_caught.emit(_caught_fish)
-
-	# Reset the net state.
-	net_state = NetState.NONE
+	var fish := _caught_fish
+	_caught_fish = null
+	retract_net()
+	signalbus.fish_caught.emit(fish)
