@@ -1,0 +1,29 @@
+#!/usr/bin/env sh
+set -eu
+
+echo ""
+echo "Validating .import files..."
+
+# Search for all .png.import files and check for compress/mode=0
+files=$(find . -not -path '*/.git/*' -name "*.png.import" -type f)
+
+if [ -z "$files" ]; then
+    echo "No .png.import files found"
+    exit 0
+fi
+
+found_any=
+
+for file in $files; do
+    if ! grep -q "compress/mode=0" "$file"; then
+        echo "$file does not contain 'compress/mode=0'"
+        found_any=1
+    fi
+done
+
+if [ -n "$found_any" ]; then
+    echo "FAILED: Re-import these files with Compress Mode 'Lossless'"
+    exit 1
+else
+    echo "PASS"
+fi
