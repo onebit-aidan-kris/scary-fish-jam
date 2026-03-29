@@ -111,3 +111,4 @@ ase-dir() {
 ase-dir spritesheets/rocks
 ase-dir spritesheets/dive-bar
 ase-dir spritesheets/school
+ase-dir spritesheets/fish
