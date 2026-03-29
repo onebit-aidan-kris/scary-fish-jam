@@ -6,11 +6,12 @@ const net_scene := preload("res://scenes/levels/fishing/fishing_net_sprite.tscn"
 @export var turn_speed := 2.0
 @export var lake_radius := 30.0
 @export var health := 100.0 # TODO: Make flexible to persistent upgrades.
+@export var catch_sound: AudioStream
 
 @onready var _camera: Camera3D = $Camera3D
 @onready var net_arc: MeshInstance3D = $NetArc
 
-var _catch_sound: AudioStreamPlayer
+var _catch_sound_player: AudioStreamPlayer
 
 const NET_PARABOLA_SPEED: float = 0.15
 
@@ -49,8 +50,11 @@ func _ready() -> void:
 	_cam_origin_pitch = _camera.rotation_degrees.x
 	_camera.rotation_degrees.x = clampf(_cam_origin_pitch, -90.0, -20.0)
 	_camera.make_current()
-	_catch_sound = _create_catch_sound()
-	add_child(_catch_sound)
+	_catch_sound_player = AudioStreamPlayer.new()
+	if catch_sound:
+		_catch_sound_player.stream = catch_sound
+	_catch_sound_player.volume_db = -3.0
+	add_child(_catch_sound_player)
 
 
 func _physics_process(delta: float) -> void:
@@ -275,36 +279,6 @@ func _process_reeling_in_net(_delta: float) -> void:
 	var fish := _caught_fish
 	_caught_fish = null
 	retract_net()
-	_catch_sound.play()
+	if _catch_sound_player.stream:
+		_catch_sound_player.play()
 	signalbus.fish_caught.emit(fish)
-
-
-static func _create_catch_sound() -> AudioStreamPlayer:
-	var sample_rate := 22050
-	var duration := 0.35
-	var sample_count := int(sample_rate * duration)
-
-	var stream := AudioStreamWAV.new()
-	stream.format = AudioStreamWAV.FORMAT_16_BITS
-	stream.mix_rate = sample_rate
-	stream.stereo = false
-
-	var data := PackedByteArray()
-	@warning_ignore("return_value_discarded")
-	data.resize(sample_count * 2)
-
-	for i: int in sample_count:
-		var t := float(i) / sample_rate
-		var envelope := 1.0 - (t / duration)
-		var freq := lerpf(800.0, 1200.0, t / duration)
-		var sample_f := sin(t * freq * TAU) * envelope * 0.4
-		var sample_16 := clampi(int(sample_f * 32767.0), -32768, 32767)
-		data[i * 2] = sample_16 & 0xFF
-		data[i * 2 + 1] = (sample_16 >> 8) & 0xFF
-
-	stream.data = data
-
-	var player := AudioStreamPlayer.new()
-	player.stream = stream
-	player.volume_db = -3.0
-	return player
