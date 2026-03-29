@@ -121,6 +121,57 @@ surface_material_override/0 = SubResource("FishMat")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Fish3"]
 shape = SubResource("FishCollision")
 
+[node name="Fish4" type="CharacterBody3D" parent="." node_paths=PackedStringArray("path_node")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, -4, -15)
+script = ExtResource("3_fish")
+path_node = NodePath("../PatrolPath1")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="Fish4"]
+
+[node name="PatrolBehavior" type="Node" parent="Fish4"]
+script = ExtResource("4_patrol")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Fish4"]
+mesh = SubResource("FishMesh")
+surface_material_override/0 = SubResource("FishMat")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Fish4"]
+shape = SubResource("FishCollision")
+
+[node name="Fish5" type="CharacterBody3D" parent="." node_paths=PackedStringArray("path_node")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, -4, 12)
+script = ExtResource("3_fish")
+path_node = NodePath("../PatrolPath2")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="Fish5"]
+
+[node name="PatrolBehavior" type="Node" parent="Fish5"]
+script = ExtResource("4_patrol")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Fish5"]
+mesh = SubResource("FishMesh")
+surface_material_override/0 = SubResource("FishMat")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Fish5"]
+shape = SubResource("FishCollision")
+
+[node name="Fish6" type="CharacterBody3D" parent="." node_paths=PackedStringArray("path_node")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, -4, -3)
+script = ExtResource("3_fish")
+path_node = NodePath("../PatrolPath3")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="Fish6"]
+
+[node name="PatrolBehavior" type="Node" parent="Fish6"]
+script = ExtResource("4_patrol")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Fish6"]
+mesh = SubResource("FishMesh")
+surface_material_override/0 = SubResource("FishMat")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Fish6"]
+shape = SubResource("FishCollision")
+
 [node name="DangerPatrolPath1" type="Node3D" parent="."]
 
 [node name="A" type="Marker3D" parent="DangerPatrolPath1"]
