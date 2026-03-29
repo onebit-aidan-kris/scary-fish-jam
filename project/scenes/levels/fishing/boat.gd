@@ -85,7 +85,6 @@ func is_sonar_ready() -> bool:
 
 func trigger_sonar() -> void:
 	sonar_cooldown_ticks = sonar_cooldown_max
-	signalbus.sonar_highlight.emit(global_position)
 
 
 func receive_damage(damage_amount: int) -> void:
@@ -267,7 +266,7 @@ func _process_net_projectile(delta: float) -> void:
 
 func _process_reeling_in_net(_delta: float) -> void:
 	# TODO: Some animation of maybe water splashes implying 'reeling in' a fish.
-	signalbus.fish_caught.emit(_caught_fish)
-
-	# Reset the net state.
-	net_state = NetState.NONE
+	var fish := _caught_fish
+	_caught_fish = null
+	retract_net()
+	signalbus.fish_caught.emit(fish)

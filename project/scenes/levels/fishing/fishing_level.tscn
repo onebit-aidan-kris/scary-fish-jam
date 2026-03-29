@@ -213,7 +213,7 @@ mesh = SubResource("HullMesh_fish")
 surface_material_override/0 = SubResource("BoatMat_fish")
 
 [node name="Sonar" type="Area3D" parent="Boat" unique_id=1297578068]
-transform = Transform3D(9, 0, 0, 0, 5.4163356, -7.18772, 0, 7.18772, 5.4163356, 0, 0.2, -12.0)
+transform = Transform3D(9, 0, 0, 0, 5.4163356, -7.18772, 0, 7.18772, 5.4163356, 0, 0.2, -8.55)
 script = ExtResource("4_kspqj")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Boat/Sonar" unique_id=1787798045]
