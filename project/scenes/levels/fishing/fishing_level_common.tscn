@@ -1,4 +1,4 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://dysycpurmq3gr"]
 
 [ext_resource type="Script" uid="uid://bu2q2x32c2nug" path="res://scripts/components/level_config.gd" id="1_lvlcfg"]
 [ext_resource type="Script" path="res://scenes/levels/fishing/fishing_level_common.gd" id="2_common"]
@@ -8,14 +8,16 @@
 [ext_resource type="AudioStream" uid="uid://dxrviqr8wqvij" path="res://assets/sounds/sonar_ping.mp3" id="6_ping"]
 [ext_resource type="Script" uid="uid://cekc6g7lxcrvs" path="res://scenes/levels/fishing/net_arc.gd" id="7_narc"]
 [ext_resource type="AudioStream" uid="uid://bstgfyfprod26" path="res://assets/sounds/wind_standard.mp3" id="8_wind"]
+[ext_resource type="AudioStream" uid="uid://cqr8n1pjs4i7q" path="res://assets/sounds/success.mp3" id="9_5yeeq"]
 [ext_resource type="Texture2D" uid="uid://clkjkjt7iqhns" path="res://assets/spritesheets/boat-oblique.png" id="9_boat_tex"]
 [ext_resource type="Texture2D" uid="uid://drydcgrcnlj32" path="res://assets/spritesheets/wake.png" id="10_wake"]
+[ext_resource type="AudioStream" uid="uid://e4mdf0ul3nf" path="res://assets/sounds/wood_hit.mp3" id="10_xbxic"]
 [ext_resource type="Script" uid="uid://bop81tscj8rdm" path="res://scenes/levels/fishing/rock_spawner.gd" id="11_rocks"]
 [ext_resource type="Texture2D" uid="uid://dj5puqm3pibfl" path="res://assets/spritesheets/rocks/rock1.png" id="12_r1"]
 [ext_resource type="Texture2D" uid="uid://daug3f4g26xsq" path="res://assets/spritesheets/rocks/rock2.png" id="13_r2"]
 [ext_resource type="Texture2D" uid="uid://cqmfop81rhod8" path="res://assets/spritesheets/rocks/rock3.png" id="14_r3"]
 [ext_resource type="Texture2D" uid="uid://b5urikh5s04ln" path="res://assets/spritesheets/rocks/rock4.png" id="15_r4"]
-[ext_resource type="PackedScene" uid="uid://d3f18gvut8igp" path="res://scenes/levels/fishing/hud.tscn" id="16_hud"]
+[ext_resource type="PackedScene" path="res://scenes/levels/fishing/hud.tscn" id="16_hud"]
 [ext_resource type="Script" uid="uid://clcjf1cfg352o" path="res://scripts/interfaces/fish/behavior_policy.gd" id="17_bpol"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_fish"]
@@ -141,35 +143,35 @@ size = Vector2(1.5, 1.5)
 vertices = PackedVector3Array(0, -4, 0, 33, -4, 0, 28.578, -4, 16.5, 16.5, -4, 28.578, 0, -4, 33, -16.5, -4, 28.578, -28.578, -4, 16.5, -33, -4, 0, -28.578, -4, -16.5, -16.5, -4, -28.578, 0, -4, -33, 16.5, -4, -28.578, 28.578, -4, -16.5)
 polygons = [PackedInt32Array(0, 1, 2), PackedInt32Array(0, 2, 3), PackedInt32Array(0, 3, 4), PackedInt32Array(0, 4, 5), PackedInt32Array(0, 5, 6), PackedInt32Array(0, 6, 7), PackedInt32Array(0, 7, 8), PackedInt32Array(0, 8, 9), PackedInt32Array(0, 9, 10), PackedInt32Array(0, 10, 11), PackedInt32Array(0, 11, 12), PackedInt32Array(0, 12, 1)]
 
-[node name="FishingLevel" type="Node3D"]
+[node name="FishingLevel3" type="Node3D" unique_id=1836002115]
 script = ExtResource("2_common")
 
-[node name="LevelConfig" type="Node" parent="."]
+[node name="LevelConfig" type="Node" parent="." unique_id=26612710]
 script = ExtResource("1_lvlcfg")
 mouse_capture = true
 metadata/_custom_type_script = "uid://bu2q2x32c2nug"
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1119865061]
 environment = SubResource("Environment_fish")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=753550919]
 transform = Transform3D(0.866, 0.354, -0.354, 0, 0.707, 0.707, 0.5, -0.612, 0.612, 0, 15, 0)
 shadow_enabled = true
 
-[node name="WaterSurface" type="MeshInstance3D" parent="." groups=["WaterSurface"]]
+[node name="WaterSurface" type="MeshInstance3D" parent="." unique_id=1489671803 groups=["WaterSurface"]]
 mesh = SubResource("WaterMesh_fish")
 surface_material_override/0 = SubResource("WaterMat_fish")
 
-[node name="SeaFloor" type="MeshInstance3D" parent="."]
+[node name="SeaFloor" type="MeshInstance3D" parent="." unique_id=1118577197]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8, 0)
 mesh = SubResource("FloorMesh_fish")
 surface_material_override/0 = SubResource("FloorMat_fish")
 
-[node name="WaterSurface2" type="MeshInstance3D" parent="."]
+[node name="WaterSurface2" type="MeshInstance3D" parent="." unique_id=1677458430]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
 mesh = SubResource("OceanPlaneMesh")
 
-[node name="RockSpawner" type="Node3D" parent="."]
+[node name="RockSpawner" type="Node3D" parent="." unique_id=1976958379]
 script = ExtResource("11_rocks")
 radius = 40.0
 density = 3.0
@@ -177,75 +179,77 @@ mesh_scale = 4.0
 material_template = SubResource("RockSpawnerMat")
 textures = Array[Texture2D]([ExtResource("12_r1"), ExtResource("13_r2"), ExtResource("14_r3"), ExtResource("15_r4")])
 
-[node name="Boat" type="CharacterBody3D" parent="." groups=["player"]]
+[node name="Boat" type="CharacterBody3D" parent="." unique_id=1649444320 groups=["player"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 script = ExtResource("3_boat")
+catch_sound = ExtResource("9_5yeeq")
+damage_sound = ExtResource("10_xbxic")
 
-[node name="Hull" type="MeshInstance3D" parent="Boat"]
+[node name="Hull" type="MeshInstance3D" parent="Boat" unique_id=330172744]
 visible = false
 mesh = SubResource("HullMesh_fish")
 surface_material_override/0 = SubResource("BoatMat_fish")
 
-[node name="Sonar" type="Area3D" parent="Boat"]
+[node name="Sonar" type="Area3D" parent="Boat" unique_id=1823529424]
 transform = Transform3D(9, 0, 0, 0, 5.4163356, -7.18772, 0, 7.18772, 5.4163356, 0, 0.2, -8.55)
 script = ExtResource("4_sonar")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Boat/Sonar"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Boat/Sonar" unique_id=302783821]
 transform = Transform3D(1, 0, 0, 0, 0.8191519, -0.5735767, 0, 0.5735767, 0.8191519, 0, -0.12287283, -0.086036384)
 shape = SubResource("SonarShape")
 debug_color = Color(0, 1, 0, 0.8)
 script = ExtResource("5_cone")
 
-[node name="DebugMesh" type="MeshInstance3D" parent="Boat/Sonar"]
+[node name="DebugMesh" type="MeshInstance3D" parent="Boat/Sonar" unique_id=21120612]
 visible = false
 mesh = SubResource("SonarDebugMesh")
 surface_material_override/0 = SubResource("SonarDebugMat")
 
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Boat/Sonar"]
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Boat/Sonar" unique_id=1847990603]
 stream = ExtResource("6_ping")
 
-[node name="Camera3D" type="Camera3D" parent="Boat"]
+[node name="Camera3D" type="Camera3D" parent="Boat" unique_id=802174837]
 transform = Transform3D(1, 0, 0, 0, 0.866, 0.5, 0, -0.5, 0.866, 0, 4, 6)
 current = true
 
-[node name="BoatHitbox" type="CollisionShape3D" parent="Boat"]
+[node name="BoatHitbox" type="CollisionShape3D" parent="Boat" unique_id=1751206038]
 transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0)
 shape = SubResource("BoatHitboxShape")
 debug_color = Color(0.052836277, 0.046362348, 0.21711743, 1)
 
-[node name="NetArc" type="MeshInstance3D" parent="Boat"]
+[node name="NetArc" type="MeshInstance3D" parent="Boat" unique_id=757721511]
 script = ExtResource("7_narc")
 
-[node name="BoatSprite" type="Sprite3D" parent="Boat"]
+[node name="BoatSprite" type="Sprite3D" parent="Boat" unique_id=460365300]
 pixel_size = 0.08
 billboard = 1
 texture_filter = 0
 texture = ExtResource("9_boat_tex")
 
-[node name="WakeParticles" type="GPUParticles3D" parent="Boat"]
+[node name="WakeParticles" type="GPUParticles3D" parent="Boat" unique_id=1601521277]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.7890096, 2.085844)
 amount = 50
 lifetime = 5.0
 process_material = SubResource("WakeParticleMat")
 draw_pass_1 = SubResource("WakeQuadMesh")
 
-[node name="Wind" type="AudioStreamPlayer" parent="."]
+[node name="Wind" type="AudioStreamPlayer" parent="." unique_id=975359546]
 stream = ExtResource("8_wind")
 volume_db = -6.0
 autoplay = true
 
-[node name="SeaFloorObjects" type="Node3D" parent="."]
+[node name="SeaFloorObjects" type="Node3D" parent="." unique_id=1556542505]
 
-[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="." unique_id=137054891]
 navigation_mesh = SubResource("NavMesh_fish")
 
-[node name="AmbientAudio" type="AudioStreamPlayer3D" parent="."]
+[node name="AmbientAudio" type="AudioStreamPlayer3D" parent="." unique_id=580524348]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.231449, 2.5440874, 0)
 stream = ExtResource("8_wind")
 volume_db = 34.491
 bus = &"Spooky bus 1"
 
-[node name="HUD" parent="." instance=ExtResource("16_hud")]
+[node name="HUD" parent="." unique_id=1661795640 instance=ExtResource("16_hud")]
 
-[node name="BehaviorPolicy" type="Node" parent="."]
+[node name="BehaviorPolicy" type="Node" parent="." unique_id=453627498]
 script = ExtResource("17_bpol")

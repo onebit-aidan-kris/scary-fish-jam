@@ -7,11 +7,13 @@ const net_scene := preload("res://scenes/levels/fishing/fishing_net_sprite.tscn"
 @export var lake_radius := 30.0
 @export var health := 100.0 # TODO: Make flexible to persistent upgrades.
 @export var catch_sound: AudioStream
+@export var damage_sound: AudioStream
 
 @onready var _camera: Camera3D = $Camera3D
 @onready var net_arc: MeshInstance3D = $NetArc
 
 var _catch_sound_player: AudioStreamPlayer
+var _damage_sound_player: AudioStreamPlayer
 
 const NET_PARABOLA_SPEED: float = 0.15
 
@@ -55,6 +57,12 @@ func _ready() -> void:
 		_catch_sound_player.stream = catch_sound
 	_catch_sound_player.volume_db = -3.0
 	add_child(_catch_sound_player)
+
+	_damage_sound_player = AudioStreamPlayer.new()
+	if damage_sound:
+		_damage_sound_player.stream = damage_sound
+	_damage_sound_player.volume_db = -3.0
+	add_child(_damage_sound_player)
 
 
 func _physics_process(delta: float) -> void:
@@ -100,6 +108,8 @@ func trigger_sonar() -> void:
 func receive_damage(damage_amount: int) -> void:
 	print("Player received damage: ", damage_amount)
 	health -= damage_amount
+	if _damage_sound_player.stream:
+		_damage_sound_player.play()
 	if health <= 0:
 		print("Player is dead!")
 

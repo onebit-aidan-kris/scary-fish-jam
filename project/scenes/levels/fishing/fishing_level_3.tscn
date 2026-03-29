@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://c66jdsvnllmup" path="res://scenes/levels/fishing/fishing_level.gd" id="2_level"]
 [ext_resource type="AudioStream" uid="uid://cqr8n1pjs4i7q" path="res://assets/sounds/success.mp3" id="3_dvw12"]
 [ext_resource type="Script" uid="uid://4gtx2q7jsi3x" path="res://scenes/levels/fishing/fish.gd" id="3_fish"]
+[ext_resource type="AudioStream" uid="uid://e4mdf0ul3nf" path="res://assets/sounds/wood_hit.mp3" id="4_kljod"]
 [ext_resource type="Script" uid="uid://bk0gw6mycptk4" path="res://scenes/levels/fishing/patrol_behavior.gd" id="4_patrol"]
 [ext_resource type="Script" uid="uid://qh6mkd6mxe0t" path="res://scenes/levels/fishing/vision_cone.gd" id="5_vcone"]
 [ext_resource type="Script" uid="uid://comou8l10poef" path="res://scripts/components/fish/attackable.gd" id="6_attack"]
@@ -40,6 +41,7 @@ next_level_scene = "res://scenes/levels/fishing/fishing_level_4.tscn"
 
 [node name="Boat" parent="." index="7"]
 catch_sound = ExtResource("3_dvw12")
+damage_sound = ExtResource("4_kljod")
 
 [node name="PatrolPath1" type="Node3D" parent="." index="14" unique_id=623713402]
 
