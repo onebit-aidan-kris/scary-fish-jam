@@ -10,7 +10,10 @@
 [ext_resource type="Script" uid="uid://6oqbt4cmd71t" path="res://scenes/levels/town/a_star_2d_path.gd" id="7_pmooe"]
 [ext_resource type="PackedScene" uid="uid://brt8eh1dd10p0" path="res://scenes/levels/town/tile_event.tscn" id="8_ywyd6"]
 [ext_resource type="Texture2D" uid="uid://3ueo3whkota3" path="res://assets/spritesheets/boat-topdown.png" id="9_hgas2"]
+[ext_resource type="SpriteFrames" uid="uid://brfgidr74jvta" path="res://assets/spritesheets/human-a.tres" id="9_n2iu2"]
 [ext_resource type="Script" uid="uid://codxcir5kyuw0" path="res://scenes/levels/town/events/to_fishing.gd" id="9_rhu6c"]
+[ext_resource type="SpriteFrames" uid="uid://c82p8ps44xu2h" path="res://assets/spritesheets/human-b.tres" id="10_xxt1w"]
+[ext_resource type="SpriteFrames" uid="uid://r6v68nue77cg" path="res://assets/spritesheets/human-c.tres" id="11_k07cb"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hgas2"]
 size = Vector2(32, 48)
@@ -89,6 +92,24 @@ json_path = "res://assets/dialogue/jeff_test.json"
 parent_signal_trigger = &"interacted"
 state = NodePath("../../TownState")
 metadata/_custom_type_script = "uid://cws8nhjc45fo7"
+
+[node name="HumanA" parent="." unique_id=1178382284 instance=ExtResource("3_g6o05")]
+position = Vector2(1024, 26)
+sprite_frames = ExtResource("9_n2iu2")
+animating = true
+animating_speed_scale = 0.5
+
+[node name="HumanB" parent="." unique_id=1430474494 instance=ExtResource("3_g6o05")]
+position = Vector2(1042, 26)
+sprite_frames = ExtResource("10_xxt1w")
+animating = true
+animating_speed_scale = 0.5
+
+[node name="HumanC" parent="." unique_id=1329453573 instance=ExtResource("3_g6o05")]
+position = Vector2(1060, 26)
+sprite_frames = ExtResource("11_k07cb")
+animating = true
+animating_speed_scale = 0.5
 
 [node name="Events" type="Node2D" parent="." unique_id=1196003275]
 z_index = 10
