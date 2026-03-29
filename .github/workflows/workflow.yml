@@ -20,7 +20,7 @@ jobs:
       run: nix flake show '.?submodules=1'
 
     - name: Check lint
-      run: nix run '.?submodules=1#format' -- lint -v
+      run: nix run '.?submodules=1#lint'
 
     - name: Check format
       run: nix run '.?submodules=1#format' -- --check -v
