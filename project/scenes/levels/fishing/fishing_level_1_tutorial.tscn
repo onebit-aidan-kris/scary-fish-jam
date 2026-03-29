@@ -16,6 +16,8 @@
 [ext_resource type="Script" uid="uid://cws8nhjc45fo7" path="res://scripts/dialogue/dialogue_entry.gd" id="16_dlgen"]
 [ext_resource type="Script" uid="uid://s2st5ighxp1k" path="res://scenes/levels/fishing/fish_count_condition.gd" id="16_w4rkf"]
 [ext_resource type="Script" uid="uid://ci0s5n2ma2ljx" path="res://scenes/levels/fishing/fishing_tutorial_state.gd" id="17_ftst"]
+[ext_resource type="Texture2D" uid="uid://clkjkjt7iqhns" path="res://assets/spritesheets/boat-oblique.png" id="18_btsp"]
+[ext_resource type="Texture2D" uid="uid://drydcgrcnlj32" path="res://assets/spritesheets/wake.png" id="19_wake"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_fish"]
 sky_top_color = Color(0.35, 0.6, 0.85, 1)
@@ -73,6 +75,50 @@ bottom_radius = 0.75
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_hdgy8"]
 
+[sub_resource type="Curve" id="Curve_18ysy"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.09139785, 0.30201346), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_nsrqc"]
+curve = SubResource("Curve_18ysy")
+
+[sub_resource type="Curve" id="Curve_nsrqc"]
+_data = [Vector2(0, 0.53467566), 0.0, 0.0, 0, 0, Vector2(0.1344086, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.42729312), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_mm18j"]
+curve = SubResource("Curve_nsrqc")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_nsrqc"]
+emission_shape = 1
+emission_sphere_radius = 1.1
+inherit_velocity_ratio = 1.0
+direction = Vector3(0, 1, 0)
+spread = 4.0
+initial_velocity_min = 10.0
+initial_velocity_max = 10.0
+damping_min = 29.000002
+damping_max = 31.000002
+damping_curve = SubResource("CurveTexture_nsrqc")
+scale_curve = SubResource("CurveTexture_mm18j")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mm18j"]
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+shading_mode = 0
+albedo_texture = ExtResource("19_wake")
+texture_filter = 0
+billboard_mode = 3
+billboard_keep_scale = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="QuadMesh" id="QuadMesh_slwk1"]
+material = SubResource("StandardMaterial3D_mm18j")
+size = Vector2(1.5, 1.5)
+
 [sub_resource type="NavigationMesh" id="NavMesh_fish"]
 vertices = PackedVector3Array(0, -4, 0, 33, -4, 0, 28.578, -4, 16.5, 16.5, -4, 28.578, 0, -4, 33, -16.5, -4, 28.578, -28.578, -4, 16.5, -33, -4, 0, -28.578, -4, -16.5, -16.5, -4, -28.578, 0, -4, -33, 16.5, -4, -28.578, 28.578, -4, -16.5)
 polygons = [PackedInt32Array(0, 1, 2), PackedInt32Array(0, 2, 3), PackedInt32Array(0, 3, 4), PackedInt32Array(0, 4, 5), PackedInt32Array(0, 5, 6), PackedInt32Array(0, 6, 7), PackedInt32Array(0, 7, 8), PackedInt32Array(0, 8, 9), PackedInt32Array(0, 9, 10), PackedInt32Array(0, 10, 11), PackedInt32Array(0, 11, 12), PackedInt32Array(0, 12, 1)]
@@ -110,15 +156,16 @@ mesh = SubResource("FloorMesh_fish")
 surface_material_override/0 = SubResource("FloorMat_fish")
 
 [node name="Boat" type="CharacterBody3D" parent="." unique_id=537027469 groups=["player"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 script = ExtResource("3_1gqcj")
 
 [node name="Hull" type="MeshInstance3D" parent="Boat" unique_id=1565644560]
+visible = false
 mesh = SubResource("HullMesh_fish")
 surface_material_override/0 = SubResource("BoatMat_fish")
 
 [node name="Sonar" type="Area3D" parent="Boat" unique_id=1297578068]
-transform = Transform3D(9, 0, 0, 0, 5.4163356, -7.18772, 0, 7.18772, 5.4163356, 0, 0.2, -8.55)
+transform = Transform3D(9, 0, 0, 0, 5.4163356, -7.18772, 0, 7.18772, 5.4163356, 0, 0.2, -12.0)
 script = ExtResource("4_64gae")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Boat/Sonar" unique_id=1787798045]
@@ -146,6 +193,19 @@ debug_color = Color(0.052836277, 0.046362348, 0.21711743, 1)
 
 [node name="NetArc" type="MeshInstance3D" parent="Boat" unique_id=2085994952]
 script = ExtResource("7_0o6qr")
+
+[node name="BoatSprite" type="Sprite3D" parent="Boat" unique_id=524767218]
+pixel_size = 0.08
+billboard = 1
+texture_filter = 0
+texture = ExtResource("18_btsp")
+
+[node name="WakeParticles" type="GPUParticles3D" parent="Boat" unique_id=1907281608]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.7890096, 2.085844)
+amount = 50
+lifetime = 5.0
+process_material = SubResource("ParticleProcessMaterial_nsrqc")
+draw_pass_1 = SubResource("QuadMesh_slwk1")
 
 [node name="Wind" type="AudioStreamPlayer" parent="." unique_id=162279767]
 stream = ExtResource("8_05u28")

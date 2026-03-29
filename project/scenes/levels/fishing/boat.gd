@@ -1,6 +1,6 @@
 extends CharacterBody3D
 
-const net_scene := preload("uid://bs7e0u028upx4")
+const net_scene := preload("res://scenes/levels/fishing/fishing_net_sprite.tscn")
 
 @export var move_speed := 8.0
 @export var turn_speed := 2.0
