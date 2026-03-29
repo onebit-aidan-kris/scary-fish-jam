@@ -121,6 +121,7 @@ position = Vector2(320, 504)
 collision_layer = 2
 collision_mask = 0
 script = ExtResource("9_rhu6c")
+fishing_scene_file = "uid://bq2otue0hoslh"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Events/ToFishing" unique_id=2030988016]
 shape = SubResource("RectangleShape2D_hgas2")
