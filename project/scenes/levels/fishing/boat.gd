@@ -45,6 +45,8 @@ var _caught_fish: Node3D = null
 func _ready() -> void:
 	_input = gamestate.player_input
 	_cam_origin_pitch = _camera.rotation_degrees.x
+	_camera.rotation_degrees.x = clampf(_cam_origin_pitch, -90.0, -20.0)
+	_camera.make_current()
 
 
 func _physics_process(delta: float) -> void:

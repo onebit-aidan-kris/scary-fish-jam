@@ -220,7 +220,7 @@ surface_material_override/0 = SubResource("SonarDebugMat")
 stream = ExtResource("6_errxx")
 
 [node name="Camera3D" type="Camera3D" parent="Boat" unique_id=1783302527]
-transform = Transform3D(1, 0, 0, 0, 0.866, -0.5, 0, 0.5, 0.866, 0, 4, 6)
+transform = Transform3D(1, 0, 0, 0, 0.866, 0.5, 0, -0.5, 0.866, 0, 4, 6)
 current = true
 
 [node name="BoatHitbox" type="CollisionShape3D" parent="Boat" unique_id=1935071213]
