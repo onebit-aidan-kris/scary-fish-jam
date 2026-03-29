@@ -96,5 +96,17 @@ ase() {
     )
 }
 
-mkdir -p spritesheets/rocks
-ase -b spritesheets/rocks.aseprite --save-as 'spritesheets/rocks/{slice}.png'
+ase-dir() {
+    mkdir -p "$1"
+    local srcfile
+    if [[ -f "$1.ase" ]]; then
+        srcfile="$1.ase"
+    else
+        srcfile="$1.aseprite"
+    fi
+    [[ -f "$srcfile" ]]
+    ase -b "$srcfile" --save-as "$1/{slice}.png"
+}
+
+ase-dir spritesheets/rocks
+ase-dir spritesheets/dive-bar
