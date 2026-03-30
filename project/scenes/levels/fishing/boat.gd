@@ -227,7 +227,7 @@ func aim_net() -> void:
 	net_debug_mesh.global_position = net_world_pos
 
 	net_arc.global_transform = Transform3D.IDENTITY
-	net_arc.mesh = net_arc.call("calculate_net_path", global_position, net_world_pos)
+	net_arc.mesh = net_arc.call("calculate_net_path", _get_bow_position(), net_world_pos)
 
 
 func retract_net() -> void:
@@ -255,13 +255,17 @@ func clear_net_debug_mesh() -> void:
 		net_debug_mesh = null
 
 
+func _get_bow_position() -> Vector3:
+	return global_position + (-transform.basis.z * 2.0)
+
+
 func fire_net() -> void:
 	net_state = NetState.FIRING_NET
 	clear_net_debug_mesh()
 
-	_net_fire_start = global_position
+	_net_fire_start = _get_bow_position()
 	_net_fire_end = global_transform * net_local_offset
-	_net_fire_end.y = global_position.y
+	_net_fire_end.y = _net_fire_start.y
 	_net_fire_t = 0.0
 
 	if _net_projectile:
@@ -273,7 +277,12 @@ func fire_net() -> void:
 	var shape := SphereShape3D.new()
 	shape.radius = SPHERE_RADIUS
 	col.shape = shape
+	col.disabled = false
 	_net_projectile.add_child(col)
+
+	var net_sprite_scene := preload("res://scenes/levels/fishing/fishing_net_sprite.tscn")
+	var net_visual := net_sprite_scene.instantiate()
+	_net_projectile.add_child(net_visual)
 
 	_net_projectile.monitoring = true
 	get_tree().root.add_child(_net_projectile)
@@ -328,7 +337,7 @@ func _process_net_projectile(delta: float) -> void:
 
 	if net_state == NetState.FIRING_NET:
 		net_arc.global_transform = Transform3D.IDENTITY
-		net_arc.mesh = net_arc.call("calculate_net_path", global_position, _net_projectile.global_position)
+		net_arc.mesh = net_arc.call("calculate_net_path", _get_bow_position(), _net_projectile.global_position)
 
 
 func _process_reeling_in_net(_delta: float) -> void:
