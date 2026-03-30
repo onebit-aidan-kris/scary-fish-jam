@@ -172,15 +172,23 @@ func _call_callback(callback: DialogueEvent.DialogueCallback) -> void:
 		assert(
 			state != null,
 			str(
-				get_path(), ": 'state' export is not set, needed for callback '",
-				callback.name, "' (json: ", json_path, ")",
+				get_path(),
+				": 'state' export is not set, needed for callback '",
+				callback.name,
+				"' (json: ",
+				json_path,
+				")",
 			),
 		)
 		assert(
 			state.has_method(callback.name),
 			str(
-				get_path(), ": state (", state.get_path(),
-				") does not have method '", callback.name, "'",
+				get_path(),
+				": state (",
+				state.get_path(),
+				") does not have method '",
+				callback.name,
+				"'",
 			),
 		)
 		var args := []

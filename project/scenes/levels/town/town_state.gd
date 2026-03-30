@@ -43,5 +43,6 @@ func walsh_to_boat() -> void:
 	else:
 		print("AStar2DPath not found")
 
+
 func brad_intro_met() -> void:
 	has_met_brad = true
