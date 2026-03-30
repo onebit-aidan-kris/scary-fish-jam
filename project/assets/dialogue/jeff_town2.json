@@ -1,0 +1,70 @@
+{
+	"events": {
+		"start": {
+			"sequence": [
+				{
+					"speaker": "Jeff",
+					"text": [
+						"Oh, hey Abel. Heard you survived your first day."
+					]
+				},
+				{
+					"speaker": "Abel",
+					"text": [
+						"Word travels fast."
+					]
+				},
+				{
+					"speaker": "Jeff",
+					"text": [
+						"Small town. Word doesn't have far to travel."
+					]
+				},
+				{
+					"text": [
+						"Jeff smiled, but it didn't quite reach his eyes."
+					]
+				},
+				{
+					"speaker": "Abel",
+					"text": [
+						"So what do you do around here, Jeff? Besides getting people settled in."
+					]
+				},
+				{
+					"speaker": "Jeff",
+					"text": [
+						"I teach. At the school, up the hill on the east side. Been there for... well, a long time."
+					]
+				},
+				{
+					"speaker": "Abel",
+					"text": [
+						"A schoolteacher. In a town this small?"
+					]
+				},
+				{
+					"speaker": "Jeff",
+					"text": [
+						"Every town needs one, right?"
+					]
+				},
+				{
+					"text": [
+						"He said this with a practiced ease that suggested he'd answered the question many times before."
+					]
+				},
+				{
+					"speaker": "Jeff",
+					"text": [
+						"Anyway, you should get some rest. The bay's a different animal than the lagoon, from what I hear."
+					]
+				}
+			],
+			"before": {
+				"name": "face",
+				"args": ["$jeff", "$player"]
+			}
+		}
+	}
+}

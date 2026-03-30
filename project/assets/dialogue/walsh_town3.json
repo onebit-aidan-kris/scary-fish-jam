@@ -1,0 +1,80 @@
+{
+	"events": {
+		"start": {
+			"sequence": [
+				{
+					"speaker": "Walsh",
+					"text": [
+						"Abel, my boy! Ye made it just in time!"
+					]
+				},
+				{
+					"text": [
+						"Walsh gestured broadly at the gathering. A massive drum sat next to a series of long wooden benches. The smell of kerosene and brine hung thick in the air."
+					]
+				},
+				{
+					"speaker": "Walsh",
+					"text": [
+						"The Loveland County Fish Boil! Finest tradition on the coast."
+					]
+				},
+				{
+					"speaker": "Abel",
+					"text": [
+						"There's a lot of... interesting-looking fish in there."
+					]
+				},
+				{
+					"text": [
+						"On a long wood pallet lay fish he recognized. Some from his own haul. But among them were others — pale, elongated things with too many fins and skin that seemed to shimmer wrong in the light."
+					]
+				},
+				{
+					"speaker": "Abel",
+					"text": [
+						"Some of those look like they belong deep in the ocean, not in a bay."
+					]
+				},
+				{
+					"speaker": "Walsh",
+					"text": [
+						"Bah! Fish is fish. The bay provides what the bay provides."
+					]
+				},
+				{
+					"speaker": "Abel",
+					"text": [
+						"But the shapes on some of those—"
+					]
+				},
+				{
+					"speaker": "Walsh",
+					"text": [
+						"I said fish is fish."
+					]
+				},
+				{
+					"text": [
+						"Walsh's tone shifted so abruptly that Abel felt the temperature drop. The old man's jovial mask flickered, revealing something cold and immovable underneath."
+					]
+				},
+				{
+					"text": [
+						"Just as quickly, the warmth returned."
+					]
+				},
+				{
+					"speaker": "Walsh",
+					"text": [
+						"Now grab a seat! Brad's about to light the drums. Ye don't want to miss this."
+					]
+				}
+			],
+			"before": {
+				"name": "face",
+				"args": ["$walsh", "$player"]
+			}
+		}
+	}
+}
