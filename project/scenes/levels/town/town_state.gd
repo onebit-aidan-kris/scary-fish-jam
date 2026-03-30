@@ -2,16 +2,19 @@ extends Node
 
 @export var has_met_walsh := false
 @export var has_met_jeff := false
+@export var has_met_brad := false
 
 @export var player: HumanCharacter
 @export var walsh: HumanCharacter
 @export var jeff: HumanCharacter
+@export var brad: HumanCharacter
 
 
 func _ready() -> void:
 	assert(player)
 	assert(walsh)
 	assert(jeff)
+	assert(brad)
 
 
 func face(src: HumanCharacter, target: HumanCharacter) -> void:
@@ -39,3 +42,7 @@ func walsh_to_boat() -> void:
 		ap.activate()
 	else:
 		print("AStar2DPath not found")
+
+
+func brad_intro_met() -> void:
+	has_met_brad = true

@@ -22,6 +22,8 @@ func _ready() -> void:
 		else:
 			assert(false, str("parent does not have signal: ", parent_signal_trigger))
 
+	assert(json_path, str(get_path(), ": json_path is not set"))
+
 	match util.parse_json_file(json_path):
 		[var data, OK]:
 			var res := gdserde.deserialize_object(_dialogue_data, data)
@@ -29,6 +31,15 @@ func _ready() -> void:
 			#print(gdserde.serialize_object(_dialogue_data))
 		[_, var err]:
 			util.aok(util.as_err(err))
+
+	assert(
+		not _dialogue_data.events.is_empty(),
+		str(get_path(), ": no events loaded from ", json_path),
+	)
+	assert(
+		_dialogue_data.events.has(entry_name),
+		str(get_path(), ": missing entry '", entry_name, "' in ", json_path),
+	)
 
 	if auto_start:
 		call_deferred(&"start")
@@ -158,10 +169,27 @@ func _on_advance(index: int) -> void:
 
 func _call_callback(callback: DialogueEvent.DialogueCallback) -> void:
 	if callback.name:
-		print(callback.name, callback.args)
+		assert(
+			state != null,
+			str(
+				get_path(),
+				": 'state' export is not set, needed for callback '",
+				callback.name,
+				"' (json: ",
+				json_path,
+				")",
+			),
+		)
 		assert(
 			state.has_method(callback.name),
-			str("State object does not have method: ", callback.name),
+			str(
+				get_path(),
+				": state (",
+				state.get_path(),
+				") does not have method '",
+				callback.name,
+				"'",
+			),
 		)
 		var args := []
 		for arg in callback.args:

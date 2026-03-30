@@ -1,0 +1,110 @@
+---
+description: Checklist for adding a DialogueEntry to a character or event in a scene
+globs: project/assets/dialogue/*.json, project/scenes/levels/**/*.tscn, project/scenes/levels/**/*state.gd
+alwaysApply: false
+---
+
+# Adding a DialogueEntry to a Character
+
+When asked to add dialogue to a character, FIRST ask the questionnaire below using the AskQuestion tool, THEN make all changes together. Missing any step causes a runtime error.
+
+## Questionnaire
+
+Before writing any code, gather the following from the user. Use the existing level state script and dialogue files for context on naming conventions.
+
+1. **Character name** -- the character's identifier used in code (e.g. `brad`, `walsh`). This determines the `$variable` name in callback args and the `@export var` name on the state script.
+2. **Character node** -- which node in the scene tree is this character? (e.g. `HumanC`, `CapnWalsh`)
+3. **Level and state script** -- which level scene and state script will this belong to? (e.g. `town_level.tscn` / `town_state.gd`)
+4. **Trigger type** -- `"interacted"` (player interacts with character) or `auto_start` (fires automatically)?
+5. **After-callback method name** -- the method called after the intro event (e.g. `met_brad`). This MUST NOT collide with condition variable names.
+6. **Condition variable name** -- the bool property checked to determine if the player has already seen the intro (e.g. `has_met_brad`). This MUST be a property name, NOT a method name, to avoid collisions with the condition check system.
+
+### Naming convention (follow existing patterns)
+
+Look at the existing state script. For example if Walsh uses:
+- After callback: `met_walsh()` (method that sets `has_met_walsh = true`)
+- Condition: `has_met_walsh` (bool property)
+
+Then Brad should follow the same pattern:
+- After callback: `met_brad()` (method that sets `has_met_brad = true`)
+- Condition: `has_met_brad` (bool property)
+
+**Critical**: conditions in `"conds"` arrays are resolved by `check_condition()` which first checks `state.has_method(cond)` -- if a method exists with the same name as the condition, it will be called instead of reading the property. So condition names and callback method names MUST NOT overlap.
+
+## Steps (all required, do together)
+
+### 1. Dialogue JSON (`project/assets/dialogue/<name>.json`)
+
+Must have top-level `"events"` key and a `"start"` event. Reference: `walsh_test.json`.
+
+```json
+{
+    "events": {
+        "start": {
+            "next": ["has_met", "intro"],
+            "before": { "name": "face", "args": ["$<character>", "$player"] }
+        },
+        "intro": {
+            "sequence": [ ... ],
+            "after": { "name": "<after_callback>" }
+        },
+        "has_met": {
+            "conds": ["<condition_var>"],
+            "speaker": "Name",
+            "text": ["..."]
+        }
+    }
+}
+```
+
+- Every event key in `"next"` must exist as a sibling under `"events"`.
+- `$`-prefixed callback args resolve via `state.get()` at runtime.
+- `"before"`/`"callback"` are aliases; both fire before the event.
+
+### 2. Scene `.tscn` -- DialogueEntry node
+
+```
+[node name="DialogueEntry" type="Node" parent="<Character>" node_paths=PackedStringArray("state")]
+script = ExtResource("<dialogue_entry_script_id>")
+json_path = "res://assets/dialogue/<name>.json"
+parent_signal_trigger = &"interacted"
+state = NodePath("<relative path to state node>")
+metadata/_custom_type_script = "uid://cws8nhjc45fo7"
+```
+
+- `state` MUST point to the level state node (e.g. `../../TownState`).
+- `node_paths=PackedStringArray("state")` MUST be in the node header.
+
+### 3. Level state script (e.g. `town_state.gd`)
+
+All of these are required:
+
+| What | Example | Why |
+|------|---------|-----|
+| `@export var <character>: HumanCharacter` | `@export var brad: HumanCharacter` | For `$brad` callback arg resolution |
+| `assert(<character>)` in `_ready()` | `assert(brad)` | Fail fast if not wired |
+| `NodePath` in `.tscn` state node | `brad = NodePath("../HumanC")` | Wire the export |
+| `@export var <condition_var> := false` | `@export var has_met_brad := false` | For `"conds"` checks |
+| `func <after_callback>():` | `func met_brad(): has_met_brad = true` | For `"after"` callback |
+| Add character to `node_paths` array in `.tscn` | `PackedStringArray("player", "walsh", "jeff", "brad")` | Required for NodePath exports |
+
+## 4. Verification (MANDATORY)
+
+After making all changes, audit for consistency by cross-referencing the JSON against the state script:
+
+1. **Every `"name"` in a `"before"`/`"callback"`/`"after"` object** must have a matching **method** in the state script.
+2. **Every string in a `"conds"` array** must have a matching **bool property** (NOT a method) in the state script.
+3. **Every `$arg` in callback args** must have a matching **`@export var`** in the state script.
+4. **No method name may match any condition property name** (the condition system calls methods first).
+
+Read the final state of both the JSON and the state script and verify all four points before considering the task complete.
+
+## Common Mistakes
+
+- Forgetting `"events"` wrapper in JSON (gdserde deserialization error)
+- Forgetting `state` on DialogueEntry node (null error in `_call_callback`)
+- `$name` in callback args without matching export on state (null property access)
+- Naming a method the same as a condition variable (condition check calls the method instead of reading the bool)
+- Forgetting to add the condition bool property (condition silently fails)
+- Forgetting to add the after-callback method (assert in `_call_callback`)
+- Adding the condition property but not the after-callback method, or vice versa

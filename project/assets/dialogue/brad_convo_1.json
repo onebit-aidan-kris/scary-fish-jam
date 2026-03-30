@@ -1,0 +1,116 @@
+{
+    "events": {
+        "start": {
+            "next": [
+                "has_met",
+                "intro"
+            ],
+            "before": {
+                "name": "face",
+                "args": [
+                    "$brad",
+                    "$player"
+                ]
+            }
+        },
+        "intro": {
+            "sequence": [
+                {
+                    "speaker": "Brad",
+                    "text": [
+                        "Welcome to the town, newbie. The name's Brad."
+                    ]
+                },
+                {
+                    "speaker": "Abel",
+                    "text": [
+                        "Abel. Where's the rest of the town?"
+                    ]
+                },
+                {
+                    "speaker": "Brad",
+                    "text": [
+                        "Other side of the bridge. Although even on the other side, the town's as small as it gets. Right now you're looking at the closest thing we have to a public forum right here."
+                    ]
+                },
+                {
+                    "speaker": "Abel",
+                    "text": [
+                        "Cheery."
+                    ]
+                },
+                {
+                    "speaker": "Brad",
+                    "text": [
+                        "Hey, consider yourself luckly for the short commute. And... the short hop to yours truly when you need something to do after work."
+                    ]
+                },
+                {
+                    "speaker": "Brad",
+                    "text": [
+                        "Besides TV, of course."
+                    ]
+                },
+                {
+                    "text": [
+                        "Brad chortled at this."
+                    ]
+                },
+                {
+                    "speaker": "Brad",
+                    "text": [
+                        "Townsfolk come around for events. There's a general store just off the island but you probably won't need it as we have a deal with food delivery and you'll be getting fresh meals delivered."
+                    ]
+                },
+                {
+                    "speaker": "Brad",
+                    "text": [
+                        "Also, not to toot my own horn but I've got a great fried trout recipe too you may want to consider."
+                    ]
+                },
+                {
+                    "speaker": "Abel",
+                    "text": [
+                        "Nice, appreciate the hard sell. Tell you what, if I catch the fish for you can I get it cooked up for free?"
+                    ]
+                },
+                {
+                    "speaker": "Brad",
+                    "text": [
+                        "Ha, nice try."
+                    ]
+                },
+                {
+                    "speaker": "Brad",
+                    "text": [
+                        "But yes, historically, this bar has been and will always remain here. You'll see others as they come in here."
+                    ]
+                },
+                {
+                    "speaker": "Brad",
+                    "text": [
+                        "Hey, Some would love such a focused life."
+                    ]
+                },
+                {
+                    "speaker": "Brad",
+                    "text": [
+                        "Anyway, I'm always here. You'll be seeing me around."
+                    ]
+                }
+            ],
+            "after": {
+                "name": "brad_intro_met"
+            }
+        },
+        "has_met": {
+            "conds": [
+                "has_met_brad"
+            ],
+            "speaker": "Brad",
+            "text": [
+                "I'm always here. You'll be seeing me around."
+            ]
+        }
+    }
+}

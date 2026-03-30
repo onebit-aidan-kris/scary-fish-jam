@@ -7,16 +7,29 @@
 			],
 			"callback": {
 				"name": "face",
-				"args": ["$walsh", "$player"]
+				"args": [
+					"$walsh",
+					"$player"
+				]
 			}
 		},
 		"intro": {
-			"speaker": "Jeff",
-			"text": [
-				"You must be the new fella.",
-				"My name Jeff."
+			"sequence": [
+				{
+					"speaker": "Jeff",
+					"text": [
+						"Heya! You must be the new fella.",
+						"My name's Jeff. I've been tasked with getting you settled in."
+					]
+				},
+				{
+					"speaker": "Abel",
+					"text": [
+						"Nice to meet you, Jeff."
+					]
+				}
 			],
-			"callback": {
+			"after": {
 				"name": "met_jeff"
 			}
 		},

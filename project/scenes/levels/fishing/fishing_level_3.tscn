@@ -1,0 +1,280 @@
+[gd_scene format=3 uid="uid://divioy734t6t8"]
+
+[ext_resource type="PackedScene" path="res://scenes/levels/fishing/fishing_level_common.tscn" id="1_base"]
+[ext_resource type="Script" uid="uid://c66jdsvnllmup" path="res://scenes/levels/fishing/fishing_level.gd" id="2_level"]
+[ext_resource type="AudioStream" uid="uid://cqr8n1pjs4i7q" path="res://assets/sounds/success.mp3" id="3_dvw12"]
+[ext_resource type="Script" uid="uid://4gtx2q7jsi3x" path="res://scenes/levels/fishing/fish.gd" id="3_fish"]
+[ext_resource type="AudioStream" uid="uid://e4mdf0ul3nf" path="res://assets/sounds/wood_hit.mp3" id="4_kljod"]
+[ext_resource type="Script" uid="uid://bk0gw6mycptk4" path="res://scenes/levels/fishing/patrol_behavior.gd" id="4_patrol"]
+[ext_resource type="Script" uid="uid://qh6mkd6mxe0t" path="res://scenes/levels/fishing/vision_cone.gd" id="5_vcone"]
+[ext_resource type="Script" uid="uid://comou8l10poef" path="res://scripts/components/fish/attackable.gd" id="6_attack"]
+[ext_resource type="Script" uid="uid://bba01x3j11oyw" path="res://scripts/components/fish/player_detectable.gd" id="7_detect"]
+[ext_resource type="Script" uid="uid://cww83iditct2p" path="res://scenes/levels/fishing/win_condition.gd" id="8_wincond"]
+[ext_resource type="Script" uid="uid://s2st5ighxp1k" path="res://scenes/levels/fishing/fish_count_condition.gd" id="9_fcount"]
+
+[sub_resource type="CapsuleMesh" id="FishMesh"]
+
+[sub_resource type="StandardMaterial3D" id="FishMat"]
+
+[sub_resource type="CapsuleShape3D" id="FishCollision"]
+
+[sub_resource type="StandardMaterial3D" id="DangerFishMat"]
+albedo_color = Color(0.7, 0.15, 0.1, 1)
+roughness = 0.6
+
+[sub_resource type="SphereShape3D" id="DangerHitboxShape"]
+radius = 2.0
+
+[sub_resource type="StandardMaterial3D" id="HitboxDebugMat"]
+transparency = 1
+cull_mode = 2
+shading_mode = 0
+albedo_color = Color(1, 0.5, 0, 0.3)
+
+[sub_resource type="SphereMesh" id="HitboxDebugMesh"]
+radius = 2.0
+height = 4.0
+
+[node name="FishingLevel" unique_id=30688851 instance=ExtResource("1_base")]
+script = ExtResource("2_level")
+next_level_scene = "res://scenes/levels/fishing/fishing_level_4.tscn"
+
+[node name="Boat" parent="." index="7"]
+catch_sound = ExtResource("3_dvw12")
+damage_sound = ExtResource("4_kljod")
+
+[node name="PatrolPath1" type="Node3D" parent="." index="14" unique_id=623713402]
+
+[node name="A" type="Marker3D" parent="PatrolPath1" index="0" unique_id=1167855094]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, -4, -15)
+
+[node name="B" type="Marker3D" parent="PatrolPath1" index="1" unique_id=475681564]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, -4, -20)
+
+[node name="C" type="Marker3D" parent="PatrolPath1" index="2" unique_id=311978323]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, -4, -8)
+
+[node name="PatrolPath2" type="Node3D" parent="." index="15" unique_id=349661784]
+
+[node name="A" type="Marker3D" parent="PatrolPath2" index="0" unique_id=1302215930]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, -4, -5)
+
+[node name="B" type="Marker3D" parent="PatrolPath2" index="1" unique_id=1068012735]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, -4, 12)
+
+[node name="C" type="Marker3D" parent="PatrolPath2" index="2" unique_id=49697125]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, -4, 5)
+
+[node name="PatrolPath3" type="Node3D" parent="." index="16" unique_id=963319602]
+
+[node name="A" type="Marker3D" parent="PatrolPath3" index="0" unique_id=13750848]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, -4, 10)
+
+[node name="B" type="Marker3D" parent="PatrolPath3" index="1" unique_id=166851198]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, -4, 20)
+
+[node name="C" type="Marker3D" parent="PatrolPath3" index="2" unique_id=20130366]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18, -4, 0)
+
+[node name="Fish1" type="CharacterBody3D" parent="." index="17" unique_id=789508017 node_paths=PackedStringArray("path_node")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, -4, -15)
+script = ExtResource("3_fish")
+path_node = NodePath("../PatrolPath1")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="Fish1" index="0" unique_id=2002704684]
+
+[node name="PatrolBehavior" type="Node" parent="Fish1" index="1" unique_id=214546729]
+script = ExtResource("4_patrol")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Fish1" index="2" unique_id=2069866320]
+mesh = SubResource("FishMesh")
+surface_material_override/0 = SubResource("FishMat")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Fish1" index="3" unique_id=1553986839]
+shape = SubResource("FishCollision")
+
+[node name="Fish2" type="CharacterBody3D" parent="." index="18" unique_id=367228452 node_paths=PackedStringArray("path_node")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, -4, -5)
+script = ExtResource("3_fish")
+path_node = NodePath("../PatrolPath2")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="Fish2" index="0" unique_id=1327100316]
+
+[node name="PatrolBehavior" type="Node" parent="Fish2" index="1" unique_id=1000932674]
+script = ExtResource("4_patrol")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Fish2" index="2" unique_id=1814516127]
+mesh = SubResource("FishMesh")
+surface_material_override/0 = SubResource("FishMat")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Fish2" index="3" unique_id=673929195]
+shape = SubResource("FishCollision")
+
+[node name="Fish3" type="CharacterBody3D" parent="." index="19" unique_id=514071333 node_paths=PackedStringArray("path_node")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, -4, 10)
+script = ExtResource("3_fish")
+path_node = NodePath("../PatrolPath3")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="Fish3" index="0" unique_id=1142942778]
+
+[node name="PatrolBehavior" type="Node" parent="Fish3" index="1" unique_id=292003464]
+script = ExtResource("4_patrol")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Fish3" index="2" unique_id=1052775661]
+mesh = SubResource("FishMesh")
+surface_material_override/0 = SubResource("FishMat")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Fish3" index="3" unique_id=681341664]
+shape = SubResource("FishCollision")
+
+[node name="Fish4" type="CharacterBody3D" parent="." node_paths=PackedStringArray("path_node")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, -4, -10)
+script = ExtResource("3_fish")
+path_node = NodePath("../PatrolPath1")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="Fish4"]
+
+[node name="PatrolBehavior" type="Node" parent="Fish4"]
+script = ExtResource("4_patrol")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Fish4"]
+mesh = SubResource("FishMesh")
+surface_material_override/0 = SubResource("FishMat")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Fish4"]
+shape = SubResource("FishCollision")
+
+[node name="Fish5" type="CharacterBody3D" parent="." node_paths=PackedStringArray("path_node")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, -4, 8)
+script = ExtResource("3_fish")
+path_node = NodePath("../PatrolPath2")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="Fish5"]
+
+[node name="PatrolBehavior" type="Node" parent="Fish5"]
+script = ExtResource("4_patrol")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Fish5"]
+mesh = SubResource("FishMesh")
+surface_material_override/0 = SubResource("FishMat")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Fish5"]
+shape = SubResource("FishCollision")
+
+[node name="Fish6" type="CharacterBody3D" parent="." node_paths=PackedStringArray("path_node")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, -4, 15)
+script = ExtResource("3_fish")
+path_node = NodePath("../PatrolPath3")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="Fish6"]
+
+[node name="PatrolBehavior" type="Node" parent="Fish6"]
+script = ExtResource("4_patrol")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Fish6"]
+mesh = SubResource("FishMesh")
+surface_material_override/0 = SubResource("FishMat")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Fish6"]
+shape = SubResource("FishCollision")
+
+[node name="DangerPatrolPath1" type="Node3D" parent="." index="20" unique_id=1261283062]
+
+[node name="A" type="Marker3D" parent="DangerPatrolPath1" index="0" unique_id=542788788]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4, -10)
+
+[node name="B" type="Marker3D" parent="DangerPatrolPath1" index="1" unique_id=808906718]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, -4, 5)
+
+[node name="C" type="Marker3D" parent="DangerPatrolPath1" index="2" unique_id=1715733598]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, -4, 18)
+
+[node name="DangerPatrolPath2" type="Node3D" parent="." index="21" unique_id=812396205]
+
+[node name="A" type="Marker3D" parent="DangerPatrolPath2" index="0" unique_id=2021749137]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, -4, -20)
+
+[node name="B" type="Marker3D" parent="DangerPatrolPath2" index="1" unique_id=5250456]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, -4, -5)
+
+[node name="C" type="Marker3D" parent="DangerPatrolPath2" index="2" unique_id=1316472210]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, -4, 5)
+
+[node name="Dangerfish1" type="CharacterBody3D" parent="." index="22" unique_id=694197387 node_paths=PackedStringArray("path_node") groups=["dangerfish"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4, -10)
+script = ExtResource("3_fish")
+path_node = NodePath("../DangerPatrolPath1")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="Dangerfish1" index="0" unique_id=964744450]
+
+[node name="PatrolBehavior" type="Node" parent="Dangerfish1" index="1" unique_id=1822064950]
+script = ExtResource("4_patrol")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Dangerfish1" index="2" unique_id=150513108]
+mesh = SubResource("FishMesh")
+surface_material_override/0 = SubResource("DangerFishMat")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Dangerfish1" index="3" unique_id=706196632]
+shape = SubResource("FishCollision")
+
+[node name="VisionCone" type="Node3D" parent="Dangerfish1" index="4" unique_id=1591510851]
+visible = false
+script = ExtResource("5_vcone")
+
+[node name="Attackable" type="Node3D" parent="Dangerfish1" index="5" unique_id=1205698168]
+script = ExtResource("6_attack")
+
+[node name="Hitbox" type="Area3D" parent="Dangerfish1/Attackable" index="0" unique_id=1736067809]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Dangerfish1/Attackable/Hitbox" index="0" unique_id=31006525]
+shape = SubResource("DangerHitboxShape")
+
+[node name="DebugMesh" type="MeshInstance3D" parent="Dangerfish1/Attackable/Hitbox" index="1" unique_id=1101764143]
+material_override = SubResource("HitboxDebugMat")
+mesh = SubResource("HitboxDebugMesh")
+
+[node name="PlayerDetectable" type="Node" parent="Dangerfish1" index="6" unique_id=276221553]
+script = ExtResource("7_detect")
+
+[node name="Dangerfish2" type="CharacterBody3D" parent="." index="23" unique_id=859981074 node_paths=PackedStringArray("path_node") groups=["dangerfish"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, -4, -20)
+script = ExtResource("3_fish")
+path_node = NodePath("../DangerPatrolPath2")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="Dangerfish2" index="0" unique_id=1709626837]
+
+[node name="PatrolBehavior" type="Node" parent="Dangerfish2" index="1" unique_id=1377849120]
+script = ExtResource("4_patrol")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Dangerfish2" index="2" unique_id=1435269536]
+mesh = SubResource("FishMesh")
+surface_material_override/0 = SubResource("DangerFishMat")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Dangerfish2" index="3" unique_id=1825875776]
+shape = SubResource("FishCollision")
+
+[node name="VisionCone" type="Node3D" parent="Dangerfish2" index="4" unique_id=407836217]
+visible = false
+script = ExtResource("5_vcone")
+
+[node name="Attackable" type="Node3D" parent="Dangerfish2" index="5" unique_id=382288355]
+script = ExtResource("6_attack")
+
+[node name="Hitbox" type="Area3D" parent="Dangerfish2/Attackable" index="0" unique_id=1955740416]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Dangerfish2/Attackable/Hitbox" index="0" unique_id=1808372337]
+shape = SubResource("DangerHitboxShape")
+
+[node name="DebugMesh" type="MeshInstance3D" parent="Dangerfish2/Attackable/Hitbox" index="1" unique_id=588938646]
+material_override = SubResource("HitboxDebugMat")
+mesh = SubResource("HitboxDebugMesh")
+
+[node name="PlayerDetectable" type="Node" parent="Dangerfish2" index="6" unique_id=152892724]
+script = ExtResource("7_detect")
+
+[node name="WinCondition" type="Node" parent="." index="24" unique_id=2084033404]
+script = ExtResource("8_wincond")
+
+[node name="FishCountCondition" type="Node" parent="WinCondition" index="0" unique_id=1685541187]
+script = ExtResource("9_fcount")
+required_count = 3
