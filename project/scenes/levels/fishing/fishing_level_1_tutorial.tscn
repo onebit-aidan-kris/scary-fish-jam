@@ -15,7 +15,7 @@
 [sub_resource type="CapsuleShape3D" id="FishCollision"]
 
 [node name="FishingLevel" instance=ExtResource("1_base")]
-next_level_scene = "res://scenes/levels/fishing/fishing_level_2.tscn"
+next_level_scene = "res://scenes/levels/town/town_level_2.tscn"
 win_dialogue = NodePath("WinDialogue")
 
 [node name="Boat/Sonar/DebugMesh" parent="." index=17]

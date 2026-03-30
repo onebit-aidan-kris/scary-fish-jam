@@ -1,0 +1,92 @@
+{
+	"events": {
+		"start": {
+			"sequence": [
+				{
+					"text": [
+						"Jeff was alone at the school. He startled when Abel appeared."
+					]
+				},
+				{
+					"speaker": "Jeff",
+					"text": [
+						"Oh! Abel. I didn't expect... What are you doing up here?"
+					]
+				},
+				{
+					"speaker": "Abel",
+					"text": [
+						"I noticed you weren't at the fish boil. Thought I'd see if everything was okay."
+					]
+				},
+				{
+					"speaker": "Jeff",
+					"text": [
+						"That's... kind of you. I'm fine. Just had some work to catch up on."
+					]
+				},
+				{
+					"text": [
+						"Abel glanced past Jeff. The school was empty. No desks arranged for use. No papers. No sign of children."
+					]
+				},
+				{
+					"speaker": "Abel",
+					"text": [
+						"Hey, those strange fish at the boil — some of them looked like deep sea creatures. How do they end up in the bay?"
+					]
+				},
+				{
+					"text": [
+						"Jeff paused. His eyes moved to the floor before answering."
+					]
+				},
+				{
+					"speaker": "Jeff",
+					"text": [
+						"There's a deep sea trench right off the coast. A sinkhole, really. Unnaturally deep."
+					]
+				},
+				{
+					"speaker": "Abel",
+					"text": [
+						"I've... never heard of anything like that."
+					]
+				},
+				{
+					"speaker": "Jeff",
+					"text": [
+						"Most people haven't. The proximity over the years has led to... special fish. Accustomed to both environs."
+					]
+				},
+				{
+					"speaker": "Abel",
+					"text": [
+						"Do those fish not get the bends?"
+					]
+				},
+				{
+					"speaker": "Jeff",
+					"text": [
+						"No. Thanks to... evolution."
+					]
+				},
+				{
+					"text": [
+						"Jeff said the word 'evolution' the way someone might describe a color they'd never actually seen."
+					]
+				},
+				{
+					"speaker": "Jeff",
+					"text": [
+						"You should get back to the boil. They'll notice you're gone."
+					]
+				}
+			],
+			"before": {
+				"name": "face",
+				"args": ["$jeff", "$player"]
+			}
+		}
+	}
+}

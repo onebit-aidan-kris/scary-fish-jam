@@ -18,6 +18,7 @@ enum State { NOT_ATTACKING, ATTACKING }
 
 # Will search for adjacent hitbox if none specified.
 @export var hitbox: Area3D
+@export var damage_amount := 10
 
 var state := State.NOT_ATTACKING
 var target_boat: Node3D = null
@@ -82,7 +83,7 @@ func attack_policy(_delta: float) -> void:
 		print("Firing attack animation!!!")
 		playing_attack_animation = true
 		get_parent().play_animation(&"Attack")
-		entity_being_attacked.receive_damage(10)
+		entity_being_attacked.receive_damage(damage_amount, get_parent().global_position)
 		attack_cooldown = 0.5
 
 		# Standard attack policy demands the fish return when done attacking.

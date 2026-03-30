@@ -1,0 +1,68 @@
+{
+	"events": {
+		"start": {
+			"sequence": [
+				{
+					"speaker": "Walsh",
+					"text": [
+						"Well well well, look who made it back in one piece!"
+					]
+				},
+				{
+					"text": [
+						"Walsh slapped Abel on the back hard enough to make him stumble."
+					]
+				},
+				{
+					"speaker": "Walsh",
+					"text": [
+						"Not bad fer yer first run. Not bad at all. Ye didn't capsize, ye didn't lose the net, and ye brought back somethin' worth eatin'."
+					]
+				},
+				{
+					"speaker": "Abel",
+					"text": [
+						"Thanks. Honestly, it felt... good? Like I actually did something today."
+					]
+				},
+				{
+					"speaker": "Walsh",
+					"text": [
+						"That's what honest work does to a man! None of that... whatever it is you youngsters do on computers."
+					]
+				},
+				{
+					"speaker": "Abel",
+					"text": [
+						"Yeah, well. Computers are kind of how I ended up here."
+					]
+				},
+				{
+					"speaker": "Walsh",
+					"text": [
+						"And here is where ye are! No use lookin' backward. Only forward, toward the horizon."
+					]
+				},
+				{
+					"speaker": "Walsh",
+					"text": [
+						"Now listen, tomorrow we push a bit further out. The lagoon was just a warm-up. The bay's where the real fish are."
+					]
+				},
+				{
+					"speaker": "Walsh",
+					"text": [
+						"But fer tonight? Go see Brad up at the bar. Tell 'im I sent ye. He'll sort you out. Once you've recharged, you can have your first day by yourself on the water."
+					]
+				}
+			],
+			"before": {
+				"name": "face",
+				"args": [
+					"$walsh",
+					"$player"
+				]
+			}
+		}
+	}
+}

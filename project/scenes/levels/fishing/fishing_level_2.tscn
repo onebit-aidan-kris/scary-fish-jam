@@ -35,7 +35,7 @@ height = 4.0
 
 [node name="FishingLevel" instance=ExtResource("1_base")]
 script = ExtResource("2_level")
-next_level_scene = "res://scenes/levels/fishing/fishing_level_3.tscn"
+next_level_scene = "res://scenes/levels/town/town_level_3.tscn"
 
 [node name="PatrolPath1" type="Node3D" parent="."]
 
@@ -209,6 +209,7 @@ script = ExtResource("5_vcone")
 
 [node name="Attackable" type="Node3D" parent="Dangerfish1"]
 script = ExtResource("6_attack")
+damage_amount = 20
 
 [node name="Hitbox" type="Area3D" parent="Dangerfish1/Attackable"]
 

@@ -1,0 +1,113 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/levels/town/town_level_common.tscn" id="1_base"]
+[ext_resource type="Script" uid="uid://bpqx12vt5uh73" path="res://scenes/levels/town/town_state.gd" id="2_state"]
+[ext_resource type="PackedScene" uid="uid://dg8or08jgcptp" path="res://scenes/levels/town/human_character.tscn" id="3_char"]
+[ext_resource type="SpriteFrames" uid="uid://ckbo7ly65qhh3" path="res://assets/spritesheets/capn.tres" id="4_capn"]
+[ext_resource type="Script" uid="uid://cws8nhjc45fo7" path="res://scripts/dialogue/dialogue_entry.gd" id="5_dlg"]
+[ext_resource type="SpriteFrames" uid="uid://dtks8q41tl0pa" path="res://assets/spritesheets/jeff.tres" id="6_jeff"]
+[ext_resource type="Script" uid="uid://codxcir5kyuw0" path="res://scenes/levels/town/events/to_fishing.gd" id="7_fish"]
+[ext_resource type="SpriteFrames" uid="uid://r6v68nue77cg" path="res://assets/spritesheets/human-c.tres" id="8_brad"]
+[ext_resource type="SpriteFrames" uid="uid://brfgidr74jvta" path="res://assets/spritesheets/human-a.tres" id="9_huma"]
+[ext_resource type="SpriteFrames" uid="uid://c82p8ps44xu2h" path="res://assets/spritesheets/human-b.tres" id="10_humb"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_col"]
+size = Vector2(32, 48)
+
+[node name="TownLevel3" instance=ExtResource("1_base")]
+
+[node name="LevelConfig" parent="." index="0"]
+skip_main_menu = true
+
+[node name="Props" parent="TileData" index="1"]
+collision_enabled = true
+
+[node name="ToFishing" type="Area2D" parent="Events"]
+position = Vector2(320, 504)
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("7_fish")
+fishing_scene_file = "res://scenes/levels/fishing/fishing_level_3.tscn"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Events/ToFishing"]
+shape = SubResource("RectangleShape2D_col")
+
+[node name="TownState" type="Node" parent="." node_paths=PackedStringArray("player", "walsh", "jeff", "brad")]
+script = ExtResource("2_state")
+player = NodePath("../Player")
+walsh = NodePath("../CapnWalsh")
+jeff = NodePath("../Jeff")
+brad = NodePath("../Brad")
+
+[node name="Player" parent="." instance=ExtResource("3_char")]
+position = Vector2(344, 440)
+collision_layer = 7
+player_controlled = true
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+zoom = Vector2(5, 5)
+
+[node name="CapnWalsh" parent="." instance=ExtResource("3_char")]
+position = Vector2(400, 300)
+sprite_frames = ExtResource("4_capn")
+animating = true
+animating_speed_scale = 0.5
+
+[node name="DialogueEntry" type="Node" parent="CapnWalsh" node_paths=PackedStringArray("state")]
+script = ExtResource("5_dlg")
+json_path = "res://assets/dialogue/walsh_town3.json"
+parent_signal_trigger = &"interacted"
+state = NodePath("../../TownState")
+metadata/_custom_type_script = "uid://cws8nhjc45fo7"
+
+[node name="Jeff" parent="." instance=ExtResource("3_char")]
+position = Vector2(1080, 140)
+sprite_frames = ExtResource("6_jeff")
+animating = true
+animating_speed_scale = 0.5
+
+[node name="DialogueEntry" type="Node" parent="Jeff" node_paths=PackedStringArray("state")]
+script = ExtResource("5_dlg")
+json_path = "res://assets/dialogue/jeff_town3.json"
+parent_signal_trigger = &"interacted"
+state = NodePath("../../TownState")
+metadata/_custom_type_script = "uid://cws8nhjc45fo7"
+
+[node name="Brad" parent="." instance=ExtResource("3_char")]
+position = Vector2(370, 260)
+sprite_frames = ExtResource("8_brad")
+animating = true
+animating_speed_scale = 0.5
+
+[node name="DialogueEntry" type="Node" parent="Brad" node_paths=PackedStringArray("state")]
+script = ExtResource("5_dlg")
+json_path = "res://assets/dialogue/brad_town3.json"
+parent_signal_trigger = &"interacted"
+state = NodePath("../../TownState")
+metadata/_custom_type_script = "uid://cws8nhjc45fo7"
+
+[node name="HumanA" parent="." instance=ExtResource("3_char")]
+position = Vector2(430, 310)
+sprite_frames = ExtResource("9_huma")
+animating = true
+animating_speed_scale = 0.5
+
+[node name="DialogueEntry" type="Node" parent="HumanA" node_paths=PackedStringArray("state")]
+script = ExtResource("5_dlg")
+json_path = "res://assets/dialogue/npc_town3_a.json"
+parent_signal_trigger = &"interacted"
+state = NodePath("../../TownState")
+metadata/_custom_type_script = "uid://cws8nhjc45fo7"
+
+[node name="HumanB" parent="." instance=ExtResource("3_char")]
+position = Vector2(350, 340)
+sprite_frames = ExtResource("10_humb")
+animating = true
+animating_speed_scale = 0.5
+
+[node name="DialogueEntry" type="Node" parent="HumanB" node_paths=PackedStringArray("state")]
+script = ExtResource("5_dlg")
+json_path = "res://assets/dialogue/npc_town3_b.json"
+parent_signal_trigger = &"interacted"
+state = NodePath("../../TownState")
+metadata/_custom_type_script = "uid://cws8nhjc45fo7"

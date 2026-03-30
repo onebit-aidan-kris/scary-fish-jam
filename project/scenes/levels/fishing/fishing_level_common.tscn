@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dysycpurmq3gr"]
 
 [ext_resource type="Script" uid="uid://bu2q2x32c2nug" path="res://scripts/components/level_config.gd" id="1_lvlcfg"]
-[ext_resource type="Script" path="res://scenes/levels/fishing/fishing_level_common.gd" id="2_common"]
+[ext_resource type="Script" uid="uid://ba1p5j7uptq16" path="res://scenes/levels/fishing/fishing_level_common.gd" id="2_common"]
 [ext_resource type="Script" uid="uid://n835q6aite1h" path="res://scenes/levels/fishing/boat.gd" id="3_boat"]
 [ext_resource type="Script" uid="uid://da5uxcxgdyw4" path="res://scenes/levels/fishing/sonar.gd" id="4_sonar"]
 [ext_resource type="Script" uid="uid://dtcnjkf3aa1lv" path="res://scenes/levels/fishing/sonar_cone.gd" id="5_cone"]
@@ -13,11 +13,13 @@
 [ext_resource type="Texture2D" uid="uid://drydcgrcnlj32" path="res://assets/spritesheets/wake.png" id="10_wake"]
 [ext_resource type="AudioStream" uid="uid://e4mdf0ul3nf" path="res://assets/sounds/wood_hit.mp3" id="10_xbxic"]
 [ext_resource type="Script" uid="uid://bop81tscj8rdm" path="res://scenes/levels/fishing/rock_spawner.gd" id="11_rocks"]
+[ext_resource type="AudioStream" uid="uid://y0qtyyygqb4l" path="res://assets/sounds/boat_break.mp3" id="11_xbxic"]
+[ext_resource type="AudioStream" uid="uid://dkqbq0bykodya" path="res://assets/sounds/background_ominous.mp3" id="12_f38ql"]
 [ext_resource type="Texture2D" uid="uid://dj5puqm3pibfl" path="res://assets/spritesheets/rocks/rock1.png" id="12_r1"]
 [ext_resource type="Texture2D" uid="uid://daug3f4g26xsq" path="res://assets/spritesheets/rocks/rock2.png" id="13_r2"]
 [ext_resource type="Texture2D" uid="uid://cqmfop81rhod8" path="res://assets/spritesheets/rocks/rock3.png" id="14_r3"]
 [ext_resource type="Texture2D" uid="uid://b5urikh5s04ln" path="res://assets/spritesheets/rocks/rock4.png" id="15_r4"]
-[ext_resource type="PackedScene" path="res://scenes/levels/fishing/hud.tscn" id="16_hud"]
+[ext_resource type="PackedScene" uid="uid://d3f18gvut8igp" path="res://scenes/levels/fishing/hud.tscn" id="16_hud"]
 [ext_resource type="Script" uid="uid://clcjf1cfg352o" path="res://scripts/interfaces/fish/behavior_policy.gd" id="17_bpol"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_fish"]
@@ -185,6 +187,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 script = ExtResource("3_boat")
 catch_sound = ExtResource("9_5yeeq")
 damage_sound = ExtResource("10_xbxic")
+game_over_sound = ExtResource("11_xbxic")
+drone_sound = ExtResource("12_f38ql")
 
 [node name="Hull" type="MeshInstance3D" parent="Boat" unique_id=330172744]
 visible = false
@@ -226,6 +230,10 @@ pixel_size = 0.08
 billboard = 1
 texture_filter = 0
 texture = ExtResource("9_boat_tex")
+
+[node name="AudioPlayer" type="AudioStreamPlayer" parent="Boat" unique_id=1234567890]
+
+[node name="DronePlayer" type="AudioStreamPlayer" parent="Boat" unique_id=1234567891]
 
 [node name="WakeParticles" type="GPUParticles3D" parent="Boat" unique_id=1601521277]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.7890096, 2.085844)

@@ -1,0 +1,25 @@
+{
+	"events": {
+		"start": {
+			"sequence": [
+				{
+					"speaker": "Abel",
+					"text": [
+						"How's business?"
+					]
+				},
+				{
+					"speaker": "Townswoman",
+					"text": [
+						"Business is business."
+					]
+				},
+				{
+					"text": [
+						"She turned away and resumed a conversation Abel could have sworn wasn't happening a moment ago."
+					]
+				}
+			]
+		}
+	}
+}

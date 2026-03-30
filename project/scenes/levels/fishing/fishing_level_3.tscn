@@ -37,7 +37,7 @@ height = 4.0
 
 [node name="FishingLevel" unique_id=30688851 instance=ExtResource("1_base")]
 script = ExtResource("2_level")
-next_level_scene = "res://scenes/levels/fishing/fishing_level_4.tscn"
+next_level_scene = "res://scenes/levels/town/town_level_4.tscn"
 
 [node name="Boat" parent="." index="7"]
 catch_sound = ExtResource("3_dvw12")

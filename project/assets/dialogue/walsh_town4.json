@@ -1,0 +1,104 @@
+{
+	"events": {
+		"start": {
+			"sequence": [
+				{
+					"speaker": "Walsh",
+					"text": [
+						"Abel. Good. You're here."
+					]
+				},
+				{
+					"text": [
+						"Walsh's usual boisterousness was gone. In its place was something focused and intent."
+					]
+				},
+				{
+					"speaker": "Walsh",
+					"text": [
+						"I've got one more run for ye. A special spot."
+					]
+				},
+				{
+					"speaker": "Abel",
+					"text": [
+						"Special how?"
+					]
+				},
+				{
+					"speaker": "Walsh",
+					"text": [
+						"Deeper water. Past the bay. There's a hole out there — blue as anything ye've ever seen. The fish there are... premium. Worth ten times what ye've been hauling."
+					]
+				},
+				{
+					"speaker": "Abel",
+					"text": [
+						"A hole? Jeff mentioned something about a deep trench—"
+					]
+				},
+				{
+					"speaker": "Walsh",
+					"text": [
+						"Did he now."
+					]
+				},
+				{
+					"text": [
+						"Walsh's jaw tightened. The veins on his weathered neck became visible."
+					]
+				},
+				{
+					"speaker": "Walsh",
+					"text": [
+						"The schoolteacher talks too much. Always has."
+					]
+				},
+				{
+					"speaker": "Abel",
+					"text": [
+						"Is it safe out there? Some of those fish from the boil looked—"
+					]
+				},
+				{
+					"speaker": "Walsh",
+					"text": [
+						"Safe? SAFE?"
+					]
+				},
+				{
+					"text": [
+						"Walsh grabbed Abel's arm with that uncomfortably firm grip."
+					]
+				},
+				{
+					"speaker": "Walsh",
+					"text": [
+						"Ye came here because ye had nothin'. No job, no prospects, no future. I gave ye somethin' to DO. Something that MATTERS."
+					]
+				},
+				{
+					"speaker": "Walsh",
+					"text": [
+						"Now are ye a fisherman or aren't ye?"
+					]
+				},
+				{
+					"text": [
+						"The question hung in the salt air. It wasn't really a question."
+					]
+				},
+				{
+					"speaker": "Walsh",
+					"text": [
+						"The boat's ready. Get in."
+					]
+				}
+			],
+			"before": {
+				"name": "face",
+				"args": ["$walsh", "$player"]
+			}
+		}
+	}
+}
