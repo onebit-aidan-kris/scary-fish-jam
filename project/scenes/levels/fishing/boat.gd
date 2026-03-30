@@ -1,7 +1,5 @@
 extends CharacterBody3D
 
-const net_scene := preload("res://scenes/levels/fishing/fishing_net_sprite.tscn")
-
 @export var move_speed := 8.0
 @export var turn_speed := 2.0
 @export var lake_radius := 30.0
@@ -21,7 +19,7 @@ var net_debug_mesh: MeshInstance3D = null
 
 var cumumative_forward_fishing_net_distance: float = 0.0
 
-enum NetState { NONE, AIMING, FIRING_NET, UNDER_WATER, REELING_IN_NET }
+enum NetState {NONE, AIMING, FIRING_NET, UNDER_WATER, REELING_IN_NET}
 var net_state: NetState = NetState.NONE
 
 # Net projectile
@@ -45,15 +43,9 @@ var _caught_fish: Node3D = null
 func _ready() -> void:
 	_input = gamestate.player_input
 	_cam_origin_pitch = _camera.rotation_degrees.x
-	_camera.rotation_degrees.x = clampf(_cam_origin_pitch, -90.0, -20.0)
-	_camera.make_current()
 
 
 func _physics_process(delta: float) -> void:
-	# do nothing if dialogue is playing
-	if gamestate.is_dialogue_playing:
-		return
-
 	if sonar_cooldown_ticks > 0:
 		sonar_cooldown_ticks -= 1
 
@@ -135,13 +127,13 @@ func aim_net() -> void:
 		return
 
 	var candidate_offset := net_local_offset
-	candidate_offset.z = -(cumumative_forward_fishing_net_distance + NET_PARABOLA_SPEED)
+	candidate_offset.z = - (cumumative_forward_fishing_net_distance + NET_PARABOLA_SPEED)
 	var candidate_world: Vector3 = global_transform * candidate_offset
 	candidate_world.y = global_position.y
 
 	if _is_over_water(candidate_world):
 		cumumative_forward_fishing_net_distance += NET_PARABOLA_SPEED
-	net_local_offset.z = -cumumative_forward_fishing_net_distance
+	net_local_offset.z = - cumumative_forward_fishing_net_distance
 
 	var net_world_pos: Vector3 = global_transform * net_local_offset
 	net_world_pos.y = global_position.y
@@ -169,8 +161,8 @@ func set_net_debug_mesh(_mesh: MeshInstance3D) -> void:
 	net_debug_mesh = MeshInstance3D.new()
 	net_debug_mesh.mesh = CylinderMesh.new()
 	net_debug_mesh.set_surface_override_material(0, StandardMaterial3D.new())
+	net_debug_mesh.global_position = global_transform * net_local_offset
 	get_tree().root.add_child(net_debug_mesh)
-	net_debug_mesh.position = global_transform * net_local_offset
 
 
 func clear_net_debug_mesh() -> void:
@@ -198,21 +190,16 @@ func fire_net() -> void:
 	col.shape = shape
 	_net_projectile.add_child(col)
 
-	if false:
-		var mesh_inst := MeshInstance3D.new()
-		var sphere := SphereMesh.new()
-		sphere.radius = SPHERE_RADIUS
-		sphere.height = SPHERE_HEIGHT
-		mesh_inst.mesh = sphere
-		var mat := StandardMaterial3D.new()
-		mat.albedo_color = Color(0.9, 0.85, 0.6)
-		mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-		mesh_inst.set_surface_override_material(0, mat)
-		_net_projectile.add_child(mesh_inst)
-
-	var net_sprite: FishingNetSprite = net_scene.instantiate()
-	net_sprite.rotate(Vector3.UP, global_rotation.y)
-	_net_projectile.add_child(net_sprite)
+	var mesh_inst := MeshInstance3D.new()
+	var sphere := SphereMesh.new()
+	sphere.radius = SPHERE_RADIUS
+	sphere.height = SPHERE_HEIGHT
+	mesh_inst.mesh = sphere
+	var mat := StandardMaterial3D.new()
+	mat.albedo_color = Color(0.9, 0.85, 0.6)
+	mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	mesh_inst.set_surface_override_material(0, mat)
+	_net_projectile.add_child(mesh_inst)
 
 	_net_projectile.monitoring = true
 	get_tree().root.add_child(_net_projectile)
@@ -268,7 +255,7 @@ func _process_net_projectile(delta: float) -> void:
 
 func _process_reeling_in_net(_delta: float) -> void:
 	# TODO: Some animation of maybe water splashes implying 'reeling in' a fish.
-	var fish := _caught_fish
-	_caught_fish = null
-	retract_net()
-	signalbus.fish_caught.emit(fish)
+	signalbus.fish_caught.emit(_caught_fish)
+
+	# Reset the net state.
+	net_state = NetState.NONE

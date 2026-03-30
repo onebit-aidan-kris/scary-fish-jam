@@ -38,7 +38,6 @@ script = ExtResource("2_level")
 skip_main_menu = true
 
 [node name="WaterSurface" parent="." index=3]
-visible = false
 
 [node name="Boat" parent="." index=7]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0)

@@ -17,6 +17,7 @@ Input format:
 Rules:
     - Lines matching  Speaker: text  start a new entry.
     - (hidden) modifier suppresses the speaker name in output.
+    - Narrator lines suppress the speaker name in output.
     - Outer double quotes are stripped from dialogue text.
     - Blank lines are ignored (use them for readability).
     - Non-speaker lines following a speaker line are appended as
@@ -61,7 +62,7 @@ def parse_dialogue(lines: list[str]) -> list[dict]:
             text = strip_outer_quotes(m.group(3).strip())
 
             current = {}
-            if modifier != "hidden":
+            if modifier != "hidden" and speaker.lower() != "narrator":
                 current["speaker"] = speaker
             current["text"] = [text]
             sequence.append(current)
