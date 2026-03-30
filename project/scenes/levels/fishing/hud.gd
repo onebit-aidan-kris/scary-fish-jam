@@ -1,6 +1,7 @@
 extends CanvasLayer
 
 @onready var health_label: Label = $VBoxContainer/HealthLabel
+@onready var catch_container: HBoxContainer = $CatchContainer
 
 var boat: Node3D = null
 
@@ -10,6 +11,7 @@ func _ready() -> void:
 	if not boat and boat.has_meta("health"):
 		push_error("HUD: player/boat not found or missing health")
 	health_label.visible = false
+	signalbus.fish_caught_display.connect(_on_fish_caught_display)
 
 
 func _process(_delta: float) -> void:
@@ -19,3 +21,12 @@ func _process(_delta: float) -> void:
 		if health_label.visible:
 			var pct := clampf(boat.health / boat.max_health * 100.0, 0.0, 100.0)
 			health_label.text = "Hull Integrity: %.0f%%" % pct
+
+
+func _on_fish_caught_display(fish_texture: Texture2D, _fish_type: String) -> void:
+	var icon := TextureRect.new()
+	icon.texture = fish_texture
+	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	icon.custom_minimum_size = Vector2(48, 48)
+	icon.tooltip_text = _fish_type.replace("_", " ").capitalize()
+	catch_container.add_child(icon)

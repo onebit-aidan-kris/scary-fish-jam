@@ -5,6 +5,7 @@ extends Node
 signal game_started
 signal sonar_highlight(position: Vector3)
 signal fish_caught(fish: Node3D)
+signal fish_caught_display(fish_texture: Texture2D, fish_type: String)
 signal dialogue_started
 signal dialogue_ended
 signal level_won

@@ -4,6 +4,7 @@ extends CharacterBody3D
 enum State { PATROLLING, FOLLOWING }
 
 @export var fish_type := "any"
+@export var fish_sprite: Texture2D
 @export var path_node: Node3D
 @export var swim_speed := 3.0
 @export var chase_speed := 5.0
@@ -21,6 +22,14 @@ var target_player: Node3D = null
 
 func _ready() -> void:
 	child_mesh = get_node("MeshInstance3D")
+	if fish_sprite:
+		var sprite := Sprite3D.new()
+		sprite.texture = fish_sprite
+		sprite.pixel_size = 0.04
+		sprite.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+		sprite.texture_filter = BaseMaterial3D.TEXTURE_FILTER_NEAREST
+		add_child(sprite)
+		child_mesh.visible = false
 	print("patrol path is: ", path_node)
 	patrol_behavior.nav_agent = nav_agent
 	patrol_behavior.set_patrol_nodes(path_node)
