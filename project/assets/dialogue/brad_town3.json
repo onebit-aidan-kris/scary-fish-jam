@@ -1,0 +1,93 @@
+{
+	"events": {
+		"start": {
+			"sequence": [
+				{
+					"speaker": "Brad",
+					"text": [
+						"Abel! Get over here, I need an extra pair of hands!"
+					]
+				},
+				{
+					"text": [
+						"Brad was red-faced and sweating, scurrying between different parts of the fish boil assembly with a manic energy."
+					]
+				},
+				{
+					"speaker": "Abel",
+					"text": [
+						"What do you need?"
+					]
+				},
+				{
+					"speaker": "Brad",
+					"text": [
+						"Just kidding. Stand back, actually. This part gets hot."
+					]
+				},
+				{
+					"text": [
+						"The kerosene was tossed. A flash of smoke rose from the drums."
+					]
+				},
+				{
+					"text": [
+						"In that moment, Abel caught a startling sight — some of the odd fish [i]twitched[/i]. He strained his vision to confirm what his subconscious had noticed, but the flames and heat made it impossible."
+					]
+				},
+				{
+					"text": [
+						"His rational brain decided to chalk it up to heat haze. But his nervous system remained rattled."
+					]
+				},
+				{
+					"text": [
+						"Then the townsfolk began chanting. A uniform, droning sound — following no key signature or progression Abel had ever heard. Occasional whoops rang out, shouted without rhyme or reason."
+					]
+				},
+				{
+					"speaker": "Abel",
+					"text": [
+						"Is... is Gregorian chanting a town pastime at this event?"
+					]
+				},
+				{
+					"text": [
+						"Abel felt a wave of ice wash over him. Eyes he couldn't quite locate bore into him from all directions."
+					]
+				},
+				{
+					"speaker": "Brad",
+					"text": [
+						"Old tradition! Goes way back. You get used to it."
+					]
+				},
+				{
+					"text": [
+						"Brad said this without looking up from the drums, his hands moving with a practiced rhythm that felt almost ceremonial."
+					]
+				},
+				{
+					"speaker": "Brad",
+					"text": [
+						"Here. Eat."
+					]
+				},
+				{
+					"text": [
+						"The fish was brought out. Despite the oddities, there was something primally fulfilling about eating the fish he had worked so hard to catch."
+					]
+				},
+				{
+					"text": [
+						"Thankfully, the strange fish was not served to his side of the table."
+					]
+				}
+			],
+			"before": {
+				"name": "face",
+				"args": ["$brad", "$player"]
+			}
+		}
+	}
+}

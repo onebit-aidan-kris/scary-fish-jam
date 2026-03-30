@@ -3,15 +3,26 @@ extends CharacterBody3D
 @export var move_speed := 8.0
 @export var turn_speed := 2.0
 @export var lake_radius := 30.0
+@export var max_health := 100.0
 @export var health := 100.0 # TODO: Make flexible to persistent upgrades.
+@export var catch_sound: AudioStream
+@export var damage_sound: AudioStream
+@export var game_over_sound: AudioStream
+@export var drone_sound: AudioStream
 
 @onready var _camera: Camera3D = $Camera3D
 @onready var net_arc: MeshInstance3D = $NetArc
+@onready var _audio: AudioStreamPlayer = $AudioPlayer
+@onready var _drone: AudioStreamPlayer = $DronePlayer
+@onready var _boat_sprite: Sprite3D = $BoatSprite
+@onready var _wake_particles: GPUParticles3D = $WakeParticles
 
 const NET_PARABOLA_SPEED: float = 0.15
 
 var _input: PlayerInput
 var _cam_origin_pitch: float
+var _is_dead := false
+var has_taken_damage := false
 var sonar_cooldown_ticks: int = 0
 var sonar_cooldown_max: int = 120
 var net_local_offset: Vector3 = Vector3.ZERO
@@ -81,11 +92,84 @@ func trigger_sonar() -> void:
 	sonar_cooldown_ticks = sonar_cooldown_max
 
 
-func receive_damage(damage_amount: int) -> void:
+func receive_damage(damage_amount: int, hit_position := Vector3.ZERO) -> void:
+	if _is_dead:
+		return
 	print("Player received damage: ", damage_amount)
 	health -= damage_amount
+	if not has_taken_damage:
+		has_taken_damage = true
+		if drone_sound and not _drone.playing:
+			_drone.stream = drone_sound
+			_drone.play()
+	if damage_sound:
+		_audio.stream = damage_sound
+		_audio.play()
+	_jiggle()
+	if hit_position != Vector3.ZERO:
+		_spawn_hit_splash(hit_position)
 	if health <= 0:
-		print("Player is dead!")
+		health = 0
+		_is_dead = true
+		_game_over()
+
+
+func _jiggle() -> void:
+	var sprite := _boat_sprite
+	var orig_rot := sprite.rotation
+	var jiggle_tween := create_tween()
+	jiggle_tween.tween_property(sprite, "rotation:z", orig_rot.z + 0.15, 0.05)
+	jiggle_tween.tween_property(sprite, "rotation:z", orig_rot.z - 0.12, 0.05)
+	jiggle_tween.tween_property(sprite, "rotation:z", orig_rot.z + 0.07, 0.04)
+	jiggle_tween.tween_property(sprite, "rotation:z", orig_rot.z - 0.03, 0.04)
+	jiggle_tween.tween_property(sprite, "rotation:z", orig_rot.z, 0.03)
+
+
+func _spawn_hit_splash(world_pos: Vector3) -> void:
+	var splash := _wake_particles.duplicate() as GPUParticles3D
+	get_parent().add_child(splash)
+	splash.global_position = world_pos
+	splash.emitting = true
+	splash.one_shot = true
+	splash.amount = 15
+	splash.lifetime = 0.8
+	get_tree().create_timer(2.0).timeout.connect(splash.queue_free)
+
+
+func _game_over() -> void:
+	set_physics_process(false)
+	set_process(false)
+
+	if game_over_sound:
+		_audio.stream = game_over_sound
+		_audio.play()
+
+	var fade := gamestate.screen_fade
+	var rect: ColorRect = fade.get_node("ColorRect")
+	var tween := create_tween()
+	tween.tween_property(rect, "modulate:a", 1.0, 1.0)
+	await tween.finished
+
+	var is_level_4 := get_tree().current_scene.scene_file_path.find("fishing_level_4") != -1
+	var msg: String
+	if is_level_4:
+		msg = "The deep has claimed its next victim"
+	else:
+		msg = "You had no business fishing. The fish themselves even made sure of that"
+
+	var label := Label.new()
+	label.text = msg
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	label.set_anchors_preset(Control.PRESET_FULL_RECT)
+	label.add_theme_font_size_override("font_size", 28)
+	label.add_theme_color_override("font_color", Color.WHITE)
+	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	fade.add_child(label)
+
+	await get_tree().create_timer(4.0).timeout
+
+	gamestate.screen_fade.fade_to_scene("uid://dku1y8g8g5cu1")
 
 
 func get_flat_position() -> Vector2:
@@ -143,7 +227,7 @@ func aim_net() -> void:
 	net_debug_mesh.global_position = net_world_pos
 
 	net_arc.global_transform = Transform3D.IDENTITY
-	net_arc.mesh = net_arc.call("calculate_net_path", global_position, net_world_pos)
+	net_arc.mesh = net_arc.call("calculate_net_path", _get_bow_position(), net_world_pos)
 
 
 func retract_net() -> void:
@@ -171,12 +255,17 @@ func clear_net_debug_mesh() -> void:
 		net_debug_mesh = null
 
 
+func _get_bow_position() -> Vector3:
+	return global_position + (-transform.basis.z * 2.0)
+
+
 func fire_net() -> void:
 	net_state = NetState.FIRING_NET
+	clear_net_debug_mesh()
 
-	_net_fire_start = global_position
+	_net_fire_start = _get_bow_position()
 	_net_fire_end = global_transform * net_local_offset
-	_net_fire_end.y = global_position.y
+	_net_fire_end.y = _net_fire_start.y
 	_net_fire_t = 0.0
 
 	if _net_projectile:
@@ -188,18 +277,12 @@ func fire_net() -> void:
 	var shape := SphereShape3D.new()
 	shape.radius = SPHERE_RADIUS
 	col.shape = shape
+	col.disabled = false
 	_net_projectile.add_child(col)
 
-	var mesh_inst := MeshInstance3D.new()
-	var sphere := SphereMesh.new()
-	sphere.radius = SPHERE_RADIUS
-	sphere.height = SPHERE_HEIGHT
-	mesh_inst.mesh = sphere
-	var mat := StandardMaterial3D.new()
-	mat.albedo_color = Color(0.9, 0.85, 0.6)
-	mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	mesh_inst.set_surface_override_material(0, mat)
-	_net_projectile.add_child(mesh_inst)
+	var net_sprite_scene := preload("res://scenes/levels/fishing/fishing_net_sprite.tscn")
+	var net_visual := net_sprite_scene.instantiate()
+	_net_projectile.add_child(net_visual)
 
 	_net_projectile.monitoring = true
 	get_tree().root.add_child(_net_projectile)
@@ -231,8 +314,8 @@ func _process_net_projectile(delta: float) -> void:
 		if _net_fire_t >= 1.0:
 			print("going under water!")
 			_net_fire_t = 0.0
-			#_on_net_landed()
 			net_state = NetState.UNDER_WATER
+			net_arc.mesh = null
 			# Now set the new end to be the sea floor below the net's end position.
 			_net_fire_start = _net_fire_end
 			_net_fire_end = _net_fire_end - Vector3(0.0, 10.0, 0.0)
@@ -251,6 +334,10 @@ func _process_net_projectile(delta: float) -> void:
 		arc_y = linear_underwater.y
 
 	_net_projectile.global_position = Vector3(linear.x, arc_y, linear.z)
+
+	if net_state == NetState.FIRING_NET:
+		net_arc.global_transform = Transform3D.IDENTITY
+		net_arc.mesh = net_arc.call("calculate_net_path", _get_bow_position(), _net_projectile.global_position)
 
 
 func _process_reeling_in_net(_delta: float) -> void:

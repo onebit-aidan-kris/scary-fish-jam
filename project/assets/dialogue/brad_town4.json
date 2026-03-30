@@ -1,0 +1,91 @@
+{
+	"events": {
+		"start": {
+			"sequence": [
+				{
+					"text": [
+						"The bar was empty. Brad stood behind the counter, polishing a glass that was already clean."
+					]
+				},
+				{
+					"speaker": "Brad",
+					"text": [
+						"Hey."
+					]
+				},
+				{
+					"speaker": "Abel",
+					"text": [
+						"Hey. Quiet tonight."
+					]
+				},
+				{
+					"speaker": "Brad",
+					"text": [
+						"Mm."
+					]
+				},
+				{
+					"text": [
+						"Brad poured a drink. It was even more generous than usual. His hands weren't quite steady."
+					]
+				},
+				{
+					"speaker": "Abel",
+					"text": [
+						"Walsh wants me to go out past the bay. To some kind of hole."
+					]
+				},
+				{
+					"text": [
+						"Brad stopped polishing. For a moment he stood perfectly still."
+					]
+				},
+				{
+					"speaker": "Brad",
+					"text": [
+						"Yeah. He would."
+					]
+				},
+				{
+					"speaker": "Abel",
+					"text": [
+						"You don't seem thrilled about it."
+					]
+				},
+				{
+					"speaker": "Brad",
+					"text": [
+						"You want another drink?"
+					]
+				},
+				{
+					"speaker": "Abel",
+					"text": [
+						"Brad. What's out there?"
+					]
+				},
+				{
+					"text": [
+						"Brad looked at Abel for the first time. Really looked at him. There was something in his expression that Abel couldn't place — something between pity and resignation."
+					]
+				},
+				{
+					"speaker": "Brad",
+					"text": [
+						"Just fish, kid. It's always just fish."
+					]
+				},
+				{
+					"text": [
+						"He slid another glass across the counter and turned away."
+					]
+				}
+			],
+			"before": {
+				"name": "face",
+				"args": ["$brad", "$player"]
+			}
+		}
+	}
+}

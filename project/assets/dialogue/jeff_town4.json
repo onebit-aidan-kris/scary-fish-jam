@@ -1,0 +1,103 @@
+{
+	"events": {
+		"start": {
+			"sequence": [
+				{
+					"text": [
+						"Jeff was standing outside the school, staring at the shuttered door. He looked like he hadn't slept."
+					]
+				},
+				{
+					"speaker": "Jeff",
+					"text": [
+						"Abel. I was hoping you'd come by."
+					]
+				},
+				{
+					"speaker": "Abel",
+					"text": [
+						"You look terrible."
+					]
+				},
+				{
+					"speaker": "Jeff",
+					"text": [
+						"I've been thinking. About the school. About a lot of things."
+					]
+				},
+				{
+					"text": [
+						"Jeff's gaze drifted toward the sea."
+					]
+				},
+				{
+					"speaker": "Jeff",
+					"text": [
+						"Do you know why there are no children in the school, Abel?"
+					]
+				},
+				{
+					"speaker": "Abel",
+					"text": [
+						"I... assumed they were in class when I wasn't looking."
+					]
+				},
+				{
+					"speaker": "Jeff",
+					"text": [
+						"There are no children. There haven't been for a very long time."
+					]
+				},
+				{
+					"text": [
+						"His voice cracked on the last word."
+					]
+				},
+				{
+					"speaker": "Jeff",
+					"text": [
+						"This town... it doesn't change, Abel. It hasn't changed in seventy years. The same people, the same faces, the same... everything."
+					]
+				},
+				{
+					"speaker": "Abel",
+					"text": [
+						"What are you saying?"
+					]
+				},
+				{
+					"speaker": "Jeff",
+					"text": [
+						"I'm saying... you don't have to go back out there. Walsh will tell you it's just another fishing trip. It isn't."
+					]
+				},
+				{
+					"text": [
+						"Jeff looked over his shoulder, as if checking whether anyone was listening."
+					]
+				},
+				{
+					"speaker": "Jeff",
+					"text": [
+						"They bring people in from the outside. Always have. 'Fresh blood,' they call it. The apprenticeship, the hospitality — it's all..."
+					]
+				},
+				{
+					"text": [
+						"He stopped himself. His hands were shaking."
+					]
+				},
+				{
+					"speaker": "Jeff",
+					"text": [
+						"Just be careful. Please."
+					]
+				}
+			],
+			"before": {
+				"name": "face",
+				"args": ["$jeff", "$player"]
+			}
+		}
+	}
+}

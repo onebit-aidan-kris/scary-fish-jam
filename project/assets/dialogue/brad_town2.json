@@ -1,0 +1,87 @@
+{
+	"events": {
+		"start": {
+			"sequence": [
+				{
+					"speaker": "Brad",
+					"text": [
+						"There he is! The fisherman returns!"
+					]
+				},
+				{
+					"text": [
+						"Brad was already pouring something before Abel had fully sat down."
+					]
+				},
+				{
+					"speaker": "Abel",
+					"text": [
+						"Walsh sent me. Said you'd 'sort me out.'"
+					]
+				},
+				{
+					"speaker": "Brad",
+					"text": [
+						"Ha! That old salt. He says that about everyone. Here."
+					]
+				},
+				{
+					"text": [
+						"Brad slid a glass across the counter. It was filled considerably past what Abel would consider a normal pour."
+					]
+				},
+				{
+					"speaker": "Brad",
+					"text": [
+						"First day on the water calls for a celebration. How'd it feel out there?"
+					]
+				},
+				{
+					"speaker": "Abel",
+					"text": [
+						"Exhausting. But... kind of meditative? I didn't think about anything except the fish."
+					]
+				},
+				{
+					"speaker": "Brad",
+					"text": [
+						"That's the magic of it. Fishing demands your full attention. No room for all that other noise."
+					]
+				},
+				{
+					"text": [
+						"Brad refilled the glass without being asked."
+					]
+				},
+				{
+					"speaker": "Brad",
+					"text": [
+						"Oh hey, speaking of fish- we've got the Loveland County Fish Boil coming up. Big event. Whole town comes out."
+					]
+				},
+				{
+					"speaker": "Abel",
+					"text": [
+						"A fish boil? Like a... cookout?"
+					]
+				},
+				{
+					"speaker": "Brad",
+					"text": [
+						"The talk of all Maine! Well, the talk of this particular stretch of coast anyway. You'll see."
+					]
+				},
+				{
+					"speaker": "Brad",
+					"text": [
+						"Best part is, you'll be eating your own catch. Nothing like it."
+					]
+				}
+			],
+			"before": {
+				"name": "face",
+				"args": ["$brad", "$player"]
+			}
+		}
+	}
+}
