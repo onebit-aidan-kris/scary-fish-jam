@@ -30,6 +30,13 @@ roughness = 0.6
 radius = 2.0
 
 
+<<<<<<< HEAD
+=======
+[sub_resource type="SphereMesh" id="HitboxDebugMesh"]
+radius = 2.0
+height = 4.0
+
+>>>>>>> main
 [node name="FishingLevel" unique_id=715489544 instance=ExtResource("1_base")]
 script = ExtResource("2_level")
 next_level_scene = "res://scenes/levels/town/town_level_3.tscn"
@@ -226,6 +233,11 @@ damage_amount = 20
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Dangerfish1/Attackable/Hitbox" index="0" unique_id=215093438]
 shape = SubResource("DangerHitboxShape")
+
+[node name="DebugMesh" type="MeshInstance3D" parent="Dangerfish1/Attackable/Hitbox" index="1" unique_id=676213392]
+visible = false
+material_override = SubResource("HitboxDebugMat")
+mesh = SubResource("HitboxDebugMesh")
 
 [node name="PlayerDetectable" type="Node" parent="Dangerfish1" index="6" unique_id=484370374]
 script = ExtResource("7_detect")
