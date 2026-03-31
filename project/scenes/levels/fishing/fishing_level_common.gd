@@ -60,8 +60,42 @@ func _on_sonar_highlight(fish_position: Vector3) -> void:
 
 func add_fish_caught(fish: Node3D) -> void:
 	fish_caught.append(fish)
+
+	var fish_tex: Texture2D = fish.get("fish_sprite") if fish.get("fish_sprite") else null
+	var fish_type_str: String = fish.get("fish_type") if fish.get("fish_type") else "any"
+
+	if fish_tex:
+		_play_catch_animation(fish.global_position, fish_tex)
+		signalbus.fish_caught_display.emit(fish_tex, fish_type_str)
+
 	fish.queue_free()
 	print("fish caught! : ", fish_caught.size())
+
+
+func _play_catch_animation(world_pos: Vector3, tex: Texture2D) -> void:
+	var water_surface: MeshInstance3D = get_tree().get_first_node_in_group("WaterSurface")
+	var surface_y: float = water_surface.global_position.y if water_surface else 0.0
+
+	var sprite := Sprite3D.new()
+	sprite.texture = tex
+	sprite.pixel_size = 0.04
+	sprite.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+	sprite.texture_filter = BaseMaterial3D.TEXTURE_FILTER_NEAREST
+	add_child(sprite)
+	sprite.global_position = Vector3(world_pos.x, surface_y + 0.5, world_pos.z)
+
+	var tween := create_tween()
+	tween.tween_property(sprite, "global_position:y", surface_y + 4.0, 0.8) \
+	.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUAD)
+	tween.tween_callback(_blink_and_free.bind(sprite))
+
+
+func _blink_and_free(sprite: Sprite3D) -> void:
+	var tween := create_tween()
+	for i in 4:
+		tween.tween_property(sprite, "visible", false, 0.1)
+		tween.tween_property(sprite, "visible", true, 0.1)
+	tween.tween_callback(sprite.queue_free)
 
 
 func _on_level_won() -> void:

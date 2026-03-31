@@ -19,3 +19,15 @@ custom_minimum_size = Vector2(280, 80)
 layout_mode = 2
 theme_override_font_sizes/font_size = 28
 text = "Hull Integrity: 100%"
+
+[node name="CatchContainer" type="HBoxContainer" parent="." unique_id=1928301022]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -400.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = 74.0
+grow_horizontal = 0
+alignment = 2
+theme_override_constants/separation = 6

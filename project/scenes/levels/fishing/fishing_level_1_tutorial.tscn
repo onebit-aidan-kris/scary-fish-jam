@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bq2otue0hoslh"]
+[gd_scene load_steps=14 format=3 uid="uid://bq2otue0hoslh"]
 
 [ext_resource type="PackedScene" path="res://scenes/levels/fishing/fishing_level_common.tscn" id="1_base"]
 [ext_resource type="Script" uid="uid://4gtx2q7jsi3x" path="res://scenes/levels/fishing/fish.gd" id="2_fish"]
@@ -7,6 +7,10 @@
 [ext_resource type="Script" uid="uid://cws8nhjc45fo7" path="res://scripts/dialogue/dialogue_entry.gd" id="5_dlg"]
 [ext_resource type="Script" uid="uid://cww83iditct2p" path="res://scenes/levels/fishing/win_condition.gd" id="6_wincond"]
 [ext_resource type="Script" uid="uid://s2st5ighxp1k" path="res://scenes/levels/fishing/fish_count_condition.gd" id="7_fcount"]
+[ext_resource type="Texture2D" path="res://assets/spritesheets/fish/smelt.png" id="8_smelt"]
+[ext_resource type="Texture2D" path="res://assets/spritesheets/fish/herring.png" id="9_herring"]
+[ext_resource type="Texture2D" path="res://assets/spritesheets/fish/menhaden.png" id="10_menhaden"]
+[ext_resource type="Texture2D" path="res://assets/spritesheets/fish/dab.png" id="11_dab"]
 
 [sub_resource type="CapsuleMesh" id="FishMesh"]
 
@@ -57,6 +61,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, -4, -5)
 [node name="Fish1" type="CharacterBody3D" parent="." node_paths=PackedStringArray("path_node")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, -4, -20)
 script = ExtResource("2_fish")
+fish_type = "smelt"
+fish_sprite = ExtResource("8_smelt")
 path_node = NodePath("../PatrolPath1")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="Fish1"]
@@ -74,6 +80,8 @@ shape = SubResource("FishCollision")
 [node name="Fish2" type="CharacterBody3D" parent="." node_paths=PackedStringArray("path_node")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, -4, 5)
 script = ExtResource("2_fish")
+fish_type = "herring"
+fish_sprite = ExtResource("9_herring")
 path_node = NodePath("../PatrolPath2")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="Fish2"]
@@ -91,6 +99,8 @@ shape = SubResource("FishCollision")
 [node name="Fish3" type="CharacterBody3D" parent="." node_paths=PackedStringArray("path_node")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, -4, 5)
 script = ExtResource("2_fish")
+fish_type = "menhaden"
+fish_sprite = ExtResource("10_menhaden")
 path_node = NodePath("../PatrolPath3")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="Fish3"]
@@ -108,6 +118,8 @@ shape = SubResource("FishCollision")
 [node name="Fish4" type="CharacterBody3D" parent="." node_paths=PackedStringArray("path_node")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, -4, -15)
 script = ExtResource("2_fish")
+fish_type = "smelt"
+fish_sprite = ExtResource("8_smelt")
 path_node = NodePath("../PatrolPath1")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="Fish4"]
@@ -125,6 +137,8 @@ shape = SubResource("FishCollision")
 [node name="Fish5" type="CharacterBody3D" parent="." node_paths=PackedStringArray("path_node")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, -4, 20)
 script = ExtResource("2_fish")
+fish_type = "herring"
+fish_sprite = ExtResource("9_herring")
 path_node = NodePath("../PatrolPath2")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="Fish5"]
@@ -142,6 +156,8 @@ shape = SubResource("FishCollision")
 [node name="Fish6" type="CharacterBody3D" parent="." node_paths=PackedStringArray("path_node")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4, -5)
 script = ExtResource("2_fish")
+fish_type = "dab"
+fish_sprite = ExtResource("11_dab")
 path_node = NodePath("../PatrolPath3")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="Fish6"]

@@ -11,6 +11,12 @@
 [ext_resource type="Script" uid="uid://bba01x3j11oyw" path="res://scripts/components/fish/player_detectable.gd" id="7_detect"]
 [ext_resource type="Script" uid="uid://cww83iditct2p" path="res://scenes/levels/fishing/win_condition.gd" id="8_wincond"]
 [ext_resource type="Script" uid="uid://s2st5ighxp1k" path="res://scenes/levels/fishing/fish_count_condition.gd" id="9_fcount"]
+[ext_resource type="Texture2D" path="res://assets/spritesheets/fish/black_sea_bass.png" id="10_bass"]
+[ext_resource type="Texture2D" path="res://assets/spritesheets/fish/halibut.png" id="11_halibut"]
+[ext_resource type="Texture2D" path="res://assets/spritesheets/fish/tuna.png" id="12_tuna"]
+[ext_resource type="Texture2D" path="res://assets/spritesheets/fish/monkfish.png" id="13_monkfish"]
+[ext_resource type="Texture2D" path="res://assets/spritesheets/fish/puffer.png" id="14_puffer"]
+[ext_resource type="Texture2D" path="res://assets/spritesheets/fish/sculpin.png" id="15_sculpin"]
 
 [sub_resource type="CapsuleMesh" id="FishMesh"]
 
@@ -79,6 +85,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18, -4, 0)
 [node name="Fish1" type="CharacterBody3D" parent="." index="17" unique_id=789508017 node_paths=PackedStringArray("path_node")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, -4, -15)
 script = ExtResource("3_fish")
+fish_type = "black_sea_bass"
+fish_sprite = ExtResource("10_bass")
 path_node = NodePath("../PatrolPath1")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="Fish1" index="0" unique_id=2002704684]
@@ -96,6 +104,8 @@ shape = SubResource("FishCollision")
 [node name="Fish2" type="CharacterBody3D" parent="." index="18" unique_id=367228452 node_paths=PackedStringArray("path_node")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, -4, -5)
 script = ExtResource("3_fish")
+fish_type = "halibut"
+fish_sprite = ExtResource("11_halibut")
 path_node = NodePath("../PatrolPath2")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="Fish2" index="0" unique_id=1327100316]
@@ -113,6 +123,8 @@ shape = SubResource("FishCollision")
 [node name="Fish3" type="CharacterBody3D" parent="." index="19" unique_id=514071333 node_paths=PackedStringArray("path_node")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, -4, 10)
 script = ExtResource("3_fish")
+fish_type = "tuna"
+fish_sprite = ExtResource("12_tuna")
 path_node = NodePath("../PatrolPath3")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="Fish3" index="0" unique_id=1142942778]
@@ -130,6 +142,8 @@ shape = SubResource("FishCollision")
 [node name="Fish4" type="CharacterBody3D" parent="." node_paths=PackedStringArray("path_node")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, -4, -10)
 script = ExtResource("3_fish")
+fish_type = "monkfish"
+fish_sprite = ExtResource("13_monkfish")
 path_node = NodePath("../PatrolPath1")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="Fish4"]
@@ -147,6 +161,8 @@ shape = SubResource("FishCollision")
 [node name="Fish5" type="CharacterBody3D" parent="." node_paths=PackedStringArray("path_node")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, -4, 8)
 script = ExtResource("3_fish")
+fish_type = "black_sea_bass"
+fish_sprite = ExtResource("10_bass")
 path_node = NodePath("../PatrolPath2")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="Fish5"]
@@ -164,6 +180,8 @@ shape = SubResource("FishCollision")
 [node name="Fish6" type="CharacterBody3D" parent="." node_paths=PackedStringArray("path_node")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, -4, 15)
 script = ExtResource("3_fish")
+fish_type = "halibut"
+fish_sprite = ExtResource("11_halibut")
 path_node = NodePath("../PatrolPath3")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="Fish6"]
@@ -203,6 +221,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, -4, 5)
 [node name="Dangerfish1" type="CharacterBody3D" parent="." index="22" unique_id=694197387 node_paths=PackedStringArray("path_node") groups=["dangerfish"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4, -10)
 script = ExtResource("3_fish")
+fish_type = "puffer"
+fish_sprite = ExtResource("14_puffer")
 path_node = NodePath("../DangerPatrolPath1")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="Dangerfish1" index="0" unique_id=964744450]
@@ -239,6 +259,8 @@ script = ExtResource("7_detect")
 [node name="Dangerfish2" type="CharacterBody3D" parent="." index="23" unique_id=859981074 node_paths=PackedStringArray("path_node") groups=["dangerfish"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, -4, -20)
 script = ExtResource("3_fish")
+fish_type = "sculpin"
+fish_sprite = ExtResource("15_sculpin")
 path_node = NodePath("../DangerPatrolPath2")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="Dangerfish2" index="0" unique_id=1709626837]
