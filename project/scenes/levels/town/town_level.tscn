@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://b6mr0x45oaqyx"]
 
-[ext_resource type="PackedScene" path="res://scenes/levels/town/town_level_common.tscn" id="1_base"]
+[ext_resource type="PackedScene" uid="uid://ckk2y8lwgfyiq" path="res://scenes/levels/town/town_level_common.tscn" id="1_base"]
 [ext_resource type="Script" uid="uid://bpqx12vt5uh73" path="res://scenes/levels/town/town_state.gd" id="2_61x2n"]
 [ext_resource type="PackedScene" uid="uid://dg8or08jgcptp" path="res://scenes/levels/town/human_character.tscn" id="3_g6o05"]
 [ext_resource type="SpriteFrames" uid="uid://ckbo7ly65qhh3" path="res://assets/spritesheets/capn.tres" id="4_p7w6r"]
@@ -10,27 +10,20 @@
 [ext_resource type="SpriteFrames" uid="uid://brfgidr74jvta" path="res://assets/spritesheets/human-a.tres" id="8_n2iu2"]
 [ext_resource type="Script" uid="uid://codxcir5kyuw0" path="res://scenes/levels/town/events/to_fishing.gd" id="9_rhu6c"]
 [ext_resource type="SpriteFrames" uid="uid://c82p8ps44xu2h" path="res://assets/spritesheets/human-b.tres" id="10_xxt1w"]
-[ext_resource type="SpriteFrames" uid="uid://r6v68nue77cg" path="res://assets/spritesheets/human-c.tres" id="11_k07cb"]
+[ext_resource type="SpriteFrames" uid="uid://djqjdb1fp0ujk" path="res://assets/spritesheets/brad.tres" id="11_pmooe"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hgas2"]
 size = Vector2(32, 48)
 
 [node name="TownLevel" unique_id=540480889 instance=ExtResource("1_base")]
 
-[node name="LevelConfig" parent="." index="0"]
+[node name="LevelConfig" parent="." index="0" unique_id=1423330249]
 skip_main_menu = true
 
-[node name="Props" parent="TileData" index="1"]
+[node name="Props" parent="TileData" parent_id_path=PackedInt32Array(429013997) index="1" unique_id=27024249]
 collision_enabled = true
 
-[node name="DialogueEntry" type="Node" parent="Events/A" index="1" unique_id=300689201 node_paths=PackedStringArray("state")]
-script = ExtResource("5_5sm54")
-json_path = "res://assets/dialogue/jeff_test.json"
-parent_signal_trigger = &"tile_event_triggered"
-state = NodePath("../../../TownState")
-metadata/_custom_type_script = "uid://cws8nhjc45fo7"
-
-[node name="ToFishing" type="Area2D" parent="Events" index="10" unique_id=329900751]
+[node name="ToFishing" type="Area2D" parent="Events" parent_id_path=PackedInt32Array(1552724215) index="10" unique_id=329900751]
 position = Vector2(320, 504)
 collision_layer = 2
 collision_mask = 0
@@ -99,8 +92,8 @@ animating = true
 animating_speed_scale = 0.5
 
 [node name="Brad" parent="." index="10" unique_id=416515565 instance=ExtResource("3_g6o05")]
-position = Vector2(1001, 480)
-sprite_frames = ExtResource("11_k07cb")
+position = Vector2(1001, 475)
+sprite_frames = ExtResource("11_pmooe")
 animating = true
 animating_speed_scale = 0.5
 

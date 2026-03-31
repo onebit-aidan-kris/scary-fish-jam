@@ -11,6 +11,8 @@ extends Node
 
 var is_dialogue_playing := false
 
+var player_character: HumanCharacter = null
+
 # Public Methods
 
 

@@ -30,7 +30,7 @@ enum Direction {
 @onready var _interact_east: RayCast2D = $InteractEast
 @onready var _interact_west: RayCast2D = $InteractWest
 
-var activated_path
+var activated_path: AStar2DPath = null
 
 
 func _ready() -> void:
@@ -55,7 +55,11 @@ func _physics_process(_delta: float) -> void:
 	if activated_path:
 		_follow_path(activated_path)
 
-	if player_controlled:
+	elif gamestate.is_dialogue_playing:
+		_player_move(Vector2.ZERO)
+
+	elif player_controlled:
+		gamestate.player_character = self # HACK
 		if gamestate.player_input.interact:
 			_player_interact()
 		_player_move(gamestate.player_input.move)
@@ -163,8 +167,9 @@ func set_direction_vector(vector: Vector2) -> void:
 				set_direction(Direction.NORTH)
 
 
-func _follow_path(ap) -> void:
+func _follow_path(ap: AStar2DPath) -> void:
 	if ap.is_finished():
+		remove_collision_exception_with(gamestate.player_character)
 		ap.deactivate()
 		return
 
@@ -175,4 +180,5 @@ func _follow_path(ap) -> void:
 		ap.advance()
 		return
 
+	add_collision_exception_with(gamestate.player_character)
 	_player_move(diff.normalized())

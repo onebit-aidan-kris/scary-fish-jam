@@ -97,17 +97,17 @@ func _build_menu() -> void:
 			.action("ui_cancel") #
 			.visible_when(_is_not_at_main_menu) #
 			.focus(),
-			Menu.button("Save Game", _save_game_dialog) #
-			.visible_when(_is_not_at_main_menu) #
-			.desktop_only(),
-			Menu.button("Load Game", _load_game_dialog) #
-			.desktop_only(),
-			Menu.button("Load Replay", replay_system._replay_open_dialog) #
-			.desktop_only(),
-			Menu.checkbox("Palette Filter", palette_filter.set_visible) #
-			.toggled(palette_filter.visible),
-			Menu.checkbox("Dither Filter", dither_filter.set_visible) #
-			.toggled(dither_filter.visible),
+			#Menu.button("Save Game", _save_game_dialog) #
+			#.visible_when(_is_not_at_main_menu) #
+			#.desktop_only(),
+			#Menu.button("Load Game", _load_game_dialog) #
+			#.desktop_only(),
+			#Menu.button("Load Replay", replay_system._replay_open_dialog) #
+			#.desktop_only(),
+			#Menu.checkbox("Palette Filter", palette_filter.set_visible) #
+			#.toggled(palette_filter.visible),
+			#Menu.checkbox("Dither Filter", dither_filter.set_visible) #
+			#.toggled(dither_filter.visible),
 			Menu.button("Quit", replay_system._save_replay_and_quit) #
 			.desktop_only(),
 		],
