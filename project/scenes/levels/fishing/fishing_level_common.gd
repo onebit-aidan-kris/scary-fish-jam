@@ -86,7 +86,7 @@ func _play_catch_animation(world_pos: Vector3, tex: Texture2D) -> void:
 
 	var tween := create_tween()
 	tween.tween_property(sprite, "global_position:y", surface_y + 4.0, 0.8) \
-		.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUAD)
+	.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUAD)
 	tween.tween_callback(_blink_and_free.bind(sprite))
 
 
