@@ -171,7 +171,11 @@ func _game_over() -> void:
 
 	await get_tree().create_timer(4.0).timeout
 
-	gamestate.screen_fade.fade_to_scene("uid://dku1y8g8g5cu1")
+	if is_level_4:
+		label.text = "Thanks for playing."
+		await get_tree().create_timer(3.0).timeout
+
+	gamestate.screen_fade.fade_to_scene("res://scenes/levels/intro/intro_scene.tscn")
 
 
 func get_flat_position() -> Vector2:
