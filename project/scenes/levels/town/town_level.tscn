@@ -23,13 +23,6 @@ skip_main_menu = true
 [node name="Props" parent="TileData" parent_id_path=PackedInt32Array(429013997) index="1" unique_id=27024249]
 collision_enabled = true
 
-[node name="DialogueEntry" type="Node" parent="Events/A" parent_id_path=PackedInt32Array(1286726258) index="1" unique_id=300689201 node_paths=PackedStringArray("state")]
-script = ExtResource("5_5sm54")
-json_path = "res://assets/dialogue/jeff_test.json"
-parent_signal_trigger = &"tile_event_triggered"
-state = NodePath("../../../TownState")
-metadata/_custom_type_script = "uid://cws8nhjc45fo7"
-
 [node name="ToFishing" type="Area2D" parent="Events" parent_id_path=PackedInt32Array(1552724215) index="10" unique_id=329900751]
 position = Vector2(320, 504)
 collision_layer = 2
