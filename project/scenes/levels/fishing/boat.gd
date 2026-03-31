@@ -19,6 +19,8 @@ extends CharacterBody3D
 
 const NET_PARABOLA_SPEED: float = 0.15
 
+const net_scene := preload("res://scenes/levels/fishing/fishing_net_sprite.tscn")
+
 var _input: PlayerInput
 var _cam_origin_pitch: float
 var _is_dead := false
@@ -30,7 +32,7 @@ var net_debug_mesh: MeshInstance3D = null
 
 var cumumative_forward_fishing_net_distance: float = 0.0
 
-enum NetState { NONE, AIMING, FIRING_NET, UNDER_WATER, REELING_IN_NET }
+enum NetState {NONE, AIMING, FIRING_NET, UNDER_WATER, REELING_IN_NET}
 var net_state: NetState = NetState.NONE
 
 # Net projectile
@@ -211,13 +213,13 @@ func aim_net() -> void:
 		return
 
 	var candidate_offset := net_local_offset
-	candidate_offset.z = -(cumumative_forward_fishing_net_distance + NET_PARABOLA_SPEED)
+	candidate_offset.z = - (cumumative_forward_fishing_net_distance + NET_PARABOLA_SPEED)
 	var candidate_world: Vector3 = global_transform * candidate_offset
 	candidate_world.y = global_position.y
 
 	if _is_over_water(candidate_world):
 		cumumative_forward_fishing_net_distance += NET_PARABOLA_SPEED
-	net_local_offset.z = -cumumative_forward_fishing_net_distance
+	net_local_offset.z = - cumumative_forward_fishing_net_distance
 
 	var net_world_pos: Vector3 = global_transform * net_local_offset
 	net_world_pos.y = global_position.y
@@ -280,9 +282,9 @@ func fire_net() -> void:
 	col.disabled = false
 	_net_projectile.add_child(col)
 
-	var net_sprite_scene := preload("res://scenes/levels/fishing/fishing_net_sprite.tscn")
-	var net_visual := net_sprite_scene.instantiate()
-	_net_projectile.add_child(net_visual)
+	var net_sprite: FishingNetSprite = net_scene.instantiate()
+	net_sprite.rotate(Vector3.UP, global_rotation.y)
+	_net_projectile.add_child(net_sprite)
 
 	_net_projectile.monitoring = true
 	get_tree().root.add_child(_net_projectile)
