@@ -1,3 +1,4 @@
+class_name AStar2DPath
 extends Node
 
 @export var path_start: Vector2i
