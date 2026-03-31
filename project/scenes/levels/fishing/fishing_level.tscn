@@ -21,15 +21,6 @@ roughness = 0.6
 [sub_resource type="SphereShape3D" id="DangerHitboxShape"]
 radius = 2.0
 
-[sub_resource type="StandardMaterial3D" id="HitboxDebugMat"]
-transparency = 1
-cull_mode = 2
-shading_mode = 0
-albedo_color = Color(1, 0.5, 0, 0.3)
-
-[sub_resource type="SphereMesh" id="HitboxDebugMesh"]
-radius = 2.0
-height = 4.0
 
 [node name="FishingLevel" instance=ExtResource("1_base")]
 script = ExtResource("2_level")
@@ -171,10 +162,6 @@ script = ExtResource("6_attack")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Dangerfish/Attackable/Hitbox"]
 shape = SubResource("DangerHitboxShape")
-
-[node name="DebugMesh" type="MeshInstance3D" parent="Dangerfish/Attackable/Hitbox"]
-material_override = SubResource("HitboxDebugMat")
-mesh = SubResource("HitboxDebugMesh")
 
 [node name="PlayerDetectable" type="Node" parent="Dangerfish"]
 script = ExtResource("7_detect")

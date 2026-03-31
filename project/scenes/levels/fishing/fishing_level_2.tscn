@@ -29,16 +29,14 @@ roughness = 0.6
 [sub_resource type="SphereShape3D" id="DangerHitboxShape"]
 radius = 2.0
 
-[sub_resource type="StandardMaterial3D" id="HitboxDebugMat"]
-transparency = 1
-cull_mode = 2
-shading_mode = 0
-albedo_color = Color(1, 0.5, 0, 0.3)
 
+<<<<<<< HEAD
+=======
 [sub_resource type="SphereMesh" id="HitboxDebugMesh"]
 radius = 2.0
 height = 4.0
 
+>>>>>>> main
 [node name="FishingLevel" unique_id=715489544 instance=ExtResource("1_base")]
 script = ExtResource("2_level")
 next_level_scene = "res://scenes/levels/town/town_level_3.tscn"

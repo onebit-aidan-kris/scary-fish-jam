@@ -18,6 +18,7 @@
 [ext_resource type="Texture2D" path="res://assets/spritesheets/fish/anglerfish.png" id="16_anglerfish"]
 [ext_resource type="Texture2D" path="res://assets/spritesheets/fish/shark.png" id="17_shark"]
 [ext_resource type="Texture2D" path="res://assets/spritesheets/fish/puffer.png" id="18_puffer"]
+[ext_resource type="Texture2D" path="res://assets/spritesheets/anglerfish-big.png" id="19_boss"]
 
 [sub_resource type="CapsuleMesh" id="FishMesh"]
 
@@ -32,19 +33,10 @@ roughness = 0.6
 [sub_resource type="SphereShape3D" id="DangerHitboxShape"]
 radius = 2.0
 
-[sub_resource type="StandardMaterial3D" id="HitboxDebugMat"]
-transparency = 1
-cull_mode = 2
-shading_mode = 0
-albedo_color = Color(1, 0.5, 0, 0.3)
-
-[sub_resource type="SphereMesh" id="HitboxDebugMesh"]
-radius = 2.0
-height = 4.0
 
 [node name="FishingLevel" instance=ExtResource("1_base")]
 script = ExtResource("2_level")
-next_level_scene = "uid://b6mr0x45oaqyx"
+next_level_scene = "res://scenes/levels/ending/ending_scene.tscn"
 
 [node name="PatrolPath1" type="Node3D" parent="."]
 
@@ -257,10 +249,6 @@ script = ExtResource("6_attack")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Dangerfish1/Attackable/Hitbox"]
 shape = SubResource("DangerHitboxShape")
 
-[node name="DebugMesh" type="MeshInstance3D" parent="Dangerfish1/Attackable/Hitbox"]
-material_override = SubResource("HitboxDebugMat")
-mesh = SubResource("HitboxDebugMesh")
-
 [node name="PlayerDetectable" type="Node" parent="Dangerfish1"]
 script = ExtResource("7_detect")
 
@@ -294,10 +282,6 @@ script = ExtResource("6_attack")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Dangerfish2/Attackable/Hitbox"]
 shape = SubResource("DangerHitboxShape")
-
-[node name="DebugMesh" type="MeshInstance3D" parent="Dangerfish2/Attackable/Hitbox"]
-material_override = SubResource("HitboxDebugMat")
-mesh = SubResource("HitboxDebugMesh")
 
 [node name="PlayerDetectable" type="Node" parent="Dangerfish2"]
 script = ExtResource("7_detect")
@@ -333,11 +317,57 @@ script = ExtResource("6_attack")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Dangerfish3/Attackable/Hitbox"]
 shape = SubResource("DangerHitboxShape")
 
-[node name="DebugMesh" type="MeshInstance3D" parent="Dangerfish3/Attackable/Hitbox"]
-material_override = SubResource("HitboxDebugMat")
-mesh = SubResource("HitboxDebugMesh")
-
 [node name="PlayerDetectable" type="Node" parent="Dangerfish3"]
+script = ExtResource("7_detect")
+
+[node name="BossPatrolPath" type="Node3D" parent="."]
+
+[node name="A" type="Marker3D" parent="BossPatrolPath"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, -5, -18)
+
+[node name="B" type="Marker3D" parent="BossPatrolPath"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, -5, -15)
+
+[node name="C" type="Marker3D" parent="BossPatrolPath"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, -5, 15)
+
+[node name="D" type="Marker3D" parent="BossPatrolPath"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, -5, 10)
+
+[node name="Dangerfish4" type="CharacterBody3D" parent="." node_paths=PackedStringArray("path_node") groups=["dangerfish"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, -5, -18)
+script = ExtResource("3_fish")
+fish_type = "anglerfish_alpha"
+fish_sprite = ExtResource("19_boss")
+path_node = NodePath("../BossPatrolPath")
+chase_speed = 6.0
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="Dangerfish4"]
+
+[node name="PatrolBehavior" type="Node" parent="Dangerfish4"]
+script = ExtResource("4_patrol")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Dangerfish4"]
+mesh = SubResource("FishMesh")
+surface_material_override/0 = SubResource("DangerFishMat")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Dangerfish4"]
+shape = SubResource("FishCollision")
+
+[node name="VisionCone" type="Node3D" parent="Dangerfish4"]
+visible = false
+script = ExtResource("5_vcone")
+
+[node name="Attackable" type="Node3D" parent="Dangerfish4"]
+script = ExtResource("6_attack")
+damage_amount = 100
+
+[node name="Hitbox" type="Area3D" parent="Dangerfish4/Attackable"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Dangerfish4/Attackable/Hitbox"]
+shape = SubResource("DangerHitboxShape")
+
+[node name="PlayerDetectable" type="Node" parent="Dangerfish4"]
 script = ExtResource("7_detect")
 
 [node name="WinCondition" type="Node" parent="."]
