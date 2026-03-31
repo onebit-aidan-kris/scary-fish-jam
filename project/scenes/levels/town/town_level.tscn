@@ -41,7 +41,7 @@ jeff = NodePath("../Jeff")
 brad = NodePath("../Brad")
 
 [node name="Player" parent="." index="5" unique_id=569713416 instance=ExtResource("3_g6o05")]
-position = Vector2(344, 376)
+position = Vector2(183, 93)
 collision_layer = 7
 player_controlled = true
 

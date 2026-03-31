@@ -1,0 +1,26 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scenes/levels/intro/intro_scene.gd" id="1_intro"]
+[ext_resource type="Script" uid="uid://bu2q2x32c2nug" path="res://scripts/components/level_config.gd" id="2_lvlcfg"]
+[ext_resource type="Script" uid="uid://cws8nhjc45fo7" path="res://scripts/dialogue/dialogue_entry.gd" id="3_dlg"]
+
+[node name="IntroScene" type="Node"]
+script = ExtResource("1_intro")
+
+[node name="LevelConfig" type="Node" parent="."]
+script = ExtResource("2_lvlcfg")
+
+[node name="Background" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="ColorRect" type="ColorRect" parent="Background"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="DialogueEntry" type="Node" parent="."]
+script = ExtResource("3_dlg")
+json_path = "res://assets/dialogue/intro.json"
