@@ -10,7 +10,7 @@
 [ext_resource type="SpriteFrames" uid="uid://brfgidr74jvta" path="res://assets/spritesheets/human-a.tres" id="8_n2iu2"]
 [ext_resource type="Script" uid="uid://codxcir5kyuw0" path="res://scenes/levels/town/events/to_fishing.gd" id="9_rhu6c"]
 [ext_resource type="SpriteFrames" uid="uid://c82p8ps44xu2h" path="res://assets/spritesheets/human-b.tres" id="10_xxt1w"]
-[ext_resource type="SpriteFrames" uid="uid://r6v68nue77cg" path="res://assets/spritesheets/human-c.tres" id="11_k07cb"]
+[ext_resource type="SpriteFrames" uid="uid://djqjdb1fp0ujk" path="res://assets/spritesheets/brad.tres" id="11_pmooe"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hgas2"]
 size = Vector2(32, 48)
@@ -99,8 +99,8 @@ animating = true
 animating_speed_scale = 0.5
 
 [node name="Brad" parent="." index="10" unique_id=416515565 instance=ExtResource("3_g6o05")]
-position = Vector2(1001, 480)
-sprite_frames = ExtResource("11_k07cb")
+position = Vector2(1001, 475)
+sprite_frames = ExtResource("11_pmooe")
 animating = true
 animating_speed_scale = 0.5
 

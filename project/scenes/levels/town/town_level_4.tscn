@@ -1,83 +1,83 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://dyy1dplgr83a1"]
 
-[ext_resource type="PackedScene" path="res://scenes/levels/town/town_level_common.tscn" id="1_base"]
+[ext_resource type="PackedScene" uid="uid://ckk2y8lwgfyiq" path="res://scenes/levels/town/town_level_common.tscn" id="1_base"]
 [ext_resource type="Script" uid="uid://bpqx12vt5uh73" path="res://scenes/levels/town/town_state.gd" id="2_state"]
 [ext_resource type="PackedScene" uid="uid://dg8or08jgcptp" path="res://scenes/levels/town/human_character.tscn" id="3_char"]
 [ext_resource type="SpriteFrames" uid="uid://ckbo7ly65qhh3" path="res://assets/spritesheets/capn.tres" id="4_capn"]
 [ext_resource type="Script" uid="uid://cws8nhjc45fo7" path="res://scripts/dialogue/dialogue_entry.gd" id="5_dlg"]
 [ext_resource type="SpriteFrames" uid="uid://dtks8q41tl0pa" path="res://assets/spritesheets/jeff.tres" id="6_jeff"]
 [ext_resource type="Script" uid="uid://codxcir5kyuw0" path="res://scenes/levels/town/events/to_fishing.gd" id="7_fish"]
-[ext_resource type="SpriteFrames" uid="uid://r6v68nue77cg" path="res://assets/spritesheets/human-c.tres" id="8_brad"]
+[ext_resource type="SpriteFrames" uid="uid://djqjdb1fp0ujk" path="res://assets/spritesheets/brad.tres" id="8_msrdf"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_col"]
 size = Vector2(32, 48)
 
-[node name="TownLevel4" instance=ExtResource("1_base")]
+[node name="TownLevel4" unique_id=1254949449 instance=ExtResource("1_base")]
 
-[node name="LevelConfig" parent="." index="0"]
+[node name="LevelConfig" parent="." index="0" unique_id=1423330249]
 skip_main_menu = true
 
-[node name="Props" parent="TileData" index="1"]
+[node name="Props" parent="TileData" parent_id_path=PackedInt32Array(429013997) index="1" unique_id=27024249]
 collision_enabled = true
 
-[node name="ToFishing" type="Area2D" parent="Events"]
+[node name="ToFishing" type="Area2D" parent="Events" parent_id_path=PackedInt32Array(1552724215) index="10" unique_id=1061065133]
 position = Vector2(320, 504)
 collision_layer = 2
 collision_mask = 0
 script = ExtResource("7_fish")
 fishing_scene_file = "res://scenes/levels/fishing/fishing_level_4.tscn"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Events/ToFishing"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Events/ToFishing" index="0" unique_id=1644302503]
 shape = SubResource("RectangleShape2D_col")
 
-[node name="TownState" type="Node" parent="." node_paths=PackedStringArray("player", "walsh", "jeff", "brad")]
+[node name="TownState" type="Node" parent="." index="4" unique_id=166819073 node_paths=PackedStringArray("player", "walsh", "jeff", "brad")]
 script = ExtResource("2_state")
 player = NodePath("../Player")
 walsh = NodePath("../CapnWalsh")
 jeff = NodePath("../Jeff")
 brad = NodePath("../Brad")
 
-[node name="Player" parent="." instance=ExtResource("3_char")]
+[node name="Player" parent="." index="5" unique_id=1961283546 instance=ExtResource("3_char")]
 position = Vector2(344, 440)
 collision_layer = 7
 player_controlled = true
 
-[node name="Camera2D" type="Camera2D" parent="Player"]
+[node name="Camera2D" type="Camera2D" parent="Player" index="6" unique_id=835078662]
 zoom = Vector2(5, 5)
 
-[node name="CapnWalsh" parent="." instance=ExtResource("3_char")]
+[node name="CapnWalsh" parent="." index="6" unique_id=1959161766 instance=ExtResource("3_char")]
 position = Vector2(344, 470)
 sprite_frames = ExtResource("4_capn")
 animating = true
 animating_speed_scale = 0.5
 
-[node name="DialogueEntry" type="Node" parent="CapnWalsh" node_paths=PackedStringArray("state")]
+[node name="DialogueEntry" type="Node" parent="CapnWalsh" index="6" unique_id=931563424 node_paths=PackedStringArray("state")]
 script = ExtResource("5_dlg")
 json_path = "res://assets/dialogue/walsh_town4.json"
 parent_signal_trigger = &"interacted"
 state = NodePath("../../TownState")
 metadata/_custom_type_script = "uid://cws8nhjc45fo7"
 
-[node name="Jeff" parent="." instance=ExtResource("3_char")]
+[node name="Jeff" parent="." index="7" unique_id=529911620 instance=ExtResource("3_char")]
 position = Vector2(1080, 140)
 sprite_frames = ExtResource("6_jeff")
 animating = true
 animating_speed_scale = 0.5
 
-[node name="DialogueEntry" type="Node" parent="Jeff" node_paths=PackedStringArray("state")]
+[node name="DialogueEntry" type="Node" parent="Jeff" index="6" unique_id=1662728732 node_paths=PackedStringArray("state")]
 script = ExtResource("5_dlg")
 json_path = "res://assets/dialogue/jeff_town4.json"
 parent_signal_trigger = &"interacted"
 state = NodePath("../../TownState")
 metadata/_custom_type_script = "uid://cws8nhjc45fo7"
 
-[node name="Brad" parent="." instance=ExtResource("3_char")]
-position = Vector2(1001, 480)
-sprite_frames = ExtResource("8_brad")
+[node name="Brad" parent="." index="8" unique_id=27811442 instance=ExtResource("3_char")]
+position = Vector2(1001, 473)
+sprite_frames = ExtResource("8_msrdf")
 animating = true
 animating_speed_scale = 0.5
 
-[node name="DialogueEntry" type="Node" parent="Brad" node_paths=PackedStringArray("state")]
+[node name="DialogueEntry" type="Node" parent="Brad" index="6" unique_id=999350826 node_paths=PackedStringArray("state")]
 script = ExtResource("5_dlg")
 json_path = "res://assets/dialogue/brad_town4.json"
 parent_signal_trigger = &"interacted"
